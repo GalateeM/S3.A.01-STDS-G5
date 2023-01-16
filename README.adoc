@@ -9,15 +9,29 @@
 
 = 1. Équipe
 
+== Étudiant.e.s
+
 - https://github.com/Fiujy[KERROUCHE Mohamed] Développeur
 - https://github.com/GalateeM[MARCQ Galatée] SCRUM Master
 - https://github.com/LeilaMartinet[MARTINET Leila] Product Owner
 - https://github.com/caerroff[MASIN Thomas] Développeur
 - https://github.com/hugomonte[MONTE Hugo] Développeur
 
+== Professeur.e.s
+- https://github.com/rboulle[Rémi Boulle]
+- https://github.com/ependaries[Esther Pendaries]
+
 = 2. Contexte du projet
 
 = 3. Livrables
+
+|=============
+| Date | Nom du livrable | Lien vers le livrable 
+| | Documentation Technique | 
+| | Documentation Utilisateur |
+| | Cahier des tests | 
+| | Éxecutable du Projet | 
+|=============
 
 = 4. Gestion du projet 
 
