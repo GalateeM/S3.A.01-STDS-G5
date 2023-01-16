@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  nodered:
+    image: nodered/node-red:3.0.2
+    ports:
+      - 8080:1880
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg14
+    environment:
+      - POSTGRES_USER=timescale
+      - POSTGRES_PASSWORD=password
+
+  client:
+    image: nginx
+    ports:
+      - 3000:80
+    volumes:
+      - ./src:/usr/share/nginx/html
