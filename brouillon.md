@@ -4,5 +4,5 @@
  - Donner une notification en fonction de la panne
  - Donner un accès à la gamme de maintenance associé à une panne ????
  - Récuperer les valeurs mesurées en temps réel
- - Afficher les valeurs mesurer
+ - Afficher les valeurs mesurées
  - Garder une trace des anciennes valeurs
