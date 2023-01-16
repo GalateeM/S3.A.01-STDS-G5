@@ -6,3 +6,9 @@
  - Récuperer les valeurs mesurées en temps réel
  - Afficher les valeurs mesurées
  - Garder une trace des anciennes valeurs
+
+
+Lors des réunions :
+-	Page web ou application web ?
+-	Choix du serveur
+-	Type des utilisateurs ?
