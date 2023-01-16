@@ -44,9 +44,7 @@ Backlog produit :
 
 Backlog sprint :
 
-Sprint 1
-
-- Docker
+Sprint 1 : github.com/users/GalateeM/projects/3
 
 
 = 5. Méthode SCRUM
