@@ -6,4 +6,3 @@
  - Récuperer les valeurs mesurées en temps réel
  - Afficher les valeurs mesurer
  - Garder une trace des anciennes valeurs
- - 
