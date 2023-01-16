@@ -1,0 +1,13 @@
+= Backlog produit 
+
+[options="header"]
+|===================================================================================================================================================================================================================================================================================================================================================
+| Numéro  | User Story                                                                                                                  | Priorité  | Critères d'acceptations                                                                                                                                                                       
+| 2       | En tant qu'utilisateur je souhaite être notifié lorsqu'une panne survient et connaître le type précis de la panne           | Haute     | L'utilisateur reçoit une notification push en cas de panne précisant le type de panne + L'utilisateur reçoit un mail s'il s'est abonné aux notifications de panne et si une panne survient
+| 3       | En tant qu'utilisateur, je souhaite pouvoir accéder à une page contenant les pannes actuelles afin de pouvoir les corriger  | Haute     | L'utilisateur peut accéder à une page regroupant toutes les notifications de panne qui n'ont pas encore été traitées                                                                        
+| 4       | En tant qu'utilisateur, je souhaite pouvoir accéder à une page contenant les pannes actuelles afin de pouvoir les corriger  | Haute     | La documentation est accessible en fonction de la page en cours                                                                                                                             
+| 5       | En tant qu'utilisateur je souhaite consulter les données de la tireuse en temps réel                                        | Haute     | L'utilisateur peut visualiser les données récupérées sous forme de graphique                                                                                                                
+| 6       | En tant qu'utilisateur je souhaite pouvoir consulter l'historique des données de la tireuse sur une période donnée          | Moyenne   | L'utilisateur peut accéder à l'historique des données                                                                                                                                       
+|===================================================================================================================================================================================================================================================================================================================================================
+
+
