@@ -34,4 +34,19 @@ La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre l
 
 = 4. Gestion du projet 
 
+
+Liste des US en cours
+Version courante du projet V1.0
+
+Backlog produit :
+
+- Backlog produit Docker : ici
+
+Backlog sprint :
+
+Sprint 1
+
+- Docker
+
+
 = 5. Méthode SCRUM
