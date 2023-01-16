@@ -40,7 +40,7 @@ Version courante du projet V1.0
 
 Backlog produit :
 
-- Backlog produit Docker : https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/Gestion%20de%20projet/BacklogProduit.adoc[ici]
+- Backlog produit : https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/Gestion%20de%20projet/BacklogProduit.adoc[ici]
 
 Backlog sprint :
 
