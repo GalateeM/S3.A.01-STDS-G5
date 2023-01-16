@@ -2,10 +2,7 @@
 :toc:
 :toc-title: Sommaire
 
-
 <<<
-
-
 
 = 1. Équipe
 
@@ -22,6 +19,8 @@
 - https://github.com/ependaries[Esther Pendaries]
 
 = 2. Contexte du projet
+
+La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre les étudiants de seconde année de BUT Génie Industriel et Maintenance et nous-mêmes, étudiants en deuxième années de BUT Informatique. Ces derniers ayant amélioré une tireuse à bière en lui intégrant des capteurs, ils ont besoin que nous leur développions une application permettant d’exploiter graphiquement les données ainsi récupérées, afin de gérer l’état et les pannes éventuelles de la machine.
 
 = 3. Livrables
 
