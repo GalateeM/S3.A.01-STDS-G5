@@ -44,7 +44,7 @@ Backlog produit :
 
 Backlog sprint :
 
-Sprint 1 : github.com/users/GalateeM/projects/3
+Sprint 1 : github.com/users/GalateeM/projects/3[ici]
 
 
 = 5. Méthode SCRUM
