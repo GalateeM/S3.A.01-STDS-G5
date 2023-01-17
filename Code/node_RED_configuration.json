@@ -1,19 +1,62 @@
 [
     {
-        "id": "5cd872a568e94ffb",
-        "type": "postgresql",
-        "z": "f6f2187d.f17ca8",
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "130db6cca8ba6951",
+        "type": "mqtt-broker",
+        "name": "test",
+        "broker": "iot.iut-blagnac.fr",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "23710c04db066291",
+        "type": "postgreSQLConfig",
         "name": "",
-        "query": "create table TemperatureT1\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    temperature float\n)",
-        "postgreSQLConfig": "64e1f68a1b743477",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 350,
-        "y": 300,
-        "wires": [
-            []
-        ]
+        "host": "",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "postgres",
+        "databaseFieldType": "str",
+        "ssl": "true",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "",
+        "userFieldType": "str",
+        "password": "",
+        "passwordFieldType": "str"
     },
     {
         "id": "64e1f68a1b743477",
@@ -39,5 +82,201 @@
         "userFieldType": "str",
         "password": "password",
         "passwordFieldType": "str"
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a671d5c523fae9f9",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "72a8a256804a1c17",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "STDS/2/#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "130db6cca8ba6951",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 760,
+        "wires": [
+            [
+                "4f453c4c54edc412"
+            ]
+        ]
+    },
+    {
+        "id": "525d60bdd6a450ff",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4fc6f1c021349b19",
+        "type": "sqlstring-format",
+        "z": "f6f2187d.f17ca8",
+        "name": "retest",
+        "query": "create table data \n(\n    idData serial primary key,\n    temperature float\n)",
+        "vars": "",
+        "outField": "topic",
+        "x": 70,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e8cc779ec6dafaf6",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "94598a5d7354e2ba",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "5cd872a568e94ffb",
+        "type": "postgresql",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "query": "create table TemperatureT1\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    temperature float\n)",
+        "postgreSQLConfig": "64e1f68a1b743477",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 350,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4f453c4c54edc412",
+        "type": "switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "topic",
+        "propertyType": "jsonata",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "STDS/2/Niveau",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "STDS/2/Puissance",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "STDS/2/Température/T1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "STDS/2/Tempétature/T2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "STDS/2/Diag",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 390,
+        "y": 760,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
     }
 ]
