@@ -1,0 +1,66 @@
+header {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    display: flex; 
+    align-items: center;
+    box-shadow: 0 0 25px 0 black;
+    list-style:none; 
+}
+
+li {
+    list-style:none; /*On enlève les puces de la liste */
+    color:black;
+    padding:10px;
+    font-size:20px;
+    text-decoration:none;
+    margin-left: 10px;
+    padding-left: 30px;
+}
+     
+nav ul {
+    background-color: white;
+    padding:0;
+    margin:0;
+}
+     
+nav ul li {
+    list-style: none;
+    line-height:44px;
+    float:left;
+    background-color:white;
+}
+     
+nav ul li a {
+    color:black;
+    padding:10px;
+    font-size:20px;
+    text-decoration:none;
+}
+     
+li a:hover {
+    border-bottom:3px black solid;
+}
+    
+nav ul li ul { 
+    display:none; /* Rend le menu déroulant caché par défaut */
+} 
+     
+nav ul li:hover ul { /* Affiche la dropNav au survol de la souris avec la class .drop */
+    z-index:99999;
+    display:list-item;
+    position:absolute;
+    margin-top:5px;
+    margin-left:-10px;
+}
+     
+nav ul li:hover ul li {
+    float:none;
+}
+
+#stds {
+    color: red; 
+}
