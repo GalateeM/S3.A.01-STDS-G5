@@ -14,12 +14,8 @@ const io = require("socket.io")(server);
  */
 
 const client = mqtt.connect(process.env.MQTT_URL, {
-  clientId: "coucou",
-  clean: true,
-  connectTimeout: 4000,
-  username: 'student',
-  password: 'student',
-  reconnectPeriod: 1000,
+  username: process.env.MQTT_USERNAME,
+  password: process.env.MQTT_PASSWORD,
 })
 
 client.on("connect", () => {
