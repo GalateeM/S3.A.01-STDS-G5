@@ -1,0 +1,19 @@
+@startuml Client
+left to right direction
+rectangle "Application de tireuse à bière" {
+  usecase "Consulter les données de la tireuse en temps réel" as UC1
+  usecase "Accéder à l'historique des données de la tireuse" as UC2
+  usecase "Consulter les pannes en cours" as UC3
+  usecase "Consulter la documentation afin de dépanner la tireuse" as UC4
+  usecase "Activer les notifications push" as UC5
+  usecase "S'inscrire aux notifications par mail" as UC6
+}
+:Client: -- UC1
+:Client: -- UC2
+:Client: -- UC3
+:Client: -- UC4
+:Client: -- UC5
+:Client: -- UC6
+
+
+@enduml

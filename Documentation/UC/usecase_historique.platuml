@@ -1,0 +1,12 @@
+@startuml Client
+left to right direction
+rectangle "Application de tireuse à bière" {
+  usecase "Accéder à l'historique des données de la tireuse" as UC1
+
+}
+
+:Client: -- UC1
+
+
+
+@enduml

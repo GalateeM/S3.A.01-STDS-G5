@@ -28,6 +28,10 @@ Professeur.e.s +
 La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre les étudiants de seconde année de BUT Génie Industriel et Maintenance et nous-mêmes, étudiants en deuxième années de BUT Informatique. Ces derniers ayant amélioré une tireuse à bière en lui intégrant des capteurs, ils ont besoin que nous leur développions une application permettant d’exploiter graphiquement les données ainsi récupérées, afin de gérer l’état et les pannes éventuelles de la machine.
 
 === c) Objectifs du projet
+Use Case général : +
+image:UC/usecase_general.svg[]
+
+Grâce à l'application, l'utilisateur doit pouvoir consulter les données de la tireuse en temps réel, mais également à l'historique des données sur une période donnée. L'application permettra également de consulter les pannes en cours, de pouvoir consulter la documentation pour dépanner la tireuse, et de recevoir des notifications concernant ses pannes soit par mail soit en notification push s'il s'y est abonné.
 
 == 2. Déploiement du projet en local
 
@@ -53,7 +57,9 @@ Afin d'accéder à l'historique des données, vous devez importer le fichier htt
 
 === a) Historique des données
 
-Use case : En tant qu'utilisateur je souhaite pouvoir consulter l'historique des données de la tireuse sur une période donnée
+Use case : En tant qu'utilisateur je souhaite pouvoir consulter l'historique des données de la tireuse sur une période donnée. +
+image:UC/usecase_historique.svg[]
+
 
 - Récupération et insertion des données dans TimeScaleDB
 
