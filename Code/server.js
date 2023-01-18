@@ -51,3 +51,13 @@ io.on('connection', (socket) => {
 server.listen(process.env.APP_PORT, () => {
   console.log(`HTTP - Listening on *:${process.env.APP_PORT}`);
 });
+
+/**
+ * APP
+ */
+
+app.get("/liste-pannes", (req, res) => {
+  res.json({
+    foo: "bar"
+  })
+})
