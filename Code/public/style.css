@@ -1,5 +1,5 @@
 header {
-    background-color: white;
+    background-color: #E29413;
     position: fixed;
     top: 0;
     left: 0;
@@ -17,8 +17,9 @@ li {
     padding:10px;
     font-size:20px;
     text-decoration:none;
-    margin-left: 10px;
+    margin-left: 0px;
     padding-left: 30px;
+    margin-right: 10px;
 }
      
 nav ul {
@@ -31,7 +32,6 @@ nav ul li {
     list-style: none;
     line-height:44px;
     float:left;
-    background-color:white;
 }
      
 nav ul li a {
@@ -55,6 +55,7 @@ nav ul li:hover ul { /* Affiche la dropNav au survol de la souris avec la class 
     position:absolute;
     margin-top:5px;
     margin-left:-10px;
+    list-style:none; 
 }
      
 nav ul li:hover ul li {
@@ -62,5 +63,5 @@ nav ul li:hover ul li {
 }
 
 #stds {
-    color: red; 
+    color: black; 
 }
