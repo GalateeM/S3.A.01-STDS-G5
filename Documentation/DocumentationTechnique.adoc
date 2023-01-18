@@ -44,9 +44,9 @@ Ouvrir une invite de commande (cmd dans le menu démarrer). Se placer dans le do
 Taper ensuite la commande `docker run -d -p 80:80 docker/getting-started`, puis `docker-compose up`.
 
 Vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix. Ajoutez la palette postgresql. Pour cela, allez dans le menu, puis `Manage Palette`. +
-image:Images/menu_gestion_palette.png[] +
+image:Images/menu_gestion_palette.png[width=20%,height=20%] +
 Dans l'onglet `Install`, recherchez `node-red-contrib-postgresql` et installez cette palette. +
-image:Images/menu_ajout_palette_postgresql.png[] +
+image:Images/menu_ajout_palette_postgresql.png[width=50%,height=50%] +
 
 Afin d'accéder à l'historique des données, vous devez importer le fichier https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Code/node_RED_configuration.json[node_RED_configuration.json] en allant dans le menu, puis en cliquant sur `Import`.
 
@@ -65,5 +65,5 @@ image:UC/usecase_historique.svg[]
 
 Nous avons utilisé Node-RED afin de récupérer le flux MQTT provenant du serveur Raspberry Pi. Pour cela, nous avons ajouté une node `mqtt in`. Nous avons ajouté une connexion à TimescaleDB, et avec des requêtes SQL créé des tables pour stocker chaque donnée. La node `split` permet de trier les données en fonction de leur type (température, CO2, niveau,...), pour ensuite insérer les données dans la table correspondante.
 
-image:Images/node_RED_configuration.png[]
+image:Images/node_RED_configuration.png[width=50%,height=50%]
 
