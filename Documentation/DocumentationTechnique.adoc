@@ -41,6 +41,8 @@ Taper ensuite la commande `docker run -d -p 80:80 docker/getting-started`, puis 
 
 Vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix.
 
+Afin d'accéder à l'historique des données, vous devez importer le fichier https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Code/node_RED_configuration.json[node_RED_configuration.json] à partir de la page `localhost:8080`.
+
 
 
 
@@ -55,4 +57,6 @@ Use case : En tant qu'utilisateur je souhaite pouvoir consulter l'historique des
 Nous avons utilisé Node-RED afin de récupérer le flux MQTT provenant du serveur Raspberry Pi. Pour cela, nous avons ajouté une node `mqtt in`. Nous avons ajouté une connexion à TimescaleDB, et avec des requêtes SQL créé des tables pour stocker chaque donnée. La node `split` permet de trier les données en fonction de leur type (température, CO2, niveau,...), pour ensuite insérer les données dans la table correspondante.
 
 <image>
+
+
 
