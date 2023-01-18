@@ -27,7 +27,7 @@ const client = mqtt.connect(connectUrl, {
 
 client.on("connect", (socket) => {
     console.log('Connected')
-    client.subscribe(["#"], () => {
+    client.subscribe(["STDS/#"], () => {
         console.log(`Subscribe to topic`)
     })
 })
