@@ -20,3 +20,6 @@ services:
     command: npm run start
     ports:
       - "3000:3000"
+    environment:
+      - APP_PORT=3000
+      - MQTT_URL=mqtt://iot.iut-blagnac.fr:1883

@@ -14,9 +14,8 @@ const io = require("socket.io")(server);
 /**
  * MQTT
  */
-const connectUrl = `mqtt://iot.iut-blagnac.fr:1883`
 
-const client = mqtt.connect(connectUrl, {
+const client = mqtt.connect(process.env.MQTT_URL, {
   clientId: "coucou",
   clean: true,
   connectTimeout: 4000,
@@ -39,7 +38,7 @@ client.on("message", (topic, payload) => {
     data = JSON.parse(data)
   } catch(e) {}
 
-  io.emit("hello", data)
+  io.emit(topic, data)
 })
 
 /**
@@ -53,6 +52,8 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log('listening on *:3000');
+server.listen(process.env.APP_PORT, () => {
+  console.log(`listening on *:${process.env.APP_PORT}`);
 });
+
+console.log(process.env.APP_PORT)
