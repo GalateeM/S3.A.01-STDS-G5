@@ -26,9 +26,9 @@ La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre l
 
 |=============
 | Date | Nom du livrable | Lien vers le livrable 
-| | Documentation Technique | 
-| | Documentation Utilisateur |
-| | Cahier des tests | 
+| | Documentation Technique | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/DocumentationTechnique.adoc[Dossier d'analyse et de conception]
+| | Documentation Utilisateur | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/Documentation_utilisateur.adoc[Documentation utilisateur]
+| | Cahier des tests | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/CahierTests.adoc[Cahier des tests]
 | | Éxecutable du Projet | 
 |=============
 
@@ -38,13 +38,11 @@ La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre l
 Liste des US en cours https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/milestones[ici]
 Version courante du projet V1.0
 
-Backlog produit :
-
-- Backlog produit : https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/Gestion%20de%20projet/BacklogProduit.adoc[ici]
+Backlog produit : https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/Gestion%20de%20projet/BacklogProduit.adoc[ici]
 
 Backlog sprint :
 
-Sprint 1 : https://www.github.com/users/GalateeM/projects/3[ici]
+- Sprint 1 : https://www.github.com/users/GalateeM/projects/3[ici]
 
 
 = 5. Méthode SCRUM
