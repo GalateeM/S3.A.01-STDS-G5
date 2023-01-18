@@ -7,13 +7,9 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(cors())
+app.use(express.static('public'));
 
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "*",
-    credentials: true
-  }
-});
+const io = require("socket.io")(server);
 
 /**
  * MQTT
@@ -57,6 +53,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(1234, () => {
-  console.log('listening on *:1234');
+server.listen(3000, () => {
+  console.log('listening on *:3000');
 });

@@ -12,13 +12,6 @@ services:
       - POSTGRES_USER=timescale
       - POSTGRES_PASSWORD=password
 
-  front:
-    image: nginx
-    ports:
-      - 3000:80
-    volumes:
-      - ./src:/usr/share/nginx/html
-
   back:
     build:
       context: .
@@ -26,4 +19,4 @@ services:
       - .:/src
     command: npm run start
     ports:
-      - "1234:1234"
+      - "3000:3000"
