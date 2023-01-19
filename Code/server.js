@@ -51,3 +51,22 @@ io.on('connection', (socket) => {
 server.listen(process.env.APP_PORT, () => {
   console.log(`HTTP - Listening on *:${process.env.APP_PORT}`);
 });
+
+/**
+ * Connexion to TimeScale DB
+ */
+
+const Sequelize = require('sequelize')
+const sequelize = new Sequelize('postgres://timescale:password@timescaledb:5432/postgres',
+    {
+        dialect: 'postgres',
+        protocol: 'postgres',
+        dialectOptions: {
+        }
+    })
+
+  sequelize.authenticate().then(() => {
+      console.log('Connection has been established successfully.');
+  }).catch(err => {
+      console.error('Unable to connect to the database:', err);
+  });
