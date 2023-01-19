@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1"  width="512" height="512" viewBox="0 0 270 270" xml:space="preserve">
+<g>
+	<polygon style="fill:#FFFFFF;" points="105,15 15,15 15,30 15,85 105,85 195,85 195,30 195,15  "/>
+	<polygon style="fill:#FF8600;" points="105,75 15,75 15,255 105,255 195,255 195,75  "/>
+	<rect x="105" y="75" style="fill:#E07200;" width="90" height="180"/>
+	<g>
+		<path style="fill:#89C7EA;" d="M255,60h-45V15c0-8.284-6.716-15-15-15h-90H15C6.716,0,0,6.716,0,15v240c0,8.283,6.716,15,15,15h90    h90c8.284,0,15-6.717,15-15v-15h45c8.284,0,15-6.717,15-15V75C270,66.715,263.284,60,255,60z M180,240h-75H30V30h75h75V240z     M240,210h-30V90h30V210z"/>
+		<path style="fill:#00B5EC;" d="M255,60h-45V15c0-8.284-6.716-15-15-15h-90v30h75v210h-75v30h90c8.284,0,15-6.717,15-15v-15h45    c8.284,0,15-6.717,15-15V75C270,66.715,263.284,60,255,60z M240,210h-30V90h30V210z"/>
+	</g>
+</g>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</svg>
