@@ -40,10 +40,18 @@ Prérequis : +
 
 === a) Utilisation du docker
 
-Ouvrir une invite de commande (cmd dans le menu démarrer). Se placer dans le dossier "Code" du projet, en utilisant la commande `cd <chemin>`. +
-Taper ensuite la commande `docker run -d -p 80:80 docker/getting-started`, puis `docker-compose up`.
+*Note d'usage :* nous utiliserons `docker compose` dans les exemples ci-dessous, mais dans les anciennes versions de Docker, il s'agit de `docker-compose` (un tiret au lieu de l'espace).
 
-Vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix. Ajoutez la palette postgresql. Pour cela, allez dans le menu, puis `Manage Palette`. +
+Ouvrir une invite de commande (cmd dans le menu démarrer). Se placer dans le dossier "Code" du projet, en utilisant la commande `cd <chemin>`. +
+Une fois dans le bon répertoire, taper `docker compose up` (`docker compose up -d` si vous voulez détacher votre terminal du lancement), cela lancera les services.
+
+La première fois que vous lancerez cette commande, cela prendra plus de temps, car il téléchargera les images. Les fois suivantes, cela sera bien plus rapide !
+
+Pour arrêter les services, taper simplement `docker compose down`.
+
+=== b) Mise en place du Node-RED
+
+Ayant lancé les services Docker, vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix. Ajoutez la palette postgresql. Pour cela, allez dans le menu, puis `Manage Palette`. +
 image:Images/menu_gestion_palette.png[width=20%,height=20%] +
 Dans l'onglet `Install`, recherchez `node-red-contrib-postgresql` et installez cette palette. +
 image:Images/menu_ajout_palette_postgresql.png[width=50%,height=50%] +
@@ -56,6 +64,11 @@ Afin des créer les tables de la base de données, cliquez sur chacune des nodes
 
 
 == 3. Fonctionnalités
+
+Avant d'entrer en détail dans les fonctionnalités disponibles, voici un schéma de l'ensemble de nos services et leur fonctionnement entre eux.
+
+image:Images/vue_globale.jpg[]
+
 
 === a) Historique des données
 
