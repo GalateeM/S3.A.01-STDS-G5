@@ -57,6 +57,11 @@ Afin des créer les tables de la base de données, cliquez sur chacune des nodes
 
 == 3. Fonctionnalités
 
+Avant d'entrer en détail dans les fonctionnalités disponibles, voici un schéma de l'ensemble de nos services et leur fonctionnement entre eux.
+
+image:Image/vue_globale.jpg[]
+
+
 === a) Historique des données
 
 Use case : En tant qu'utilisateur je souhaite pouvoir consulter l'historique des données de la tireuse sur une période donnée. +
