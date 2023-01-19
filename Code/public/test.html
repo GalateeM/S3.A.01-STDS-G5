@@ -20,13 +20,14 @@
         crossorigin="anonymous"></script>
     <script src="app.js"></script>
     <link rel="icon" type="image/x-icon" href="/img/beer.svg">
+
 </head>
 
 <nav class="navbar bg-warning">
     <ul class="bg-transparent text-center">
         <li><a href="https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5" target="_blank"><i
                     class="fab fa-github"></i></a></li>
-        <li class="fw-bold">STDS</li>
+        <li class="fw-bold">PintVision</li>
         <li><a href="/test.html">Accueil</a></li>
         <li><a href="/maintenance.html">Maintenance</a></li>
 
@@ -87,14 +88,50 @@
                                 <h3>ÉTAT</h3>
                             </td>
                             <td class="col-8">
-                                <P>Quantité élevée</P>
+                                <span id="diag">Pas d'annonce en cours</span>
                             </td>
                         </table>
 
                         <h3 class="text-center">Information supplémentaire</h3>
+
                         <div class="card">
                             <div class="card-body bg-dark bg-opacity-10">
-                                <h4>Illustration de l'information</h4>
+                                <table class="table">
+                                    <td>
+                                        <canvas id="jaugeInt"></canvas>
+                                        Intérieur : <span id="tint2">~</span>°C
+                                    </td>
+                                    <td>
+                                        <canvas id="jaugeExt"></canvas>
+                                        Extérieur : <span id="text2">~</span>°C
+                                    </td>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body bg-dark bg-opacity-10">
+                                <table class="table table-borderless">
+                                    <td>
+                                        Quantité en pourcentage
+                                    </td>
+                                    <td>
+                                        Quantité en bières
+                                    </td>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body bg-dark bg-opacity-10">
+                                <h1>Éclair rempli en fonction de la puissance</h1>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body bg-dark bg-opacity-10 h1 text-center">
+                                <img src="img/earth.png"  width="30%">
+                                <span id="co22">~</span>g
                             </div>
                         </div>
                     </td>
@@ -116,5 +153,61 @@
         </tbody>
     </table>
 </body>
+
+<script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+<script>
+    var opts = {
+        angle: 0.15, // The span of the gauge arc
+        lineWidth: 0.44, // The line thickness
+        radiusScale: 1, // Relative radius
+        pointer: {
+            length: 0.6, // // Relative to gauge radius
+            strokeWidth: 0.035, // The thickness
+            color: '#000000' // Fill color
+        },
+        limitMax: false,     // If false, max value increases automatically if value > maxValue
+        limitMin: false,     // If true, the min value of the gauge will be fixed
+        colorStart: '#6FADCF',   // Colors
+        colorStop: '#8FC0DA',    // just experiment with them
+        strokeColor: '#E0E0E0',  // to see which ones work best for you
+        generateGradient: true,
+        highDpiSupport: true,     // High resolution support
+
+    };
+    var targetInt = document.getElementById('jaugeInt'); // your canvas element
+    var gaugeInt = new Gauge(targetInt).setOptions(opts); // create sexy gauge!
+    gaugeInt.maxValue = 40; // set max gauge value
+    gaugeInt.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+    gaugeInt.animationSpeed = 32; // set animation speed (32 is default value)
+
+    
+</script>
+<script>
+    var opts = {
+        angle: 0.15, // The span of the gauge arc
+        lineWidth: 0.44, // The line thickness
+        radiusScale: 1, // Relative radius
+        pointer: {
+            length: 0.6, // // Relative to gauge radius
+            strokeWidth: 0.035, // The thickness
+            color: '#000000' // Fill color
+        },
+        limitMax: false,     // If false, max value increases automatically if value > maxValue
+        limitMin: false,     // If true, the min value of the gauge will be fixed
+        colorStart: '#6FADCF',   // Colors
+        colorStop: '#8FC0DA',    // just experiment with them
+        strokeColor: '#E0E0E0',  // to see which ones work best for you
+        generateGradient: true,
+        highDpiSupport: true,     // High resolution support
+
+    };
+    var targetExt = document.getElementById('jaugeExt'); // your canvas element
+    var gaugeExt = new Gauge(targetExt).setOptions(opts); // create sexy gauge!
+    gaugeExt.maxValue = 40; // set max gauge value
+    gaugeExt.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+    gaugeExt.animationSpeed = 32; // set animation speed (32 is default value)
+    
+    
+</script>
 
 </html>
