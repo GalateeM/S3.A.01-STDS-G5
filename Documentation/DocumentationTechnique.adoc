@@ -47,7 +47,7 @@ Une fois dans le bon répertoire, taper `docker compose up` (`docker compose up 
 
 La première fois que vous lancerez cette commande, cela prendra plus de temps, car il téléchargera les images. Les fois suivantes, cela sera bien plus rapide !
 
-Pour arrêter les services, taper simplement `docker compose down`.
+Pour arrêter les services, taper simplement `docker compose down` (à ne pas faire si vous voulez suivre les étapes suivantes).
 
 === b) Mise en place du Node-RED
 
@@ -60,7 +60,11 @@ Afin d'accéder à l'historique des données, vous devez importer le fichier htt
 
 Afin des créer les tables de la base de données, cliquez sur chacune des nodes `postgresql` (node bleue avec icône d'éléphant) puis sur `done` (cela permet de corriger un bug qui ne prend pas vraiment en compte la configuration à l'import). Ensuite, dans la node `postgresql` tout en haut, éditez le serveur (icône du crayon à côté du serveur) et ajoutez l'utilisateur (timescale) et le mot de passe (mot de passe présent dans le fichier docker-compose.yml). Cliquez sur "Deploy" puis une fois sur le bouton à côté de la node `timestamp`.
 
+=== c) Comment accéder aux services ?
 
+Pour Node-RED, comme expliqué ci-dessus, il faut vous rendre sur `localhost:8080` (les étapes sont clairement expliquées dans la mise en place précédente).
+
+Pour accéder au site en lui-même, il faut vous rendre sur `localhost:3000`, rien de plus n'est nécessaire, vous serez immédiatement en lien avec les services, s'ils ont été correctement installés précédemment.
 
 
 == 3. Fonctionnalités
