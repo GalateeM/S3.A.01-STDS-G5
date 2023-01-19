@@ -70,3 +70,13 @@ const sequelize = new Sequelize('postgres://timescale:password@timescaledb:5432/
   }).catch(err => {
       console.error('Unable to connect to the database:', err);
   });
+
+/** 
+ * APP
+*/
+
+app.get("/liste-pannes", (req, res) => {
+  res.json({
+    foo: "bar"
+  })
+})
