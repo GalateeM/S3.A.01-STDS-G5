@@ -1,15 +1,15 @@
 [
     {
-        "id": "f6f2187d.f17ca8",
+        "id": "bd392b5c1c06028d",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "3cc11d24.ff01a2",
+        "id": "11b36865546e79b2",
         "type": "comment",
-        "z": "f6f2187d.f17ca8",
+        "z": "bd392b5c1c06028d",
         "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
         "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
         "x": 350,
@@ -17,14 +17,14 @@
         "wires": []
     },
     {
-        "id": "72a8a256804a1c17",
+        "id": "e9db83bf6f481811",
         "type": "mqtt in",
-        "z": "f6f2187d.f17ca8",
+        "z": "bd392b5c1c06028d",
         "name": "",
         "topic": "#",
         "qos": "2",
         "datatype": "auto-detect",
-        "broker": "130db6cca8ba6951",
+        "broker": "5701505f8608ca57",
         "nl": false,
         "rap": true,
         "rh": 0,
@@ -33,15 +33,14 @@
         "y": 620,
         "wires": [
             [
-                "4f453c4c54edc412",
-                "5cd872a568e94ffb"
+                "97a963f262f576e9"
             ]
         ]
     },
     {
-        "id": "4f453c4c54edc412",
+        "id": "97a963f262f576e9",
         "type": "switch",
-        "z": "f6f2187d.f17ca8",
+        "z": "bd392b5c1c06028d",
         "name": "",
         "property": "topic",
         "propertyType": "jsonata",
@@ -84,48 +83,48 @@
         "y": 620,
         "wires": [
             [
-                "a947a552c0b63e0e"
+                "44a2c7384118937b"
             ],
             [
-                "6f86e7f9d3b36223"
+                "a6af3efe39cdb5c1"
             ],
             [
-                "3714ca65e353d0a1"
+                "89d5d5593ba349e5"
             ],
             [
-                "1a2644843eb0f90e"
+                "140dc0be94617104"
             ],
             [
-                "9ae322b9bc7f55ca"
+                "ef6b6e4e4672e5a8"
             ],
             [
-                "77471fca53e190dc"
+                "831426626ddd9651"
             ]
         ]
     },
     {
-        "id": "a947a552c0b63e0e",
+        "id": "44a2c7384118937b",
         "type": "postgresql",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
+        "z": "bd392b5c1c06028d",
+        "name": "Niveau",
         "query": "insert into Niveau (dateInsertion, data)\nvalues (current_timestamp, {{{msg.payload}}})",
-        "postgreSQLConfig": "64e1f68a1b743477",
+        "postgreSQLConfig": "83f94beede4857be",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 810,
+        "x": 800,
         "y": 440,
         "wires": [
             []
         ]
     },
     {
-        "id": "6f86e7f9d3b36223",
+        "id": "a6af3efe39cdb5c1",
         "type": "postgresql",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
+        "z": "bd392b5c1c06028d",
+        "name": "Puissance",
         "query": "insert into Puissance (dateInsertion, data)\nvalues (current_timestamp, {{{msg.payload}}})",
-        "postgreSQLConfig": "64e1f68a1b743477",
+        "postgreSQLConfig": "83f94beede4857be",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
@@ -136,90 +135,118 @@
         ]
     },
     {
-        "id": "3714ca65e353d0a1",
+        "id": "89d5d5593ba349e5",
         "type": "postgresql",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
+        "z": "bd392b5c1c06028d",
+        "name": "Température T1",
         "query": "insert into TemperatureT1 (dateInsertion, data)\nvalues (current_timestamp, {{{msg.payload}}})",
-        "postgreSQLConfig": "64e1f68a1b743477",
+        "postgreSQLConfig": "83f94beede4857be",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 870,
+        "x": 880,
         "y": 560,
         "wires": [
             []
         ]
     },
     {
-        "id": "1a2644843eb0f90e",
+        "id": "140dc0be94617104",
         "type": "postgresql",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
+        "z": "bd392b5c1c06028d",
+        "name": "Température T2",
         "query": "insert into TemperatureT2 (dateInsertion, data)\nvalues (current_timestamp, {{{msg.payload}}})",
-        "postgreSQLConfig": "64e1f68a1b743477",
+        "postgreSQLConfig": "83f94beede4857be",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 830,
+        "x": 840,
         "y": 620,
         "wires": [
             []
         ]
     },
     {
-        "id": "9ae322b9bc7f55ca",
+        "id": "ef6b6e4e4672e5a8",
         "type": "postgresql",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
+        "z": "bd392b5c1c06028d",
+        "name": "Diag",
         "query": "insert into Diag (dateInsertion, data)\nvalues (current_timestamp, '{{{msg.payload}}}')",
-        "postgreSQLConfig": "64e1f68a1b743477",
+        "postgreSQLConfig": "83f94beede4857be",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 870,
+        "x": 850,
         "y": 680,
         "wires": [
             []
         ]
     },
     {
-        "id": "77471fca53e190dc",
+        "id": "831426626ddd9651",
         "type": "postgresql",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
+        "z": "bd392b5c1c06028d",
+        "name": "CO2",
         "query": "insert into CO2 (dateInsertion, data)\nvalues (current_timestamp, {{{msg.payload}}})",
-        "postgreSQLConfig": "64e1f68a1b743477",
+        "postgreSQLConfig": "83f94beede4857be",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 850,
+        "x": 830,
         "y": 760,
         "wires": [
             []
         ]
     },
     {
-        "id": "5cd872a568e94ffb",
+        "id": "78a9d0e2fb0eb2a9",
         "type": "postgresql",
-        "z": "f6f2187d.f17ca8",
-        "d": true,
-        "name": "",
-        "query": "drop table TemperatureT1;\ndrop table TemperatureT2;\ndrop table Niveau;\ndrop table CO2;\ndrop table Diag;\ndrop table Puissance;\n\ncreate table TemperatureT1\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data float\n);\n\ncreate table TemperatureT2\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data float\n);\n\ncreate table Niveau\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data int\n);\n\ncreate table CO2\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data float\n);\n\ncreate table Diag\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data text\n);\n\ncreate table Puissance\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data float\n)",
-        "postgreSQLConfig": "64e1f68a1b743477",
+        "z": "bd392b5c1c06028d",
+        "name": "Suppression et création des tables",
+        "query": "drop table if exists TemperatureT1;\ndrop table if exists TemperatureT2;\ndrop table if exists Niveau;\ndrop table if exists CO2;\ndrop table if exists Diag;\ndrop table if exists Puissance;\n\ncreate table TemperatureT1\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data float\n);\n\ncreate table TemperatureT2\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data float\n);\n\ncreate table Niveau\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data int\n);\n\ncreate table CO2\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data float\n);\n\ncreate table Diag\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data text\n);\n\ncreate table Puissance\n(\n    id serial primary key,\n    dateInsertion timestamp,\n    data float\n)",
+        "postgreSQLConfig": "83f94beede4857be",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 430,
+        "x": 580,
         "y": 320,
         "wires": [
             []
         ]
     },
     {
-        "id": "130db6cca8ba6951",
+        "id": "1c9515ca5e3ed9bd",
+        "type": "inject",
+        "z": "bd392b5c1c06028d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "78a9d0e2fb0eb2a9"
+            ]
+        ]
+    },
+    {
+        "id": "5701505f8608ca57",
         "type": "mqtt-broker",
-        "name": "test",
+        "name": "connexion",
         "broker": "iot.iut-blagnac.fr",
         "port": "1883",
         "clientid": "",
@@ -244,7 +271,7 @@
         "sessionExpiry": ""
     },
     {
-        "id": "64e1f68a1b743477",
+        "id": "83f94beede4857be",
         "type": "postgreSQLConfig",
         "name": "",
         "host": "timescaledb",
