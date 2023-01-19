@@ -56,7 +56,7 @@ server.listen(process.env.APP_PORT, () => {
  * Connexion to TimeScale DB
  */
 
-const Sequelize = require('sequelize')
+const {Sequelize, DataTypes}  = require('sequelize')
 const sequelize = new Sequelize('postgres://timescale:password@timescaledb:5432/postgres',
     {
         dialect: 'postgres',
@@ -70,6 +70,49 @@ const sequelize = new Sequelize('postgres://timescale:password@timescaledb:5432/
   }).catch(err => {
       console.error('Unable to connect to the database:', err);
   });
+
+/**
+ * Creation of tables in TimeScale DB
+ */
+
+const TemperatureT1 = sequelize.define('TemperatureT1', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true // Automatically gets converted to SERIAL for postgres
+  },
+  dateInsertion: DataTypes.DATE,
+  data : DataTypes.FLOAT
+});
+
+sequelize.sync().then(() => {
+  console.log('TemperatureT1 table created successfully!');
+
+  const temp1 = TemperatureT1.create({
+   dateInsertion: Date.now(),
+   data: 20,
+  });
+
+  const temp2 = TemperatureT1.create({
+    dateInsertion: Date.now(),
+    data: 30,
+   });
+
+}).catch((error) => {
+  console.error('Unable to create table : ', error);
+});
+
+sequelize.sync().then(() => {
+
+  TemperatureT1.findAll().then(res => {
+      console.log(res)
+  }).catch((error) => {
+      console.error('Failed to retrieve data : ', error);
+  });
+
+}).catch((error) => {
+  console.error('Unable to create table : ', error);
+});
 
 /** 
  * APP
