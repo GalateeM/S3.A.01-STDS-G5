@@ -47,7 +47,7 @@ Une fois dans le bon répertoire, taper `docker compose up` (`docker compose up 
 
 La première fois que vous lancerez cette commande, cela prendra plus de temps, car il téléchargera les images. Les fois suivantes, cela sera bien plus rapide !
 
-Pour arrêter les services, taper simplement `docker compose down`
+Pour arrêter les services, taper simplement `docker compose down`.
 
 === b) Mise en place du Node-RED
 
