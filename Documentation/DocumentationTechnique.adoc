@@ -40,10 +40,18 @@ Prérequis : +
 
 === a) Utilisation du docker
 
-Ouvrir une invite de commande (cmd dans le menu démarrer). Se placer dans le dossier "Code" du projet, en utilisant la commande `cd <chemin>`. +
-Taper ensuite la commande `docker run -d -p 80:80 docker/getting-started`, puis `docker-compose up`.
+*Note d'usage :* nous utiliserons `docker compose` dans les exemples ci-dessous, mais dans les anciennes versions de Docker, il s'agit de `docker-compose` (un tiret au lieu de l'espace).
 
-Vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix. Ajoutez la palette postgresql. Pour cela, allez dans le menu, puis `Manage Palette`. +
+Ouvrir une invite de commande (cmd dans le menu démarrer). Se placer dans le dossier "Code" du projet, en utilisant la commande `cd <chemin>`. +
+Une fois dans le bon répertoire, taper `docker compose up` (`docker compose up -d` si vous voulez détacher votre terminal du lancement), cela lancera les services.
+
+La première fois que vous lancerez cette commande, cela prendra plus de temps, car il téléchargera les images. Les fois suivantes, cela sera bien plus rapide !
+
+Pour arrêter les services, taper simplement `docker compose down` (à ne pas faire si vous voulez suivre les étapes suivantes).
+
+=== b) Mise en place du Node-RED
+
+Ayant lancé les services Docker, vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix. Ajoutez la palette postgresql. Pour cela, allez dans le menu, puis `Manage Palette`. +
 image:Images/menu_gestion_palette.png[width=20%,height=20%] +
 Dans l'onglet `Install`, recherchez `node-red-contrib-postgresql` et installez cette palette. +
 image:Images/menu_ajout_palette_postgresql.png[width=50%,height=50%] +
@@ -52,7 +60,11 @@ Afin d'accéder à l'historique des données, vous devez importer le fichier htt
 
 Afin des créer les tables de la base de données, cliquez sur chacune des nodes `postgresql` (node bleue avec icône d'éléphant) puis sur `done` (cela permet de corriger un bug qui ne prend pas vraiment en compte la configuration à l'import). Ensuite, dans la node `postgresql` tout en haut, éditez le serveur (icône du crayon à côté du serveur) et ajoutez l'utilisateur (timescale) et le mot de passe (mot de passe présent dans le fichier docker-compose.yml). Cliquez sur "Deploy" puis une fois sur le bouton à côté de la node `timestamp`.
 
+=== c) Comment accéder aux services ?
 
+Pour Node-RED, comme expliqué ci-dessus, il faut vous rendre sur `localhost:8080` (les étapes sont clairement expliquées dans la mise en place précédente).
+
+Pour accéder au site en lui-même, il faut vous rendre sur `localhost:3000`, rien de plus n'est nécessaire, vous serez immédiatement en lien avec les services, s'ils ont été correctement installés précédemment.
 
 
 == 3. Fonctionnalités
