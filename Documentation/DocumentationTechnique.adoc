@@ -31,6 +31,7 @@ La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre l
 Use Case général : +
 image:UC/usecase_general.svg[width=35%,height=35%]
 
+L'objectif de ce projet est la création d'un application web, de la documentation technique, utilisateur et un cahier de tests. +
 Grâce à l'application, l'utilisateur doit pouvoir consulter les données de la tireuse en temps réel, mais également à l'historique des données sur une période donnée. L'application permettra également de consulter les pannes en cours, de pouvoir consulter la documentation pour dépanner la tireuse, et de recevoir des notifications concernant ses pannes soit par mail soit en notification push s'il s'y est abonné.
 
 == 2. Déploiement du projet en local
@@ -49,20 +50,9 @@ La première fois que vous lancerez cette commande, cela prendra plus de temps, 
 
 Pour arrêter les services, taper simplement `docker compose down` (à ne pas faire si vous voulez suivre les étapes suivantes).
 
-=== b) Mise en place du Node-RED
+=== b) Comment accéder aux services ?
 
-Ayant lancé les services Docker, vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix. Ajoutez la palette postgresql. Pour cela, allez dans le menu, puis `Manage Palette`. +
-image:Images/menu_gestion_palette.png[width=20%,height=20%] +
-Dans l'onglet `Install`, recherchez `node-red-contrib-postgresql` et installez cette palette. +
-image:Images/menu_ajout_palette_postgresql.png[width=50%,height=50%] +
-
-Afin d'accéder à l'historique des données, vous devez importer le fichier https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Code/node_RED_configuration.json[node_RED_configuration.json] en allant dans le menu, puis en cliquant sur `Import`. Pour que la connexion au serveur fonctionne, vous devez éditer la node `mqtt`(node rose), puis éditer le serveur (icône de crayon à côté du serveur), et ajouter l'utilisateur "student" et le mot de passe "student".
-
-Afin des créer les tables de la base de données, cliquez sur chacune des nodes `postgresql` (node bleue avec icône d'éléphant) puis sur `done` (cela permet de corriger un bug qui ne prend pas vraiment en compte la configuration à l'import). Ensuite, dans la node `postgresql` tout en haut, éditez le serveur (icône du crayon à côté du serveur) et ajoutez l'utilisateur (timescale) et le mot de passe (mot de passe présent dans le fichier docker-compose.yml). Cliquez sur "Deploy" puis une fois sur le bouton à côté de la node `timestamp`.
-
-=== c) Comment accéder aux services ?
-
-Pour Node-RED, comme expliqué ci-dessus, il faut vous rendre sur `localhost:8080` (les étapes sont clairement expliquées dans la mise en place précédente).
+Ayant lancé les services Docker, vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix. +
 
 Pour accéder au site en lui-même, il faut vous rendre sur `localhost:3000`, rien de plus n'est nécessaire, vous serez immédiatement en lien avec les services, s'ils ont été correctement installés précédemment.
 
@@ -71,7 +61,7 @@ Pour accéder au site en lui-même, il faut vous rendre sur `localhost:3000`, ri
 
 Avant d'entrer en détail dans les fonctionnalités disponibles, voici un schéma de l'ensemble de nos services et leur fonctionnement entre eux.
 
-image:Images/vue_globale.jpg[]
+image:Images/vue_globale.jpg[width=50%,height=50%]
 
 
 === a) Historique des données
@@ -80,9 +70,14 @@ Use case : En tant qu'utilisateur je souhaite pouvoir consulter l'historique des
 image:UC/usecase_historique.svg[]
 
 
-- Récupération et insertion des données dans TimeScaleDB
+- Connexion et insertion de données dans TimeScaleDB
 
-Nous avons utilisé Node-RED afin de récupérer le flux MQTT provenant du serveur Raspberry Pi. Pour cela, nous avons ajouté une node `mqtt in`. Nous avons ajouté une connexion à TimescaleDB, et avec des requêtes SQL créé des tables pour stocker chaque donnée. La node `split` permet de trier les données en fonction de leur type (température, CO2, niveau,...), pour ensuite insérer les données dans la table correspondante.
+Pour cette fonctionnalité, le code est présent dans la classe `server.js`. +
+Nous avons utilisé le langage NodeJS pour créer la connexion à la base de données TimeScaleDB. Pour cela, nous avons utilisé le module `sequelize` qui permet également la création de tables, l'insertion et la récupération des données. La création des tables se fait avec un `sequelize.define` (si les tables ont déjà été créées, cela ne fait rien et donc l'historique ne sera pas perdu):
 
-image:Images/node_RED_configuration.png[width=50%,height=50%]
+image:Images/création_tables.png[width=50%,height=50%]
+
+Pour l'insertion des données en temps réel, l'utilisation de `sequelize.sync().then(()=>{})` permet de synchroniser toutes les tables avant insertion, et ainsi de s'assurer qu'elles ont bien été créées au préalable. Cette fonction est présente dans la fonction `client.on("message", (topic, payload)`, elle est donc appelée à chaque fois qu'un flux MQTT est reçu. Un `switch` est utilisé afin de séparer chaque type de donnée, car chaque type est présent dans une table différente. Ensuite, les données sont insérées avec un `create` :
+
+image:Images/insertion_données.png[width=50%,height=50%]
 

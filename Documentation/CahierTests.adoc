@@ -1,1 +1,72 @@
-# Cahier des tests
+= Cahier de Tests - Version 3
+:toc:
+:toc-title: Sommaire
+
+Date : 20/01/2023 +
+Client : Rémi Boulle +
+Projet : Création d'une application web permettant de visualiser des données d'une tireuse à bière améliorée par l'ajout de capteurs + 
+
+<<<
+
+== 1. Description du Projet
+=== a) Equipe
+
+Étudiant.e.s +
+- https://github.com/Fiujy[KERROUCHE Mohamed] : Développeur +
+- https://github.com/GalateeM[MARCQ Galatée] : SCRUM Master +
+- https://github.com/LeilaMartinet[MARTINET Leila] : Product Owner +
+- https://github.com/caerroff[MASIN Thomas] : Développeur +
+- https://github.com/hugomonte[MONTE Hugo] : Développeur
+
+Professeur.e.s +
+- https://github.com/rboulle[Rémi Boulle] +
+- https://github.com/ependaries[Esther Pendaries]
+
+=== b) Contexte du projet
+
+La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre les étudiants de seconde année de BUT Génie Industriel et Maintenance et nous-mêmes, étudiants en deuxième années de BUT Informatique. Ces derniers ayant amélioré une tireuse à bière en lui intégrant des capteurs, ils ont besoin que nous leur développions une application permettant d’exploiter graphiquement les données ainsi récupérées, afin de gérer l’état et les pannes éventuelles de la machine.
+
+=== c) Objectifs du projet
+
+L'objectif de ce projet est la création d'un application web, de la documentation technique, utilisateur et un cahier de tests. +
+Grâce à l'application, l'utilisateur doit pouvoir consulter les données de la tireuse en temps réel, mais également à l'historique des données sur une période donnée. L'application permettra également de consulter les pannes en cours, de pouvoir consulter la documentation pour dépanner la tireuse, et de recevoir des notifications concernant ses pannes soit par mail soit en notification push s'il s'y est abonné.
+
+== 2. Tests
+
+|===
+| Id Test | Nom test | Conditions de satisfaction | Préconditions | Test validé ?
+
+| 01
+| Se connecter (page d'accueil) 
+| En tant qu’utilisateur je souhaite être notifié lorsqu’une panne survient et connaître le type précis de la panne.
+| L'utilisateur s'est inscrit aux notifications (push ou par mail)
+|
+
+| 02
+| En tant qu’utilisateur, je souhaite pouvoir accéder à une page contenant les pannes actuelles afin de pouvoir les corriger.
+| L’utilisateur peut accéder à une page regroupant toutes les notifications de panne qui n’ont pas encore été traitées
+|
+|
+
+| 03
+| En tant qu’utilisateur je souhaite pouvoir consulter la documentation (gamme) associée à une panne afin de la corriger
+| La documentation est accessible en fonction de la page en cours
+| Une panne est en cours
+|
+
+
+| 04
+| En tant qu’utilisateur je souhaite consulter les données de la tireuse en temps réel
+| L’utilisateur peut visualiser les données récupérées sous forme de graphique
+| 
+|
+
+| 05
+| En tant qu’utilisateur je souhaite pouvoir consulter l’historique des données de la tireuse sur une période donnée
+| L’utilisateur peut accéder à l’historique des données
+| 
+|
+
+
+|===
+
