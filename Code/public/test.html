@@ -147,14 +147,17 @@
                         </div>
                     </td>
                 </table>
-
-
             </td>
         </tbody>
     </table>
+    
+    <canvas id="PuissanceHistorique"></canvas>
+    
 </body>
 
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script> const socket = io("http://localhost:3000");</script>
 <script>
     var opts = {
         angle: 0.15, // The span of the gauge arc
@@ -205,9 +208,31 @@
     var gaugeExt = new Gauge(targetExt).setOptions(opts); // create sexy gauge!
     gaugeExt.maxValue = 40; // set max gauge value
     gaugeExt.setMinValue(0);  // Prefer setter over gauge.minValue = 0
-    gaugeExt.animationSpeed = 32; // set animation speed (32 is default value)
+    gaugeExt.animationSpeed = 32; // set animation speed (32 is default value)    
     
-    
+</script>
+
+<script>
+    // Diagramme pour l'historique de la puissance
+    socket.on("PuissanceHistorique", (arg) => {
+    new Chart(
+        document.getElementById('PuissanceHistorique'),
+        {
+          type: 'line',
+          data: {
+            labels: arg.map(row => row.dateInsertion),
+            datasets: [
+              {
+                label: 'Historique de la puissance',
+                data: arg.map(row => row.data),
+                borderWidth : 1,
+                pointRadius : 0
+              }
+            ]
+          }
+        }
+      );
+});
 </script>
 
 </html>

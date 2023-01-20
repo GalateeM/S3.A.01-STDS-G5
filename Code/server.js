@@ -27,6 +27,45 @@ client.on("connect", () => {
 })
 
 client.on("message", (topic, payload) => {
+
+  sequelize.authenticate().then(() => {
+    // Récupération de toutes les données de la table Puissance
+    const puissances = Puissance.findAll(
+      {
+        // Tri par date croissante
+        order : [["dateInsertion", "ASC"]]
+      }
+    ).then((res) => {  
+      let datas = [];  
+      var j = 0;
+      var moyenne = 0;
+      // Pour chaque donnée récupérée
+      for (let i = 0; i<res.length - 1; i++)
+      {
+        // Si j est inférieur à 50, on additionne les données
+        if (j<50)
+        {
+          moyenne += res[i].data;
+          j++;
+        }
+        // Sinon
+        else
+        {
+          j = 0;
+          // Récupération et formatage de la date
+          var date = res[i].dateInsertion;
+          date.setHours(date.getHours() + 1);
+          // Création d'un dictionnaire avec la dateInsertion et la moyenne des données
+          var dict = {"dateInsertion" : date.toLocaleTimeString("fr-FR"), "data" : moyenne/50};
+          datas.push(dict);
+          moyenne = res[i].data;
+        }
+      }
+      // Emission
+      io.emit("PuissanceHistorique", datas);
+    })    
+  })
+
   let data = payload.toString()
 
   try {
