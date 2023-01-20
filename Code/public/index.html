@@ -237,6 +237,7 @@
 </body>
 
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     this.document.getElementById("cardCo2").style.display = "none";
     this.document.getElementById("cardPuissance").style.display = "none";
@@ -320,6 +321,29 @@
 
         this.document.getElementById(nom).style.display = "block";
     }
+</script>
+
+<script>
+    // Diagramme pour l'historique de la puissance
+    socket.on("PuissanceHistorique", (arg) => {
+    new Chart(
+        document.getElementById('PuissanceHistorique'),
+        {
+          type: 'line',
+          data: {
+            labels: arg.map(row => row.dateInsertion),
+            datasets: [
+              {
+                label: 'Historique de la puissance',
+                data: arg.map(row => row.data),
+                borderWidth : 1,
+                pointRadius : 0
+              }
+            ]
+          }
+        }
+      );
+});
 </script>
 
 </html>
