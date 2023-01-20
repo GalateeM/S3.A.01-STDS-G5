@@ -51,7 +51,7 @@
         <li><a href="https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5" target="_blank"><i
                     class="fab fa-github"></i></a></li>
         <li class="fw-bold">PintVision</li>
-        <li><a href="/test.html">Accueil</a></li>
+        <li><a href="/index.html">Accueil</a></li>
         <li><a href="/maintenance.html">Maintenance</a></li>
     </ul>
 </nav>
@@ -99,7 +99,7 @@
                 </td>
                 <td class="col-4 p-4" colspan="3">
 
-                    <h1 class="text-center">Titre Info En Cours de Visualisation</h1>
+                    <h1 class="text-center" id="titre"></h1>
                     <div class="card">
                         <div class="card-body bg-dark pb-5">
                             <h2 class="text-light text-center">Ici le Graph</h2>
@@ -201,6 +201,7 @@
     this.document.getElementById("cardCo2").style.display = "none";
     this.document.getElementById("cardPuissance").style.display = "none";
     this.document.getElementById("cardQuantite").style.display = "none";
+    this.document.getElementById("titre").textContent = "Température";
     var opts = {
         angle: 0.15, // The span of the gauge arc
         lineWidth: 0.44, // The line thickness
@@ -253,16 +254,29 @@
     gaugeExt.animationSpeed = 32; // set animation speed (32 is default value)
 
 
-
-    function cacher(){
-        console.log("test");
-    }
-
     function cacherTout(nom){
         this.document.getElementById("cardCo2").style.display = "none";
         this.document.getElementById("cardPuissance").style.display = "none";
         this.document.getElementById("cardQuantite").style.display = "none";
         this.document.getElementById("cardJauge").style.display = "none";
+
+        titre = "";
+
+        switch(nom){
+            case "cardCo2":
+                titre = "CO2"
+                break;
+            case "cardPuissance":
+                titre = "Consommation"
+                break;
+            case "cardQuantite":
+                titre = "Quantité restante"
+                break;
+            case "cardJauge": 
+                titre = "Température"
+                break
+        }
+        document.getElementById("titre").textContent = titre;
 
         this.document.getElementById(nom).style.display = "block";
     }

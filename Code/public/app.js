@@ -44,10 +44,5 @@ socket.on("STDS/2/Niveau", (arg) => {
 
 socket.on("STDS/2/Diag", (arg) => {
     document.querySelector("#diag").textContent = arg
-    console.log(1, arg)
 });
-
-socket.on("STDS/2/Diag", arg => {
-    console.log(2, arg)
-})
 
