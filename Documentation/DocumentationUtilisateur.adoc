@@ -1,1 +1,57 @@
-# Documentation utilisateur
+= Manuel d'utilisation de l'application
+:toc:
+:toc-title: Sommaire
+
+Date : 20/01/2023 +
+Client : Rémi Boulle +
+Projet : Création d'une application web permettant de visualiser des données d'une tireuse à bière améliorée par l'ajout de capteurs + 
+
+<<<
+
+== 1. Description du Projet
+=== a) Equipe
+
+Étudiant.e.s +
+- https://github.com/Fiujy[KERROUCHE Mohamed] : Développeur +
+- https://github.com/GalateeM[MARCQ Galatée] : SCRUM Master +
+- https://github.com/LeilaMartinet[MARTINET Leila] : Product Owner +
+- https://github.com/caerroff[MASIN Thomas] : Développeur +
+- https://github.com/hugomonte[MONTE Hugo] : Développeur
+
+Professeur.e.s +
+- https://github.com/rboulle[Rémi Boulle] +
+- https://github.com/ependaries[Esther Pendaries]
+
+=== b) Contexte du projet
+
+La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre les étudiants de seconde année de BUT Génie Industriel et Maintenance et nous-mêmes, étudiants en deuxième années de BUT Informatique. Ces derniers ayant amélioré une tireuse à bière en lui intégrant des capteurs, ils ont besoin que nous leur développions une application permettant d’exploiter graphiquement les données ainsi récupérées, afin de gérer l’état et les pannes éventuelles de la machine.
+
+=== c) Objectifs du projet
+
+L'objectif de ce projet est la création d'un application web, de la documentation technique, utilisateur et un cahier de tests. +
+Grâce à l'application, l'utilisateur doit pouvoir consulter les données de la tireuse en temps réel, mais également à l'historique des données sur une période donnée. L'application permettra également de consulter les pannes en cours, de pouvoir consulter la documentation pour dépanner la tireuse, et de recevoir des notifications concernant ses pannes soit par mail soit en notification push s'il s'y est abonné.
+
+== 2. Déploiement du projet en local
+
+Prérequis : +
+- Installation de Docker sur votre ordinateur
+
+=== a) Utilisation du docker
+
+*Note d'usage :* nous utiliserons `docker compose` dans les exemples ci-dessous, mais dans les anciennes versions de Docker, il s'agit de `docker-compose` (un tiret au lieu de l'espace).
+
+Ouvrir une invite de commande (cmd dans le menu démarrer). Se placer dans le dossier "Code" du projet, en utilisant la commande `cd <chemin>`. +
+Une fois dans le bon répertoire, taper `docker compose up` (`docker compose up -d` si vous voulez détacher votre terminal du lancement), cela lancera les services.
+
+La première fois que vous lancerez cette commande, cela prendra plus de temps, car il téléchargera les images. Les fois suivantes, cela sera bien plus rapide !
+
+Pour arrêter les services, taper simplement `docker compose down` (à ne pas faire si vous voulez suivre les étapes suivantes).
+
+=== b) Comment accéder aux services ?
+
+Ayant lancé les services Docker, vous pouvez désormais accéder à Node-RED en tapant "localhost:8080" dans le navigateur de votre choix. +
+
+Pour accéder au site en lui-même, il faut vous rendre sur `localhost:3000`, rien de plus n'est nécessaire, vous serez immédiatement en lien avec les services, s'ils ont été correctement installés précédemment.
+
+== 3. Utiliser l'application
+

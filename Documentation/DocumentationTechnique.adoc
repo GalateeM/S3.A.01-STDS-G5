@@ -31,6 +31,7 @@ La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre l
 Use Case général : +
 image:UC/usecase_general.svg[width=35%,height=35%]
 
+L'objectif de ce projet est la création d'un application web, de la documentation technique, utilisateur et un cahier de tests. +
 Grâce à l'application, l'utilisateur doit pouvoir consulter les données de la tireuse en temps réel, mais également à l'historique des données sur une période donnée. L'application permettra également de consulter les pannes en cours, de pouvoir consulter la documentation pour dépanner la tireuse, et de recevoir des notifications concernant ses pannes soit par mail soit en notification push s'il s'y est abonné.
 
 == 2. Déploiement du projet en local
