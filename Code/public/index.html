@@ -8,6 +8,46 @@
     <link rel="stylesheet" href="bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </head>
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "b86bb1c7-a686-4471-a3a7-07bf311b13db",
+      safari_web_id: "web.onesignal.auto.201c9c11-2835-4563-82b9-55a6f9094e87",
+      notifyButton: {
+        enable: true,
+      },
+      allowLocalhostAsSecureOrigin: true,
+      // Your other init options here
+    promptOptions: {
+      slidedown: {
+        prompts: [
+          {
+            type: "push", // current types are "push" & "category"
+            autoPrompt: false,
+            text: {
+              /* limited to 90 characters */
+              actionMessage: "We'd like to show you notifications for the latest news and updates.",
+              /* acceptButton limited to 15 characters */
+              acceptButton: "Allow",
+              /* cancelButton limited to 15 characters */
+              cancelButton: "Cancel"
+            },
+            delay: {
+              pageViews: 1,
+              timeDelay: 20
+            }
+          }
+        ]
+      }
+    }
+    });
+  });
+  OneSignal.push(function() {
+  OneSignal.showSlidedownPrompt();
+});
+</script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
