@@ -6,11 +6,15 @@ function diagno(erreur) {
 
 socket.on("STDS/2/Puissance", (arg) => {
     document.querySelector("#puissance").textContent = arg
+    document.querySelector("#puissance2").textContent = arg
+    document.getElementById("image").style.clipPath = "polygon(100% "+(100-(arg*100/60))+"%,100% 100%,0% 100%,0% "+(100-(arg*100/60))+"%)"
 });
 
 socket.on("STDS/2/CO2", (arg) => {
     document.querySelector("#co2").textContent = arg
     document.querySelector("#co22").textContent = arg
+    //document.querySelector("#cardCo2").style.display = "none"
+    //Pour cacher une card
 });
 
 socket.on("STDS/2/Température/T2", (arg) => {
@@ -35,6 +39,7 @@ socket.on("STDS/2/Température/T1", (arg) => {
 
 socket.on("STDS/2/Niveau", (arg) => {
     document.querySelector("#quantite").textContent = arg
+    document.querySelector("#quantite2").textContent = arg
 });
 
 socket.on("STDS/2/Diag", (arg) => {

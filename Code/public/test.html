@@ -20,6 +20,29 @@
         crossorigin="anonymous"></script>
     <script src="app.js"></script>
     <link rel="icon" type="image/x-icon" href="/img/beer.svg">
+    <style>
+        .parent {
+            position: relative;
+            top: 0;
+            left: 40%;
+        }
+
+        .image {
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .image2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            clip-path: polygon(100% 50%,
+                    100% 100%,
+                    0% 100%,
+                    0% 50%);
+        }
+    </style>
 
 </head>
 
@@ -35,122 +58,142 @@
 </nav>
 
 <body>
+
     <table class="table table-bordered">
         <tbody>
-            <td class="col-3">
-                <div class="card mb-4">
-                    <div class="card-header bg-transparent">
-                        Température
-                    </div>
-                    <div class="card-body bg-dark bg-opacity-10 text-center">
-                        Intérieur : <span id="tint">~</span>°C
-                        <br>
-                        Extérieur : <span id="text">~</span>°C
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header bg-transparent">
-                        Quantité fût
-                    </div>
-                    <div class="card-body bg-dark bg-opacity-10 text-center">
-                        <span id="quantite">~</span> %
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header bg-transparent">
-                        Puissance
-                    </div>
-                    <div class="card-body bg-dark bg-opacity-10 text-center">
-                        <span id="puissance">~</span> W
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header bg-transparent">
-                        CO2
-                    </div>
-                    <div class="card-body bg-dark bg-opacity-10 text-center">
-                        <span id="co2">~</span> g
-                    </div>
-                </div>
-            </td>
-            <td class="col-9 p-4">
-                <h1 class="text-center">Titre Info En Cours de Visualisation</h1>
-                <div class="card">
-                    <div class="card-body bg-dark pb-5">
-                        <h2 class="text-light text-center">Ici le Graph</h2>
-                    </div>
-                </div>
-
-                <table class="table table-borderless">
-                    <td class="col-6">
-                        <table class="table table-border">
-                            <td class="col-4">
-                                <h3>ÉTAT</h3>
-                            </td>
-                            <td class="col-8">
-                                <span id="diag">Pas d'annonce en cours</span>
-                            </td>
-                        </table>
-
-                        <h3 class="text-center">Information supplémentaire</h3>
-
-                        <div class="card">
-                            <div class="card-body bg-dark bg-opacity-10">
-                                <table class="table">
-                                    <td>
-                                        <canvas id="jaugeInt"></canvas>
-                                        Intérieur : <span id="tint2">~</span>°C
-                                    </td>
-                                    <td>
-                                        <canvas id="jaugeExt"></canvas>
-                                        Extérieur : <span id="text2">~</span>°C
-                                    </td>
-                                </table>
-                            </div>
+            <tr>
+                <td class="col-3" rowspan="2">
+                    <btn class="card mb-4" onclick="cacherTout('cardJauge')" style="cursor:pointer;">
+                        <div class="card-header bg-transparent">
+                            Température
                         </div>
+                        <div class="card-body bg-dark bg-opacity-10 text-center">
+                            Intérieur : <span id="tint">~</span>°C
+                            <br>
+                            Extérieur : <span id="text">~</span>°C
+                        </div>
+                    </btn>
+                    <div class="card mb-4" onclick="cacherTout('cardQuantite')" style="cursor:pointer;">
+                        <div class="card-header bg-transparent">
+                            Quantité fût
+                        </div>
+                        <div class="card-body bg-dark bg-opacity-10 text-center">
+                            <span id="quantite">~</span> %
+                        </div>
+                    </div>
+                    <div class="card mb-4" onclick="cacherTout('cardPuissance')" style="cursor:pointer;">
+                        <div class="card-header bg-transparent">
+                            Puissance
+                        </div>
+                        <div class="card-body bg-dark bg-opacity-10 text-center">
+                            <span id="puissance">~</span> W
+                        </div>
+                    </div>
+                    <div class="card mb-4" onclick="cacherTout('cardCo2')" style="cursor:pointer;">
+                        <div class="card-header bg-transparent">
+                            CO2
+                        </div>
+                        <div class="card-body bg-dark bg-opacity-10 text-center">
+                            <span id="co2">~</span> g
+                        </div>
+                    </div>
+                </td>
+                <td class="col-4 p-4" colspan="3">
 
-                        <div class="card">
-                            <div class="card-body bg-dark bg-opacity-10">
-                                <table class="table table-borderless">
-                                    <td>
+                    <h1 class="text-center">Titre Info En Cours de Visualisation</h1>
+                    <div class="card">
+                        <div class="card-body bg-dark pb-5">
+                            <h2 class="text-light text-center">Ici le Graph</h2>
+                        </div>
+                    </div>
+                </td>
+                
+            <tr>
+                <td class="col-5">
+                    <table class="table table-border">
+                        <td>
+                            <h3>ÉTAT</h3>
+                        </td>
+                        <td >
+                            <span id="diag">Pas d'annonce en cours</span>
+                        </td>
+                    </table>
+                
+                    <h3 class="text-center">Information supplémentaire</h3>
+
+                    <div class="card" id="cardJauge">
+                        <div class="card-body bg-dark bg-opacity-10">
+                            <table class="table">
+                                <td>
+                                    <canvas id="jaugeInt"></canvas>
+                                    Intérieur : <span id="tint2">~</span>°C
+                                </td>
+                                <td>
+                                    <canvas id="jaugeExt"></canvas>
+                                    Extérieur : <span id="text2">~</span>°C
+                                </td>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card" id="cardQuantite">
+                        <div class="card-body bg-dark bg-opacity-10">
+                            <table class="table table-borderless text-center">
+                                <tr>
+                                    <td class="col-6">
                                         Quantité en pourcentage
                                     </td>
                                     <td>
                                         Quantité en bières
                                     </td>
-                                </table>
-                            </div>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/beer.svg" width="30%"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="quantite2">~</span>%</td>
+                                    <td></td>
+                                </tr>
+                            </table>
                         </div>
+                    </div>
 
-                        <div class="card">
-                            <div class="card-body bg-dark bg-opacity-10">
-                                <h1>Éclair rempli en fonction de la puissance</h1>
+                    <div class="card" id="cardPuissance">
+                        <div class="card-body bg-dark bg-opacity-10">
+                            <div class="parent">
+                                <img class="image" src="img/lightning.png" width="20%">
+                                <img class="image2" id="image" src="img/lightning-y.png" width="20%">
                             </div>
+                            <div class="text-center"><span id="puissance2" class="text-center">~</span>W</div>
                         </div>
+                    </div>
 
-                        <div class="card">
-                            <div class="card-body bg-dark bg-opacity-10 h1 text-center">
-                                <img src="img/earth.png"  width="30%">
-                                <span id="co22">~</span>g
-                            </div>
+                    <div class="card" id="cardCo2">
+                        <div class="card-body bg-dark bg-opacity-10 h1 text-center">
+                            <img src="img/earth.png" width="30%">
+                            <span id="co22">~</span>g
                         </div>
-                    </td>
+                    </div>
+                </td>
 
-                    <td class="col-6">
-                        <div class="card mt-2 mb-3">
-                            <div class="card-header">
-                                <h3>Historique des pannes</h3>
-                            </div>
-                            <div class="card-body" style="overflow: scroll; max-height: 30rem;">
-                                <span id="histo"></span>
-                            </div>
+                <td class="col-6">
+                    <div class="card mt-2 mb-3">
+                        <div class="card-header">
+                            <h3>Pannes en cours</h3>
                         </div>
-                    </td>
-                </table>
+                        <div class="card-body">
 
-
-            </td>
+                        </div>
+                    </div>
+                </td>
+            </tr>
         </tbody>
+    </table>
+
+
+    </td>
+    </tbody>
     </table>
 </body>
 
@@ -180,7 +223,7 @@
     gaugeInt.setMinValue(0);  // Prefer setter over gauge.minValue = 0
     gaugeInt.animationSpeed = 32; // set animation speed (32 is default value)
 
-    
+
 </script>
 <script>
     var opts = {
@@ -206,8 +249,23 @@
     gaugeExt.maxValue = 40; // set max gauge value
     gaugeExt.setMinValue(0);  // Prefer setter over gauge.minValue = 0
     gaugeExt.animationSpeed = 32; // set animation speed (32 is default value)
-    
-    
+
+    this.document.getElementById("cardCo2").style.display = "none";
+    this.document.getElementById("cardPuissance").style.display = "none";
+    this.document.getElementById("cardQuantite").style.display = "none";
+
+    function cacher(){
+        console.log("test");
+    }
+
+    function cacherTout(nom){
+        this.document.getElementById("cardCo2").style.display = "none";
+        this.document.getElementById("cardPuissance").style.display = "none";
+        this.document.getElementById("cardQuantite").style.display = "none";
+        this.document.getElementById("cardJauge").style.display = "none";
+
+        this.document.getElementById(nom).style.display = "block";
+    }
 </script>
 
 </html>
