@@ -46,3 +46,11 @@ Backlog sprint :
 
 
 = 5. Méthode SCRUM
+- Retour d'expérience sprint 1 : +
+
+Durant ce premier sprint, nous avons mis en place le projet sur Github. Nous avons également réalisé les fonctionnalités `En tant qu'utilisateur je souhaite consulter les données de la tireuse en temps réel` et `Mise en place de l'infrastructure d'accès aux données`. Concernant la fonctionnalité `En tant qu'utilisateur je souhaite pouvoir consulter l'historique des données de la tireuse sur une période donnée`, nous avions commencé par la réaliser en partie avec Node-RED et l'autre partie avec NodeJS, mais finalement nous avons vu que nous pouvions tout faire en NodeJS donc nous avons perdu un peu de temps. Cette fonctionnalité est toujours en cours de réalisation, mais elle est pratiquement terminée. +
+Les fonctionnalités `En tant qu'utilisateur, je souhaite pouvoir accéder à une page contenant les pannes actuelles afin de pouvoir les corriger` et `En tant qu'utilisateur je souhaite être notifié lorsqu'une panne survient et connaître le type précis de la panne` viennent d'être commencées, et elles étaients prévues pour le sprint 2. +
+Nous sommes donc dans les temps pour terminer le projet, mais n'avons quasiment pas de marge pour du retard. +
+
+Concernant les difficultés, les technologies utilisées étaient nouvelles pour la majorité des membres de l'équipe, il fallait donc arriver à s'auto-former. Malgré ces difficultés, nous avons réussi nos premières fonctionnalités.
+
