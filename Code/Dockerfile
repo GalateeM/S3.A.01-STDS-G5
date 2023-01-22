@@ -11,4 +11,4 @@ RUN npm ci
 COPY . /
 CMD ["node", "server.js"]
 
-RUN docker pull timescale/timescaledb:latest-pg14
+RUN docker run -d --name timescaledb -p 5432:5432 -e POSTGRES_PASSWORD=password timescale/timescaledb:latest-pg14
