@@ -11,5 +11,4 @@ RUN npm ci
 COPY . /
 CMD ["node", "server.js"]
 
-
-RUN docker-compose up
+RUN docker pull timescale/timescaledb:latest-pg14
