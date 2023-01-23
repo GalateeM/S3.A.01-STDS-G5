@@ -53,8 +53,26 @@
     OneSignal.init({
       appId: "b86bb1c7-a686-4471-a3a7-07bf311b13db",
       safari_web_id: "web.onesignal.auto.201c9c11-2835-4563-82b9-55a6f9094e87",
+      welcomeNotification: {
+        "title": "PintVision",
+        "message": "Vous vous êtes bien inscrit aux notifications, merci !"
+        },
       notifyButton: {
         enable: true,
+        text: {
+            'tip.state.unsubscribed': 'Recevoir des notifications push',
+            'tip.state.subscribed': "Vous avez accepté de recevoir des notifications",
+            'tip.state.blocked': "Vous avez bloqué les notifications",
+            'message.prenotify': 'Cliquez pour recevoir des notifciations push',
+            'message.action.subscribed': "Merci d'avoir accepté les notifications !",
+            'message.action.resubscribed': "Vous avez accepté de recevoir des notifications",
+            'message.action.unsubscribed': "Vous ne recevrez plus de notification",
+            'dialog.main.title': 'Modifier les paramètres de notification',
+            'dialog.main.button.subscribe': 'Accepter les notifications',
+            'dialog.main.button.unsubscribe': 'Refuser les notifications',
+            'dialog.blocked.title': 'Débloquer les notifications',
+            'dialog.blocked.message': "Suivez ces instructions pour recevoir les notifications :"
+        }
       },
       allowLocalhostAsSecureOrigin: true,
       // Your other init options here
@@ -63,14 +81,15 @@
         prompts: [
           {
             type: "push", // current types are "push" & "category"
-            autoPrompt: false,
+            autoPrompt: true,
+            timeDelay: 5,
             text: {
               /* limited to 90 characters */
-              actionMessage: "We'd like to show you notifications for the latest news and updates.",
+              actionMessage: "Voulez-vous recevoir des notifications concernant l'état de la tireuse ?",
               /* acceptButton limited to 15 characters */
-              acceptButton: "Allow",
+              acceptButton: "Accepter",
               /* cancelButton limited to 15 characters */
-              cancelButton: "Cancel"
+              cancelButton: "Refuser"
             },
             delay: {
               pageViews: 1,
@@ -82,9 +101,7 @@
     }
     });
   });
-  OneSignal.push(function() {
-  OneSignal.showSlidedownPrompt();
-});
+
 </script>
 
 <nav class="navbar bg-warning">
