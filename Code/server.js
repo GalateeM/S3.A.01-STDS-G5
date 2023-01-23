@@ -10,140 +10,6 @@ app.use(express.static('public'));
 const io = require("socket.io")(server);
 
 /**
- * MQTT
- */
-
-const client = mqtt.connect(process.env.MQTT_URL, {
-  username: process.env.MQTT_USERNAME,
-  password: process.env.MQTT_PASSWORD,
-})
-
-client.on("connect", () => {
-    console.log('MQTT - Connected')
-
-    client.subscribe(["STDS/#"], () => {
-        console.log(`MQTT - Subscribed to all topics`)
-    })
-})
-
-client.on("message", (topic, payload) => {
-
-  sequelize.authenticate().then(() => {
-    // Récupération de toutes les données de la table Puissance
-    const puissances = Puissance.findAll(
-      {
-        // Tri par date croissante
-        order : [["dateInsertion", "ASC"]]
-      }
-    ).then((res) => {  
-      let datas = [];  
-      var j = 0;
-      var moyenne = 0;
-      // Pour chaque donnée récupérée
-      for (let i = 0; i<res.length - 1; i++)
-      {
-        // Si j est inférieur à 50, on additionne les données
-        if (j<50)
-        {
-          moyenne += res[i].data;
-          j++;
-        }
-        // Sinon
-        else
-        {
-          j = 0;
-          // Récupération et formatage de la date
-          var date = res[i].dateInsertion;
-          date.setHours(date.getHours() + 1);
-          // Création d'un dictionnaire avec la dateInsertion et la moyenne des données
-          var dict = {"dateInsertion" : date.toLocaleTimeString("fr-FR"), "data" : moyenne/50};
-          datas.push(dict);
-          moyenne = res[i].data;
-        }
-      }
-      // Emission
-      io.emit("PuissanceHistorique", datas);
-    })    
-  })
-
-  let data = payload.toString()
-
-  try {
-    data = JSON.parse(data)
-  } catch(e) {}
-
-  io.emit(topic, data)
-
-  //Insertion of data into timescale tables for history
-  sequelize.sync().then(() => {
-    let topicSplit = topic.split('/');
-    let dataName = topicSplit[topicSplit.length-1];
-    switch (dataName) {
-      case 'T1':
-        const temp1 = TemperatureT1.create({
-          dateInsertion: Date.now(),
-          data: data,
-         });
-        break;
-      case 'T2':
-        const temp2 = TemperatureT2.create({
-          dateInsertion: Date.now(),
-          data: data,
-         });
-        break;
-      case 'Puissance':
-        const puissance = Puissance.create({
-          dateInsertion: Date.now(),
-          data: data,
-         });
-        break;
-      case 'Niveau':
-        const niveau = Niveau.create({
-          dateInsertion: Date.now(),
-          data: data,
-        });
-        break;
-      case 'Diag':
-        const diag = Diag.create({
-          dateInsertion: Date.now(),
-          data: data,
-        });
-        break;
-      case 'CO2':
-        const co2 = CO2.create({
-          dateInsertion: Date.now(),
-          data: data,
-        });
-        break;
-      default:
-        console.log('Nom de donnée non reconnu'+dataName);
-    }
-  
-  
-  
-  }).catch((error) => {
-    console.error('Unable to create the tables : ', error);
-  });
-
-})
-
-/**
- * SOCKET IO
- */
-
-io.on('connection', (socket) => {
-  console.log('WS - User Connected');
-
-  socket.on('disconnect', () => {
-    console.log('WS - User Disconnected');
-  });
-});
-
-server.listen(process.env.APP_PORT, () => {
-  console.log(`HTTP - Listening on *:${process.env.APP_PORT}`);
-});
-
-/**
  * Connexion to TimeScale DB
  */
 
@@ -226,6 +92,148 @@ const Puissance = sequelize.define('Puissance', {
   data : DataTypes.FLOAT
 });
 
+
+const initServer = async () => {
+  /**
+   * MQTT
+   */
+
+  const client = mqtt.connect(process.env.MQTT_URL, {
+    username: process.env.MQTT_USERNAME,
+    password: process.env.MQTT_PASSWORD,
+  })
+
+  client.on("connect", () => {
+      console.log('MQTT - Connected')
+
+      client.subscribe(["STDS/#"], () => {
+          console.log(`MQTT - Subscribed to all topics`)
+      })
+  })
+
+  client.on("message", (topic, payload) => {
+
+    sequelize.authenticate().then(() => {
+      // Récupération de toutes les données de la table Puissance
+      const puissances = Puissance.findAll(
+        {
+          // Tri par date croissante
+          order : [["dateInsertion", "ASC"]]
+        }
+      ).then((res) => {  
+        let datas = [];  
+        var j = 0;
+        var moyenne = 0;
+        // Pour chaque donnée récupérée
+        for (let i = 0; i<res.length - 1; i++)
+        {
+          // Si j est inférieur à 50, on additionne les données
+          if (j<50)
+          {
+            moyenne += res[i].data;
+            j++;
+          }
+          // Sinon
+          else
+          {
+            j = 0;
+            // Récupération et formatage de la date
+            var date = res[i].dateInsertion;
+            date.setHours(date.getHours() + 1);
+            // Création d'un dictionnaire avec la dateInsertion et la moyenne des données
+            var dict = {"dateInsertion" : date.toLocaleTimeString("fr-FR"), "data" : moyenne/50};
+            datas.push(dict);
+            moyenne = res[i].data;
+          }
+        }
+        // Emission
+        io.emit("PuissanceHistorique", datas);
+      })    
+    })
+
+    let data = payload.toString()
+
+    try {
+      data = JSON.parse(data)
+    } catch(e) {}
+
+    io.emit(topic, data)
+
+    //Insertion of data into timescale tables for history
+    sequelize.sync().then(() => {
+      let topicSplit = topic.split('/');
+      let dataName = topicSplit[topicSplit.length-1];
+      switch (dataName) {
+        case 'T1':
+          const temp1 = TemperatureT1.create({
+            dateInsertion: Date.now(),
+            data: data,
+          });
+          break;
+        case 'T2':
+          const temp2 = TemperatureT2.create({
+            dateInsertion: Date.now(),
+            data: data,
+          });
+          break;
+        case 'Puissance':
+          const puissance = Puissance.create({
+            dateInsertion: Date.now(),
+            data: data,
+          });
+          break;
+        case 'Niveau':
+          const niveau = Niveau.create({
+            dateInsertion: Date.now(),
+            data: data,
+          });
+          break;
+        case 'Diag':
+          const diag = Diag.create({
+            dateInsertion: Date.now(),
+            data: data,
+          });
+          break;
+        case 'CO2':
+          const co2 = CO2.create({
+            dateInsertion: Date.now(),
+            data: data,
+          });
+          break;
+        default:
+          console.log('Nom de donnée non reconnu'+dataName);
+      }
+    
+    
+    
+    }).catch((error) => {
+      console.error('Unable to create the tables : ', error);
+    });
+
+  })
+
+  /**
+   * SOCKET IO
+   */
+
+  io.on('connection', (socket) => {
+    console.log('WS - User Connected');
+
+    socket.on('disconnect', () => {
+      console.log('WS - User Disconnected');
+    });
+  });
+
+  server.listen(process.env.APP_PORT, () => {
+    console.log(`HTTP - Listening on *:${process.env.APP_PORT}`);
+  });
+}
+
+(async() => {
+  await sequelize.sync({ force: true })
+  await sequelize.authenticate()
+  await initServer()
+})()
 
 /** 
  * APP
