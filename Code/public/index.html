@@ -47,56 +47,55 @@
 </head>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
-  window.OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "b86bb1c7-a686-4471-a3a7-07bf311b13db",
-      safari_web_id: "web.onesignal.auto.201c9c11-2835-4563-82b9-55a6f9094e87",
-      notifyButton: {
-        enable: true,
-      },
-      allowLocalhostAsSecureOrigin: true,
-      // Your other init options here
-    promptOptions: {
-      slidedown: {
-        prompts: [
-          {
-            type: "push", // current types are "push" & "category"
-            autoPrompt: false,
-            text: {
-              /* limited to 90 characters */
-              actionMessage: "We'd like to show you notifications for the latest news and updates.",
-              /* acceptButton limited to 15 characters */
-              acceptButton: "Allow",
-              /* cancelButton limited to 15 characters */
-              cancelButton: "Cancel"
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+        OneSignal.init({
+            appId: "b86bb1c7-a686-4471-a3a7-07bf311b13db",
+            safari_web_id: "web.onesignal.auto.201c9c11-2835-4563-82b9-55a6f9094e87",
+            notifyButton: {
+                enable: true,
             },
-            delay: {
-              pageViews: 1,
-              timeDelay: 20
+            allowLocalhostAsSecureOrigin: true,
+            // Your other init options here
+            promptOptions: {
+                slidedown: {
+                    prompts: [
+                        {
+                            type: "push", // current types are "push" & "category"
+                            autoPrompt: false,
+                            text: {
+                                /* limited to 90 characters */
+                                actionMessage: "We'd like to show you notifications for the latest news and updates.",
+                                /* acceptButton limited to 15 characters */
+                                acceptButton: "Allow",
+                                /* cancelButton limited to 15 characters */
+                                cancelButton: "Cancel"
+                            },
+                            delay: {
+                                pageViews: 1,
+                                timeDelay: 20
+                            }
+                        }
+                    ]
+                }
             }
-          }
-        ]
-      }
-    }
+        });
     });
-  });
-  OneSignal.push(function() {
-  OneSignal.showSlidedownPrompt();
-});
+    OneSignal.push(function () {
+        OneSignal.showSlidedownPrompt();
+    });
 </script>
 
-<nav class="navbar bg-warning">
-    <ul class="bg-transparent text-center">
-        <li><a href="https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5" target="_blank"><i
-                    class="fab fa-github"></i></a></li>
-        <li class="fw-bold">PintVision</li>
-        <li><a href="/index.html">Accueil</a></li>
-        <li><a href="/maintenance.html">Maintenance</a></li>
-    </ul>
-</nav>
-
 <body>
+    <nav class="navbar bg-warning">
+        <ul class="bg-transparent text-center">
+            <li><a href="https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5" target="_blank"><i
+                        class="fab fa-github"></i></a></li>
+            <li class="fw-bold">PintVision</li>
+            <li><a href="/index.html">Accueil</a></li>
+            <li><a href="/maintenance.html">Maintenance</a></li>
+        </ul>
+    </nav>
 
     <table class="table table-bordered">
         <tbody>
@@ -146,18 +145,18 @@
                         </div>
                     </div>
                 </td>
-                
+
             <tr>
                 <td class="col-5">
                     <table class="table table-border">
                         <td>
                             <h3>ÉTAT</h3>
                         </td>
-                        <td >
+                        <td>
                             <span id="diag">Pas d'annonce en cours</span>
                         </td>
                     </table>
-                
+
                     <h3 class="text-center">Information supplémentaire</h3>
 
                     <div class="card" id="cardJauge">
@@ -230,7 +229,7 @@
         </tbody>
     </table>
 
-    
+
 
     </td>
     </tbody>
@@ -296,7 +295,7 @@
     gaugeExt.animationSpeed = 32; // set animation speed (32 is default value)
 
 
-    function cacherTout(nom){
+    function cacherTout(nom) {
         this.document.getElementById("cardCo2").style.display = "none";
         this.document.getElementById("cardPuissance").style.display = "none";
         this.document.getElementById("cardQuantite").style.display = "none";
@@ -304,7 +303,7 @@
 
         titre = "";
 
-        switch(nom){
+        switch (nom) {
             case "cardCo2":
                 titre = "CO2"
                 break;
@@ -314,7 +313,7 @@
             case "cardQuantite":
                 titre = "Quantité restante"
                 break;
-            case "cardJauge": 
+            case "cardJauge":
                 titre = "Température"
                 break
         }
@@ -327,24 +326,24 @@
 <script>
     // Diagramme pour l'historique de la puissance
     socket.on("PuissanceHistorique", (arg) => {
-    new Chart(
-        document.getElementById('PuissanceHistorique'),
-        {
-          type: 'line',
-          data: {
-            labels: arg.map(row => row.dateInsertion),
-            datasets: [
-              {
-                label: 'Historique de la puissance',
-                data: arg.map(row => row.data),
-                borderWidth : 1,
-                pointRadius : 0
-              }
-            ]
-          }
-        }
-      );
-});
+        new Chart(
+            document.getElementById('PuissanceHistorique'),
+            {
+                type: 'line',
+                data: {
+                    labels: arg.map(row => row.dateInsertion),
+                    datasets: [
+                        {
+                            label: 'Historique de la puissance',
+                            data: arg.map(row => row.data),
+                            borderWidth: 1,
+                            pointRadius: 0
+                        }
+                    ]
+                }
+            }
+        );
+    });
 </script>
 
 </html>
