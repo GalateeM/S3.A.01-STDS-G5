@@ -28,6 +28,63 @@
             <li><a href="/maintenance.html">Maintenance</a></li>
         </ul>
     </nav>
+
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-3" rowspan="2">
+                    <div id="docs_list" style="height: calc(100vh - 120px); overflow: auto;"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-9 position-sticky top-0">
+                    <h1 class="text-center" id="file_name">~</h1>
+
+                    <iframe style="width: 100%; height: calc(100vh - 180px);"></iframe>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        const docs = []
+
+        function showDoc(idx) {
+            document.querySelector("#file_name").textContent = docs[idx].name;
+            document.querySelector("iframe").src = `/doc/${docs[idx].file}`;
+        }
+
+        function addDoc(name, file) {
+            const idx = docs.push({ name, file })
+            document.querySelector("#docs_list").innerHTML += `
+            <div class="card mb-2">
+                <div class="card-header">
+                    ${name}
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-primary" onclick='showDoc(${idx - 1})'>Prévisualiser</a>
+                    <a href="/doc/${file}" target="_blank" class="btn btn-primary">Ouvrir</a>
+                </div>
+            </div>
+            `;
+        }
+
+        addDoc("Notice d'utilisation", "STDS_notice_utilisation.pdf");
+        // addDoc("Manuel de service", "STDS_notice_utilisation.pdf");
+        addDoc("Plan Maintenance préventive", "Plan_de_maintenance_STDS.pdf");
+        addDoc("Maintenance préventive - Gamme 1", "Gamme de maintenance CC-LLBH-01.pdf");
+        addDoc("Maintenance préventive - Gamme 2", "Gamme de maintenance CC-LLBH-02.pdf");
+        addDoc("Maintenance Curative - Gamme 1", "Gamme de maintenance CC-LLBH-11.pdf");
+        addDoc("Maintenance Curative - Gamme 2", "Gamme de maintenance CC-LLBH-12.pdf");
+        addDoc("Maintenance Curative - Gamme 3", "Gamme de maintenance CC-LLBH-13.pdf");
+        addDoc("Maintenance Curative - Gamme 4", "Gamme de maintenance CC-LLBH-14.pdf");
+        addDoc("Maintenance Curative - Gamme 5", "Gamme de maintenance CC-LLBH-15.pdf");
+        addDoc("Maintenance Curative - Gamme 6", "Gamme de maintenance CC-LLBH-16.pdf");
+        
+        showDoc(0)
+    </script>
 </body>
 
 </html>
