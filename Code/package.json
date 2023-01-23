@@ -13,6 +13,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mqtt": "^4.3.7",
+    "onesignal-node": "^3.4.0",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.28.0",

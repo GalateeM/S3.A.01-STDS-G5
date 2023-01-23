@@ -244,3 +244,30 @@ app.get("/liste-pannes", (req, res) => {
     foo: "bar"
   })
 })
+
+/**
+ * Notifications
+ */
+function sendNotification() {
+  console.log("===============================================================");
+  const OneSignal = require('onesignal-node');  
+  const client = new OneSignal.Client('b86bb1c7-a686-4471-a3a7-07bf311b13db', 'YjFhZjAwZDMtMTYyOC00Y2UwLTg3MzktYTJmYzRlZjllMDIx');
+
+  console.log(client);
+  console.log("==========================================================");
+
+  const notification = {
+  contents: {
+      'tr': 'Yeni bildirim',
+      'en': 'New notification',
+  },
+  included_segments: ['Subscribed Users']
+  };
+
+  client.createNotification(notification)
+  .then(response =>  console.log(response))
+  .catch(e => {});
+}
+
+console.log("#####################ICI##########################################");
+sendNotification();
