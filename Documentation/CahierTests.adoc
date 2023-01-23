@@ -1,4 +1,4 @@
-= Cahier de Tests - Version 3
+= Cahier de Tests
 :toc:
 :toc-title: Sommaire
 
