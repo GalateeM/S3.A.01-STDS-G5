@@ -54,3 +54,14 @@ Nous sommes donc dans les temps pour terminer le projet, mais n'avons quasiment 
 
 Concernant les difficultés, les technologies utilisées étaient nouvelles pour la majorité des membres de l'équipe, il fallait donc arriver à s'auto-former. Malgré ces difficultés, nous avons réussi nos premières fonctionnalités.
 
+
+=== retour sprint semaine 3
+
+Documentations ok 
+Tests ok (pourquoi version 3 ?)
+
+Backlog produit :  attention il manque la finalité de vos US (afin de ...). Les US sont mal créées sous Github je n'ai pas le label US et les tâches liées entre autre. Revoir la vidéo.
+
+Backlog sprint :  votre lien ne marche pas ... je ne trouve pas votre srintboard 3 et le futur sprintboard 4.
+
+CR ok ... bon courage ... j'espère avoir une release à la fin de la semaine car rien à la fin du sprint 3 ...
