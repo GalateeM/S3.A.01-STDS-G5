@@ -83,7 +83,9 @@ image:Images/insertion_données.png[width=50%,height=50%]
 
 === b) Visualisation des données 
 
-La page principale permet d'obtenir les différentes données que met à disposition MQTT et en temps réel, grâce à l'utilisation du JS. Lorsqu'on arrive sur le site, on retrouve différentes sections. 
+La page principale permet d'obtenir les différentes données. Nous considérons 2 types, les données en temps réel, et l'historique. Pour ce qui est des données en temps réel, elles sont retransmises par le serveur Node.js avec lequel le client ouvre une connexion WebSocket. Le serveur Node.js étant connecté en direct avec le flux MQTT, à la réception d'une donnée, elle est automatiquement redirigée à tous les clients connectés en WebSocket. En plus de la retransmission en direct, les données sont enregistrées dans la base de donnéées afin d'en construire l'historique par la suite.
+
+Lorsqu'on arrive sur le site, on retrouve différentes sections. 
 
 A gauche : Différentes cases permettant de retrouver les valeurs concernant la Température, la Quantité du fût, la Puissance et la consommation en CO2. 
 
@@ -96,4 +98,3 @@ En dessous, l'état de l'apparareil, il permet d'afficher les problèmes / panne
 Sur le bas de la page, un affichage plus spécifique des informations mises à dispositions, avec un système de jauge dynamique ou logo évoluant en fonction de l'état de la donnée. 
 
 On retrouve enfin sur la droite, un historique des pannes en cours, celles mesurées par le MQTT. 
-
