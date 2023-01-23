@@ -13,20 +13,20 @@ const io = require("socket.io")(server);
  * Connexion to TimeScale DB
  */
 
-const {Sequelize, DataTypes}  = require('sequelize')
+const { Sequelize, DataTypes } = require('sequelize')
 const sequelize = new Sequelize('postgres://timescale:password@timescaledb:5432/postgres',
-    {
-        dialect: 'postgres',
-        protocol: 'postgres',
-        dialectOptions: {
-        }
-    })
+  {
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+    }
+  })
 
-  sequelize.authenticate().then(() => {
-      console.log('Connection has been established successfully.');
-  }).catch(err => {
-      console.error('Unable to connect to the database:', err);
-  });
+sequelize.authenticate().then(() => {
+  console.log('Connection has been established successfully.');
+}).catch(err => {
+  console.error('Unable to connect to the database:', err);
+});
 
 /**
  * Creation of tables in TimeScale DB
@@ -39,7 +39,7 @@ const TemperatureT1 = sequelize.define('TemperatureT1', {
     autoIncrement: true // Automatically gets converted to SERIAL for postgres
   },
   dateInsertion: DataTypes.DATE,
-  data : DataTypes.FLOAT
+  data: DataTypes.FLOAT
 });
 
 const TemperatureT2 = sequelize.define('TemperatureT2', {
@@ -49,7 +49,7 @@ const TemperatureT2 = sequelize.define('TemperatureT2', {
     autoIncrement: true // Automatically gets converted to SERIAL for postgres
   },
   dateInsertion: DataTypes.DATE,
-  data : DataTypes.FLOAT
+  data: DataTypes.FLOAT
 });
 
 const Niveau = sequelize.define('Niveau', {
@@ -59,7 +59,7 @@ const Niveau = sequelize.define('Niveau', {
     autoIncrement: true // Automatically gets converted to SERIAL for postgres
   },
   dateInsertion: DataTypes.DATE,
-  data : DataTypes.INTEGER
+  data: DataTypes.INTEGER
 });
 
 const CO2 = sequelize.define('CO2', {
@@ -69,7 +69,7 @@ const CO2 = sequelize.define('CO2', {
     autoIncrement: true // Automatically gets converted to SERIAL for postgres
   },
   dateInsertion: DataTypes.DATE,
-  data : DataTypes.FLOAT
+  data: DataTypes.FLOAT
 });
 
 const Diag = sequelize.define('Diag', {
@@ -79,7 +79,7 @@ const Diag = sequelize.define('Diag', {
     autoIncrement: true // Automatically gets converted to SERIAL for postgres
   },
   dateInsertion: DataTypes.DATE,
-  data : DataTypes.TEXT
+  data: DataTypes.TEXT
 });
 
 const Puissance = sequelize.define('Puissance', {
@@ -89,7 +89,7 @@ const Puissance = sequelize.define('Puissance', {
     autoIncrement: true // Automatically gets converted to SERIAL for postgres
   },
   dateInsertion: DataTypes.DATE,
-  data : DataTypes.FLOAT
+  data: DataTypes.FLOAT
 });
 
 
@@ -104,65 +104,93 @@ const initServer = async () => {
   })
 
   client.on("connect", () => {
-      console.log('MQTT - Connected')
+    console.log('MQTT - Connected')
 
-      client.subscribe(["STDS/#"], () => {
-          console.log(`MQTT - Subscribed to all topics`)
-      })
+    client.subscribe(["STDS/#"], () => {
+      console.log(`MQTT - Subscribed to all topics`)
+    })
   })
 
   client.on("message", (topic, payload) => {
 
+    // Historique puissance
     sequelize.authenticate().then(() => {
-      // Récupération de toutes les données de la table Puissance
       const puissances = Puissance.findAll(
         {
-          // Tri par date croissante
-          order : [["dateInsertion", "ASC"]]
+          order: [["dateInsertion", "ASC"]]
         }
-      ).then((res) => {  
-        let datas = [];  
+      ).then((res) => {
+        let datas = [];
         var j = 0;
         var moyenne = 0;
-        // Pour chaque donnée récupérée
-        for (let i = 0; i<res.length - 1; i++)
-        {
-          // Si j est inférieur à 50, on additionne les données
-          if (j<50)
-          {
-            moyenne += res[i].data;
-            j++;
-          }
-          // Sinon
-          else
-          {
-            j = 0;
-            // Récupération et formatage de la date
-            var date = res[i].dateInsertion;
-            date.setHours(date.getHours() + 1);
-            // Création d'un dictionnaire avec la dateInsertion et la moyenne des données
-            var dict = {"dateInsertion" : date.toLocaleTimeString("fr-FR"), "data" : moyenne/50};
-            datas.push(dict);
-            moyenne = res[i].data;
+        for (let i = 0; i < res.length - 1; i++) {
+          var dateMin = res[res.length - 1].dateInsertion;
+          dateMin.setHours(dateMin.getHours() - 6);
+          if (res[i].dateInsertion >= dateMin) {
+            if (j < 50) {
+              moyenne += res[i].data;
+              j++;
+            }
+            else {
+              j = 0;
+              var date = res[i].dateInsertion;
+              date.setHours(date.getHours() + 1);
+              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+              datas.push(dict);
+              moyenne = res[i].data;
+            }
           }
         }
         // Emission
         io.emit("PuissanceHistorique", datas);
-      })    
+      })
+    })
+
+    // Historique niveau
+    sequelize.authenticate().then(() => {
+      const niveaux = Niveau.findAll(
+        {
+          order: [["dateInsertion", "ASC"]]
+        }
+      ).then((res) => {
+        let datas = [];
+        var j = 0;
+        var moyenne = 0;
+        for (let i = 0; i < res.length - 1; i++) {
+          var dateMin = res[res.length - 1].dateInsertion;
+          dateMin.setHours(dateMin.getHours() - 6);
+          if (res[i].dateInsertion >= dateMin) {
+            if (j < 50) {
+              moyenne += res[i].data;
+              j++;
+            }
+            else {
+              j = 0;
+              var date = res[i].dateInsertion;
+              date.setHours(date.getHours() + 1);
+              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+              datas.push(dict);
+              moyenne = res[i].data;
+            }
+          }
+        }
+        // Emission
+        io.emit("NiveauHistorique", datas);
+      })
     })
 
     let data = payload.toString()
 
     try {
       data = JSON.parse(data)
-    } catch(e) {}
+    } catch (e) { }
 
     io.emit(topic, data)
 
     //Insertion of data into timescale tables for history
     sequelize.sync().then(() => {
       let topicSplit = topic.split('/');
-      let dataName = topicSplit[topicSplit.length-1];
+      let dataName = topicSplit[topicSplit.length - 1];
       switch (dataName) {
         case 'T1':
           const temp1 = TemperatureT1.create({
@@ -201,11 +229,11 @@ const initServer = async () => {
           });
           break;
         default:
-          console.log('Nom de donnée non reconnu'+dataName);
+          console.log('Nom de donnée non reconnu' + dataName);
       }
-    
-    
-    
+
+
+
     }).catch((error) => {
       console.error('Unable to create the tables : ', error);
     });
@@ -229,7 +257,7 @@ const initServer = async () => {
   });
 }
 
-(async() => {
+(async () => {
   await sequelize.sync({ force: true })
   await sequelize.authenticate()
   await initServer()
