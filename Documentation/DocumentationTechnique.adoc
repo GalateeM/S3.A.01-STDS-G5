@@ -85,6 +85,10 @@ image:Images/insertion_données.png[width=50%,height=50%]
 
 La page principale permet d'obtenir les différentes données que met à disposition MQTT et en temps réel, grâce à l'utilisation du JS. Lorsqu'on arrive sur le site, on retrouve différentes sections. 
 - A gauche : Différentes cases permettant de retrouver les valeurs concernant la Température, la Quantité du fût, la Puissance et la consommation en CO2. 
+
 - Sur le reste de la page, des informations supplémentaires en fonction du type de données qu'on a sélectionné sur les cases à gauche (par défaut, sur Température). 
-On retrouve en haut un historique sous forme de graphique. En dessous, l'état de l'apparareil, il permet d'afficher les problèmes / pannes en cours comme "Température élevée de la bière !". Sur le bas de la page, un affichage plus spécifique des informations mises à dispositions, avec un système de jauge dynamique ou logo évoluant en fonction de l'état de la donnée. On retrouve enfin sur la droite, un historique des pannes en cours, celles mesurées par le MQTT. 
+On retrouve en haut un historique sous forme de graphique. 
+En dessous, l'état de l'apparareil, il permet d'afficher les problèmes / pannes en cours comme "Température élevée de la bière !". 
+Sur le bas de la page, un affichage plus spécifique des informations mises à dispositions, avec un système de jauge dynamique ou logo évoluant en fonction de l'état de la donnée. 
+On retrouve enfin sur la droite, un historique des pannes en cours, celles mesurées par le MQTT. 
 
