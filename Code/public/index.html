@@ -158,6 +158,8 @@
                     <div class="card">
                         <div class="card-body bg-dark pb-5" style="max-height:75%">
                             <canvas id="PuissanceHistorique"></canvas>
+                            <canvas id="NiveauHistorique"></canvas>
+                            <canvas id="CO2Historique"></canvas>
                         </div>
                     </div>
                 </td>
@@ -318,17 +320,24 @@
         this.document.getElementById("cardQuantite").style.display = "none";
         this.document.getElementById("cardJauge").style.display = "none";
 
+        this.document.getElementById("CO2Historique").style.display = "none";
+        this.document.getElementById("PuissanceHistorique").style.display = "none";
+        this.document.getElementById("NiveauHistorique").style.display = "none";
+
         titre = "";
 
         switch (nom) {
             case "cardCo2":
                 titre = "CO2"
+                this.document.getElementById("CO2Historique").style.display = "block";
                 break;
             case "cardPuissance":
                 titre = "Consommation"
+                this.document.getElementById("PuissanceHistorique").style.display = "block";
                 break;
             case "cardQuantite":
                 titre = "Quantité restante"
+                this.document.getElementById("NiveauHistorique").style.display = "block";
                 break;
             case "cardJauge":
                 titre = "Température"
@@ -341,6 +350,30 @@
 </script>
 
 <script>
+    // Diagramme pour l'historique du Co2
+    socket.on("CO2Historique", (arg) => {
+        new Chart(
+            document.getElementById('CO2Historique'),
+            {
+                type: 'line',
+                data: {
+                    labels: arg.map(row => row.dateInsertion),
+                    datasets: [
+                        {
+                            label: 'Historique du Co2',
+                            data: arg.map(row => row.data),
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            backgroundColor: '#FFC107',
+                            borderColor: '#FFC107'
+                        }
+                    ]
+                }
+            }
+        );
+        this.document.getElementById("CO2Historique").style.display = "none";
+    });
+
     // Diagramme pour l'historique de la puissance
     socket.on("PuissanceHistorique", (arg) => {
         new Chart(
@@ -354,12 +387,39 @@
                             label: 'Historique de la puissance',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
-                            pointRadius: 0
+                            pointRadius: 0,
+                            backgroundColor: '#FFC107',
+                            borderColor: '#FFC107'
                         }
                     ]
                 }
             }
         );
+        document.getElementById('PuissanceHistorique').style.display = "none";
+    });
+
+    // Diagramme pour l'historique du niveau
+    socket.on("NiveauHistorique", (arg) => {
+        new Chart(
+            document.getElementById('NiveauHistorique'),
+            {
+                type: 'line',
+                data: {
+                    labels: arg.map(row => row.dateInsertion),
+                    datasets: [
+                        {
+                            label: 'Historique du niveau',
+                            data: arg.map(row => row.data),
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            backgroundColor: '#FFC107',
+                            borderColor: '#FFC107'
+                        }
+                    ]
+                }
+            }
+        );
+        this.document.getElementById("NiveauHistorique").style.display = "none";
     });
 </script>
 

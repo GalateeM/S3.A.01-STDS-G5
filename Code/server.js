@@ -179,6 +179,39 @@ const initServer = async () => {
       })
     })
 
+    // Historique Co2
+    sequelize.authenticate().then(() => {
+      const co2 = CO2.findAll(
+        {
+          order: [["dateInsertion", "ASC"]]
+        }
+      ).then((res) => {
+        let datas = [];
+        var j = 0;
+        var moyenne = 0;
+        for (let i = 0; i < res.length - 1; i++) {
+          var dateMin = res[res.length - 1].dateInsertion;
+          dateMin.setHours(dateMin.getHours() - 6);
+          if (res[i].dateInsertion >= dateMin) {
+            if (j < 50) {
+              moyenne += res[i].data;
+              j++;
+            }
+            else {
+              j = 0;
+              var date = res[i].dateInsertion;
+              date.setHours(date.getHours() + 1);
+              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+              datas.push(dict);
+              moyenne = res[i].data;
+            }
+          }
+        }
+        // Emission
+        io.emit("CO2Historique", datas);
+      })
+    })
+
     let data = payload.toString()
 
     try {
@@ -278,23 +311,23 @@ app.get("/liste-pannes", (req, res) => {
  */
 function sendNotification() {
   console.log("===============================================================");
-  const OneSignal = require('onesignal-node');  
+  const OneSignal = require('onesignal-node');
   const client = new OneSignal.Client('b86bb1c7-a686-4471-a3a7-07bf311b13db', 'YjFhZjAwZDMtMTYyOC00Y2UwLTg3MzktYTJmYzRlZjllMDIx');
 
   console.log(client);
   console.log("==========================================================");
 
   const notification = {
-  contents: {
+    contents: {
       'tr': 'Yeni bildirim',
       'en': 'New notification',
-  },
-  included_segments: ['Subscribed Users']
+    },
+    included_segments: ['Subscribed Users']
   };
 
   client.createNotification(notification)
-  .then(response =>  console.log(response))
-  .catch(e => {});
+    .then(response => console.log(response))
+    .catch(e => { });
 }
 
 console.log("#####################ICI##########################################");
