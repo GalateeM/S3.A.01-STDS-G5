@@ -47,54 +47,54 @@
 </head>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
-  window.OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "b86bb1c7-a686-4471-a3a7-07bf311b13db",
-      safari_web_id: "web.onesignal.auto.201c9c11-2835-4563-82b9-55a6f9094e87",
-      welcomeNotification: {
-        "title": "PintVision",
-        "message": "Vous vous êtes bien inscrit aux notifications, merci !"
-        },
-      notifyButton: {
-        enable: true,
-        text: {
-            'tip.state.unsubscribed': 'Recevoir des notifications push',
-            'tip.state.subscribed': "Vous avez accepté de recevoir des notifications",
-            'tip.state.blocked': "Vous avez bloqué les notifications",
-            'message.prenotify': 'Cliquez pour recevoir des notifciations push',
-            'message.action.subscribed': "Merci d'avoir accepté les notifications !",
-            'message.action.resubscribed': "Vous avez accepté de recevoir des notifications",
-            'message.action.unsubscribed': "Vous ne recevrez plus de notification",
-            'dialog.main.title': 'Modifier les paramètres de notification',
-            'dialog.main.button.subscribe': 'Accepter les notifications',
-            'dialog.main.button.unsubscribe': 'Refuser les notifications',
-            'dialog.blocked.title': 'Débloquer les notifications',
-            'dialog.blocked.message': "Suivez ces instructions pour recevoir les notifications :"
-        }
-      },
-      allowLocalhostAsSecureOrigin: true,
-      // Your other init options here
-    promptOptions: {
-      slidedown: {
-        prompts: [
-          {
-            type: "push", // current types are "push" & "category"
-            autoPrompt: true,
-            timeDelay: 5,
-            text: {
-              /* limited to 90 characters */
-              actionMessage: "Voulez-vous recevoir des notifications concernant l'état de la tireuse ?",
-              /* acceptButton limited to 15 characters */
-              acceptButton: "Accepter",
-              /* cancelButton limited to 15 characters */
-              cancelButton: "Refuser"
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+        OneSignal.init({
+            appId: "b86bb1c7-a686-4471-a3a7-07bf311b13db",
+            safari_web_id: "web.onesignal.auto.201c9c11-2835-4563-82b9-55a6f9094e87",
+            welcomeNotification: {
+                "title": "PintVision",
+                "message": "Vous vous êtes bien inscrit aux notifications, merci !"
+            },
+            notifyButton: {
+                enable: true,
+                text: {
+                    'tip.state.unsubscribed': 'Recevoir des notifications push',
+                    'tip.state.subscribed': "Vous avez accepté de recevoir des notifications",
+                    'tip.state.blocked': "Vous avez bloqué les notifications",
+                    'message.prenotify': 'Cliquez pour recevoir des notifciations push',
+                    'message.action.subscribed': "Merci d'avoir accepté les notifications !",
+                    'message.action.resubscribed': "Vous avez accepté de recevoir des notifications",
+                    'message.action.unsubscribed': "Vous ne recevrez plus de notification",
+                    'dialog.main.title': 'Modifier les paramètres de notification',
+                    'dialog.main.button.subscribe': 'Accepter les notifications',
+                    'dialog.main.button.unsubscribe': 'Refuser les notifications',
+                    'dialog.blocked.title': 'Débloquer les notifications',
+                    'dialog.blocked.message': "Suivez ces instructions pour recevoir les notifications :"
+                }
+            },
+            allowLocalhostAsSecureOrigin: true,
+            // Your other init options here
+            promptOptions: {
+                slidedown: {
+                    prompts: [
+                        {
+                            type: "push", // current types are "push" & "category"
+                            autoPrompt: true,
+                            timeDelay: 5,
+                            text: {
+                                /* limited to 90 characters */
+                                actionMessage: "Voulez-vous recevoir des notifications concernant l'état de la tireuse ?",
+                                /* acceptButton limited to 15 characters */
+                                acceptButton: "Accepter",
+                                /* cancelButton limited to 15 characters */
+                                cancelButton: "Refuser"
+                            }
+                        }
+                    ]
                 }
             }
-        ] 
-        }
-    }
-    });
+        });
     });
     OneSignal.push(function () {
         OneSignal.showSlidedownPrompt();
@@ -363,7 +363,7 @@
                             label: 'Historique du Co2',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
-                            pointRadius: 0,
+                            borderRadius: 0.5,
                             backgroundColor: '#FFC107',
                             borderColor: '#FFC107'
                         }
@@ -387,11 +387,29 @@
                             label: 'Historique de la puissance',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
-                            pointRadius: 0,
+                            borderRadius: 0.5,
                             backgroundColor: '#FFC107',
                             borderColor: '#FFC107'
                         }
                     ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Puissance (en watts)'
+                            },
+                            min: 0,
+                            max: 100
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
                 }
             }
         );
@@ -411,11 +429,33 @@
                             label: 'Historique du niveau',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
-                            pointRadius: 0,
+                            borderRadius: 0.5,
                             backgroundColor: '#FFC107',
                             borderColor: '#FFC107'
                         }
                     ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Quantité restante (en %)'
+                            },
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                // forces step size to be 10 units
+                                stepSize: 10
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
                 }
             }
         );
