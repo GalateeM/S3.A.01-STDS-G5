@@ -267,7 +267,7 @@ const initServer = async () => {
               }
             }
             // Emission
-            io.emit("CO2Historique", {"T1" : datas1, "T2" : datas2});
+            io.emit("TemperetureHistorique", {"T1" : datas1, "T2" : datas2});
           })
       })
     })

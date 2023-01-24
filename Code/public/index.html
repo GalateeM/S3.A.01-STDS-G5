@@ -156,7 +156,7 @@
 
                     <h1 class="text-center" id="titre"></h1>
                     <div class="card">
-                        <div class="card-body bg-dark pb-5" style="max-height:75%">
+                        <div class="card-body bg-dark pb-5" style="max-height:75%" id="container">
                             <canvas id="PuissanceHistorique"></canvas>
                             <canvas id="NiveauHistorique"></canvas>
                             <canvas id="CO2Historique"></canvas>
@@ -262,6 +262,7 @@
     this.document.getElementById("cardPuissance").style.display = "none";
     this.document.getElementById("cardQuantite").style.display = "none";
     this.document.getElementById("titre").textContent = "Température";
+
     var opts = {
         angle: 0.15, // The span of the gauge arc
         lineWidth: 0.44, // The line thickness
@@ -368,6 +369,24 @@
                             borderColor: '#FFC107'
                         }
                     ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Co2 émis (en grammes)'
+                            },
+                            min: 0,
+                            max: 100
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
                 }
             }
         );
