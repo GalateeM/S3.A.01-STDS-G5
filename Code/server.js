@@ -215,6 +215,66 @@ const initServer = async () => {
       })
     })
 
+    // Historique Température
+    sequelize.authenticate().then(() => {
+      const temperaturesT1 = TemperatureT1.findAll(
+        {
+          order: [["dateInsertion", "ASC"]]
+        }
+      ).then((res) => {
+        var datas1 = [];
+        var j = 0;
+        var moyenne = 0;
+        for (let i = 0; i < res.length - 1; i++) {
+          var dateMin = res[res.length - 1].dateInsertion;
+          dateMin.setHours(dateMin.getHours() - 6);
+          if (res[i].dateInsertion >= dateMin) {
+            if (j < 50) {
+              moyenne += res[i].data;
+              j++;
+            }
+            else {
+              j = 0;
+              var date = res[i].dateInsertion;
+              date.setHours(date.getHours() + 1);
+              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+              datas1.push(dict);
+              moyenne = res[i].data;
+            }
+          }
+        }
+        const temperaturesT2 = TemperatureT2.findAll(
+          {
+            order: [["dateInsertion", "ASC"]]
+          }
+          ).then((res) => {
+            var datas2 = [];
+            var j = 0;
+            var moyenne = 0;
+            for (let i = 0; i < res.length - 1; i++) {
+              var dateMin = res[res.length - 1].dateInsertion;
+              dateMin.setHours(dateMin.getHours() - 6);
+              if (res[i].dateInsertion >= dateMin) {
+                if (j < 50) {
+                  moyenne += res[i].data;
+                  j++;
+                }
+                else {
+                  j = 0;
+                  var date = res[i].dateInsertion;
+                  date.setHours(date.getHours() + 1);
+                  var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+                  datas2.push(dict);
+                  moyenne = res[i].data;
+                }
+              }
+            }
+            // Emission
+            io.emit("TemperetureHistorique", {"T1" : datas1, "T2" : datas2});
+          })
+      })
+    })
+
     let data = payload.toString()
 
     try {

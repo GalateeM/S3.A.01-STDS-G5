@@ -98,3 +98,15 @@ En dessous, l'état de l'apparareil, il permet d'afficher les problèmes / panne
 Sur le bas de la page, un affichage plus spécifique des informations mises à dispositions, avec un système de jauge dynamique ou logo évoluant en fonction de l'état de la donnée. 
 
 On retrouve enfin sur la droite, un historique des pannes en cours, celles mesurées par le MQTT. 
+
+=== c) Page de maintenance
+
+La page maintenance permet d'accéder à la documentation en cas de besoin.
+
+Sur celle-ci, on retrouve sur la partie gauche une barre latérale, avec la liste des documents disponibles en PDF. On y retrouve 2 options, "Prévisualiser" et "Ouvrir". La prévisualisation remplace le document actuel sur la partie principale de la page et le titre juste au-dessus de celle-ci par le nom du document choisi. L'ouverture permet d'afficher dans un nouvel onglet le fichier PDF en lui-même, par la suite l'utilisateur peut faire le choix de le télécharger ou non par exemple.
+
+image:Images/page_maintenance.jpg[width=75%,height=75%]
+
+Cette partie est aisément modulable, à l'aide de fonctions. En effet, à l'aide d'une simple ligne (comme ci-dessous), on ajoute un élément à la barre latérale qui sera directement prévisualisable et ouvrable.
+
+image:Images/code_maintenance.jpg[width=50%,height=50%]
