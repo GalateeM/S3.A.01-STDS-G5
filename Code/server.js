@@ -258,7 +258,7 @@ const initServer = async () => {
 }
 
 (async () => {
-  await sequelize.sync({ force: true })
+  await sequelize.sync({ force: false })
   await sequelize.authenticate()
   await initServer()
 })()
