@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
-const mqtt = require("mqtt")
+const mqtt = require("mqtt");
+const { type } = require('os');
 
 const app = express();
 const server = http.createServer(app);
@@ -8,6 +9,8 @@ const server = http.createServer(app);
 app.use(express.static('public'));
 
 const io = require("socket.io")(server);
+
+var typeAlertEnCours = null;
 
 /**
  * Connexion to TimeScale DB
@@ -221,7 +224,9 @@ const initServer = async () => {
     io.emit(topic, data)
 
     //Insertion of data into timescale tables for history
+    //create also notifications
     sequelize.sync().then(() => {
+      var isAlert = false;
       let topicSplit = topic.split('/');
       let dataName = topicSplit[topicSplit.length - 1];
       switch (dataName) {
@@ -230,30 +235,67 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
+          var tempActuelle1 = data;
+          if(data<-120) {
+            isAlert = true;
+            if(typeAlertEnCours!="Capteur de température ambiant déconnecté !") {
+              typeAlertEnCours = "Capteur de température ambiant déconnecté !";
+              sendNotification(typeAlertEnCours);
+            }
+          }
           break;
         case 'T2':
           const temp2 = TemperatureT2.create({
             dateInsertion: Date.now(),
             data: data,
           });
+          var tempActuelle2 = data;
+          if(data<-120) {
+            isAlert = true;
+            if(typeAlertEnCours!="Capteur de température du fût déconnecté !") {
+              typeAlertEnCours = "Capteur de température du fût déconnecté !";
+              sendNotification(typeAlertEnCours);
+            }
+          }
           break;
         case 'Puissance':
           const puissance = Puissance.create({
             dateInsertion: Date.now(),
             data: data,
           });
+          if(data<-10) {
+            isAlert = true;
+            if(typeAlertEnCours!="Wattmètre déconnecté !") {
+              typeAlertEnCours = "Wattmètre déconnecté !";
+              sendNotification(typeAlertEnCours);
+            }
+          }
           break;
         case 'Niveau':
           const niveau = Niveau.create({
             dateInsertion: Date.now(),
             data: data,
           });
+          if(data<10) {
+            isAlert = true;
+            if(typeAlertEnCours!="Le fût est bientôt vide, pensez à le recharger !") {
+              typeAlertEnCours = "Le fût est bientôt vide, pensez à le recharger !";
+              sendNotification(typeAlertEnCours);
+            }
+          }
           break;
         case 'Diag':
           const diag = Diag.create({
             dateInsertion: Date.now(),
             data: data,
           });
+          if(data==="MQTT 2 déconnecté !") {
+            isAlert = true;
+            if(typeAlertEnCours!="MQTT 2 déconnecté !") {
+              typeAlertEnCours = "MQTT 2 déconnecté !";
+              sendNotification(typeAlertEnCours);
+            }
+          }
           break;
         case 'CO2':
           const co2 = CO2.create({
@@ -264,8 +306,18 @@ const initServer = async () => {
         default:
           console.log('Nom de donnée non reconnu' + dataName);
       }
+      if(tempActuelle1<30 && tempActuelle2>10) {
+        //rajouter l'histoire des 30min de fonctionnement
+        isAlert = true;
+        if(typeAlertEnCours!=" Problème de fonctionnement du module peltier") {
+          typeAlertEnCours = " Problème de fonctionnement du module peltier";
+          sendNotification(typeAlertEnCours);
+        }
+      }
 
-
+      if(isAlert = false) {
+        typeAlertEnCours = null;
+      }
 
     }).catch((error) => {
       console.error('Unable to create the tables : ', error);
@@ -309,7 +361,8 @@ app.get("/liste-pannes", (req, res) => {
 /**
  * Notifications
  */
-function sendNotification() {
+function sendNotification(typeAlertEnCours) {
+  console.log("#####################ICI##########################################");
   console.log("===============================================================");
   const OneSignal = require('onesignal-node');
   const client = new OneSignal.Client('b86bb1c7-a686-4471-a3a7-07bf311b13db', 'YjFhZjAwZDMtMTYyOC00Y2UwLTg3MzktYTJmYzRlZjllMDIx');
@@ -319,8 +372,7 @@ function sendNotification() {
 
   const notification = {
     contents: {
-      'tr': 'Yeni bildirim',
-      'en': 'New notification',
+      'en': typeAlertEnCours,
     },
     included_segments: ['Subscribed Users']
   };
@@ -329,6 +381,3 @@ function sendNotification() {
     .then(response => console.log(response))
     .catch(e => { });
 }
-
-console.log("#####################ICI##########################################");
-sendNotification();

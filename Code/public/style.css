@@ -65,3 +65,7 @@ nav ul li:hover ul li {
 #stds {
     color: black; 
 }
+
+.push-notification {
+    display: none !important;
+}
