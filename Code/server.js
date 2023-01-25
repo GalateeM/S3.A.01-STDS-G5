@@ -316,7 +316,7 @@ const initServer = async () => {
           }
           if(data<-120) {
             isAlert = true;
-            if (typeAlertEnCours === null) {
+            if (typeAlertEnCours != "Capteur de température ambiant déconnecté !") {
               diagnostiqueEnCours.push("Capteur de température ambiant déconnecté !");
               typeAlertEnCours = "Capteur de température ambiant déconnecté !";
               sendNotification(typeAlertEnCours);
@@ -335,7 +335,7 @@ const initServer = async () => {
           }
           if(data<-120) {
             isAlert = true;
-            if (typeAlertEnCours === null) {
+            if (typeAlertEnCours != "Capteur de température du fût déconnecté !") {
               diagnostiqueEnCours = "Capteur de température du fût déconnecté !";
               typeAlertEnCours = "Capteur de température du fût déconnecté !";
               sendNotification(typeAlertEnCours);
@@ -349,7 +349,7 @@ const initServer = async () => {
           });
           if (data < -10) {
             isAlert = true;
-            if (typeAlertEnCours === null) {
+            if (typeAlertEnCours != "Wattmètre déconnecté !") {
               diagnostiqueEnCours = "Wattmètre déconnecté !";
               typeAlertEnCours = "Wattmètre déconnecté !";
               sendNotification(typeAlertEnCours);
@@ -366,7 +366,7 @@ const initServer = async () => {
           });
           if (data < 10) {
             isAlert = true;
-            if (typeAlertEnCours === null) {
+            if (typeAlertEnCours != "Le fût est bientôt vide, pensez à le recharger !") {
               typeAlertEnCours = "Le fût est bientôt vide, pensez à le recharger !";
               sendNotification(typeAlertEnCours);
             }
@@ -379,7 +379,7 @@ const initServer = async () => {
           });
           if (data === "MQTT 2 déconnecté !") {
             isAlert = true;
-            if (typeAlertEnCours === null) {
+            if (typeAlertEnCours != "MQTT 2 déconnecté !") {
               typeAlertEnCours = "MQTT 2 déconnecté !";
               sendNotification(typeAlertEnCours);
             }
@@ -405,7 +405,7 @@ const initServer = async () => {
           //alors on crée une alerte
           if(diffSecondes>20) {//1800
             isAlert = true;
-            if(typeAlertEnCours===null) {
+            if(typeAlertEnCours!="Problème de fonctionnement du module peltier") {
               diagnostiqueEnCours = "Problème de fonctionnement du module peltier";
               typeAlertEnCours = "Problème de fonctionnement du module peltier";
               sendNotification(typeAlertEnCours);
