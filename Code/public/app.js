@@ -1,7 +1,16 @@
 const socket = io("http://localhost:3000");
 
 function diagno(erreur) {
-    document.querySelector("#histo").innerHTML = '<div class="card mb-2"><div class=card-header>'+erreur+'</div></div>';
+    let lienDocumentation = null;
+    switch(erreur) {
+        case "Problème de fonctionnement du module peltier":
+            console.log("#############ICI#############################################");
+            lienDocumentation = "Pour corriger cette panne, consultez les documentations suivantes : <br>";
+            lienDocumentation += "<ul><li><a href = '/maintenance.html'>Maintenance Curative - Gamme 1</a></li>";
+            lienDocumentation += "<li><a href='/maintenance.html'>Maintenance Curative - Gamme 2</a></li></ul>";
+            break;
+    }
+    document.querySelector("#histo").innerHTML = '<div class="card mb-2"><div class=card-header>'+erreur + "<br>" + lienDocumentation+'</div></div>';
 }
 
 socket.on("STDS/2/Puissance", (arg) => {
@@ -22,9 +31,6 @@ socket.on("STDS/2/Température/T2", (arg) => {
     gaugeInt.set(document.querySelector('#tint').textContent); // set current value
     document.querySelector('#jaugeInt')
     document.querySelector("#tint2").textContent = arg
-    if(arg < -120) {
-        diagno("capteur température 2 déconnecté")
-    }
 });
 
 socket.on("STDS/2/Température/T1", (arg) => {
@@ -32,9 +38,6 @@ socket.on("STDS/2/Température/T1", (arg) => {
     gaugeExt.set(document.querySelector('#text').textContent); // set current value
     document.querySelector('#jaugeExt')
     document.querySelector("#text2").textContent = arg
-    if(arg < -120) {
-        diagno("capteur température fût déconnecté")
-    }
 });
 
 socket.on("STDS/2/Niveau", (arg) => {
@@ -44,4 +47,8 @@ socket.on("STDS/2/Niveau", (arg) => {
 
 socket.on("STDS/2/Diag", (arg) => {
     document.querySelector("#diag").textContent = arg
+});
+
+socket.on("Panne", (arg) => {
+    diagno(arg);
 });
