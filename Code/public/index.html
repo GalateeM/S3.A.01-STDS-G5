@@ -286,8 +286,12 @@
         colorStop: '#8FC0DA',    // just experiment with them
         strokeColor: '#E0E0E0',  // to see which ones work best for you
         generateGradient: true,
-        highDpiSupport: true,     // High resolution support
-
+        highDpiSupport: true,     // High resolution support,
+        staticZones: [
+            {strokeStyle: "#30B32D", min: -50, max: 15},
+            {strokeStyle: "#FFDD00", min: 15, max: 35},
+            {strokeStyle: "#F03E3E", min: 35, max: 100},
+        ],
     };
     var targetInt = document.getElementById('jaugeInt'); // your canvas element
     var gaugeInt = new Gauge(targetInt).setOptions(opts); // create sexy gauge!
@@ -314,6 +318,11 @@
         strokeColor: '#E0E0E0',  // to see which ones work best for you
         generateGradient: true,
         highDpiSupport: true,     // High resolution support
+        staticZones: [
+            {strokeStyle: "#30B32D", min: -50, max: 15},
+            {strokeStyle: "#FFDD00", min: 15, max: 35},
+            {strokeStyle: "#F03E3E", min: 35, max: 100},
+        ],
 
     };
     var targetExt = document.getElementById('jaugeExt'); // your canvas element
