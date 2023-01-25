@@ -69,3 +69,8 @@ nav ul li:hover ul li {
 .push-notification {
     display: none !important;
 }
+
+a#test {
+    color : #dc3545;
+    font-weight: bold;
+}

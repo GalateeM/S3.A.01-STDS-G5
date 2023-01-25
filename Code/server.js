@@ -336,7 +336,7 @@ const initServer = async () => {
           if(data<-120) {
             isAlert = true;
             if (typeAlertEnCours != "Capteur de température du fût déconnecté !") {
-              diagnostiqueEnCours = "Capteur de température du fût déconnecté !";
+              diagnostiqueEnCours.push("Capteur de température du fût déconnecté !");
               typeAlertEnCours = "Capteur de température du fût déconnecté !";
               sendNotification(typeAlertEnCours);
             }
@@ -350,13 +350,13 @@ const initServer = async () => {
           if (data < -10) {
             isAlert = true;
             if (typeAlertEnCours != "Wattmètre déconnecté !") {
-              diagnostiqueEnCours = "Wattmètre déconnecté !";
+              diagnostiqueEnCours.push("Wattmètre déconnecté !");
               typeAlertEnCours = "Wattmètre déconnecté !";
               sendNotification(typeAlertEnCours);
             }
           }
           if (data>75) {
-            diagnostiqueEnCours = "Puissance consommée trop importante !";
+            diagnostiqueEnCours.push("Puissance consommée trop importante !");
           }
           break;
         case 'Niveau':
@@ -406,7 +406,7 @@ const initServer = async () => {
           if(diffSecondes>20) {//1800
             isAlert = true;
             if(typeAlertEnCours!="Problème de fonctionnement du module peltier") {
-              diagnostiqueEnCours = "Problème de fonctionnement du module peltier";
+              diagnostiqueEnCours.push("Problème de fonctionnement du module peltier");
               typeAlertEnCours = "Problème de fonctionnement du module peltier";
               sendNotification(typeAlertEnCours);
             }
