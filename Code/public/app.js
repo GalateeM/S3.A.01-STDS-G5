@@ -24,7 +24,7 @@ function diagno(erreur) {
 socket.on("STDS/2/Puissance", (arg) => {
     document.querySelector("#puissance").textContent = arg
     document.querySelector("#puissance2").textContent = arg
-    document.getElementById("image").style.clipPath = "polygon(100% "+(100-(arg*100/60))+"%,100% 100%,0% 100%,0% "+(100-(arg*100/60))+"%)"
+    document.getElementById("image").style.clipPath = "polygon(100% "+(100-(arg*100/80))+"%,100% 100%,0% 100%,0% "+(100-(arg*100/80))+"%)"
 });
 
 socket.on("STDS/2/CO2", (arg) => {
