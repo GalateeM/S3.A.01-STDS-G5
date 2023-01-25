@@ -120,6 +120,63 @@ const initServer = async () => {
     })
   })
 
+  /**
+   * Destroy too old datas, first time
+   */
+  var timeOnDestroy = new Date();
+  const { Op } = require("sequelize");
+  sequelize.authenticate().then(() => {
+    Puissance.destroy({
+      where: {
+        dateInsertion: {
+          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+        }
+      },
+      force : true
+    });
+    TemperatureT1.destroy({
+      where: {
+        dateInsertion: {
+          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+        }
+      },
+      force : true
+    });
+    TemperatureT2.destroy({
+      where: {
+        dateInsertion: {
+          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+        }
+      },
+      force : true
+    });
+    Niveau.destroy({
+      where: {
+        dateInsertion: {
+          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+        }
+      },
+      force : true
+    });
+    CO2.destroy({
+      where: {
+        dateInsertion: {
+          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+        }
+      },
+      force : true
+    });
+    Diag.destroy({
+      where: {
+        dateInsertion: {
+          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+        }
+      },
+      force : true
+    });
+  })
+  
+
   var datas1 = [];
   var datas2 = [];
   
@@ -318,8 +375,6 @@ const initServer = async () => {
     //Insertion of data into timescale tables for history
     //create also notifications
     sequelize.sync().then(() => {
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      console.log(typeAlertEnCours);
       var isAlert = false;
       let topicSplit = topic.split('/');
       let dataName = topicSplit[topicSplit.length - 1];
@@ -356,7 +411,6 @@ const initServer = async () => {
           if(data<-120 && typeAlertEnCours===null) {
             isAlert = true;
             if (typeAlertEnCours != "Capteur de température du fût déconnecté !") {
-              console.log("PAS NORMAL DU TOUUUUUUUUUUUUUUUUUUUUUUUUT");
               diagnostiqueEnCours.push("Capteur de température du fût déconnecté !");
               typeAlertEnCours = "Capteur de température du fût déconnecté !";
               sendNotification(typeAlertEnCours);
@@ -449,6 +503,59 @@ const initServer = async () => {
     }).catch((error) => {
       console.error('Unable to create the tables : ', error);
     });
+
+    //delete the too old values every 1 hours
+    var now = new Date;
+    if(now.getHours()-timeOnDestroy.getHours()>=1) {
+      Puissance.destroy({
+        where: {
+          dateInsertion: {
+            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          }
+        },
+        force : true
+      });
+      TemperatureT1.destroy({
+        where: {
+          dateInsertion: {
+            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          }
+        },
+        force : true
+      });
+      TemperatureT2.destroy({
+        where: {
+          dateInsertion: {
+            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          }
+        },
+        force : true
+      });
+      Niveau.destroy({
+        where: {
+          dateInsertion: {
+            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          }
+        },
+        force : true
+      });
+      CO2.destroy({
+        where: {
+          dateInsertion: {
+            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          }
+        },
+        force : true
+      });
+      Diag.destroy({
+        where: {
+          dateInsertion: {
+            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          }
+        },
+        force : true
+      });
+    }
 
   })
 
