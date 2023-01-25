@@ -43,11 +43,11 @@
                     0% 50%);
         }
 
-        #pastilleTemp{
+        #pastilleTemp {
             position: absolute;
-            top:0;
-            right:0;
-            color:#FF0000;
+            top: 0;
+            right: 0;
+            color: #FF0000;
         }
     </style>
 
@@ -167,6 +167,7 @@
                             <canvas id="PuissanceHistorique"></canvas>
                             <canvas id="NiveauHistorique"></canvas>
                             <canvas id="CO2Historique"></canvas>
+                            <canvas id="TemperatureHistorique"></canvas>
                         </div>
                     </div>
                 </td>
@@ -332,6 +333,7 @@
         this.document.getElementById("CO2Historique").style.display = "none";
         this.document.getElementById("PuissanceHistorique").style.display = "none";
         this.document.getElementById("NiveauHistorique").style.display = "none";
+        this.document.getElementById("TemperatureHistorique").style.display = "none";
 
         titre = "";
 
@@ -350,6 +352,7 @@
                 break;
             case "cardJauge":
                 titre = "Température"
+                this.document.getElementById("TemperatureHistorique").style.display = "block";
                 break
         }
         document.getElementById("titre").textContent = titre;
@@ -488,6 +491,60 @@
         );
         this.document.getElementById("NiveauHistorique").style.display = "none";
     });
+
+    // Diagramme pour l'historique de la température
+    socket.on("TemperatureHistorique", (arg) => {
+        new Chart(
+            document.getElementById('TemperatureHistorique'),
+            {
+                type: 'line',
+                data: {
+                    labels: arg.map(row => row.dateInsertion1),
+                    datasets: [
+                        {
+                            label: 'Historique de la température T1',
+                            data: arg.map(row => row.T1),
+                            borderWidth: 1,
+                            borderRadius: 0.2,
+                            backgroundColor: '#FFC107',
+                            borderColor: '#FFC107'
+                        },
+                        {
+                            label: 'Historique de la température T2',
+                            data: arg.map(row => row.T2),
+                            borderWidth: 1,
+                            borderRadius: 0.2,
+                            backgroundColor: '#FFC107',
+                            borderColor: '#FFC107'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Température (en °c)'
+                            },
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                // forces step size to be 10 units
+                                stepSize: 10
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    });
+    this.document.getElementById("TemperatureHistorique").style.display = "block";
 </script>
 
 </html>
