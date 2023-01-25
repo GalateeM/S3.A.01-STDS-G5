@@ -11,7 +11,7 @@ app.use(express.static('public'));
 const io = require("socket.io")(server);
 const clonedeep = require('lodash.clonedeep')
 
-var diagnostiqueEnCours = null;
+var diagnostiqueEnCours = [];
 var typeAlertEnCours = null;
 var isTemp1Inf = false;
 var isTemp2Sup = false;
@@ -35,6 +35,7 @@ sequelize.authenticate().then(() => {
 }).catch(err => {
   console.error('Unable to connect to the database:', err);
 });
+
 
 /**
  * Creation of tables in TimeScale DB
@@ -315,8 +316,8 @@ const initServer = async () => {
           }
           if(data<-120) {
             isAlert = true;
-            if (typeAlertEnCours != "Capteur de température ambiant déconnecté !") {
-              diagnostiqueEnCours = "Capteur de température ambiant déconnecté !";
+            if (typeAlertEnCours === null) {
+              diagnostiqueEnCours.push("Capteur de température ambiant déconnecté !");
               typeAlertEnCours = "Capteur de température ambiant déconnecté !";
               sendNotification(typeAlertEnCours);
             }
@@ -334,7 +335,7 @@ const initServer = async () => {
           }
           if(data<-120) {
             isAlert = true;
-            if (typeAlertEnCours != "Capteur de température du fût déconnecté !") {
+            if (typeAlertEnCours === null) {
               diagnostiqueEnCours = "Capteur de température du fût déconnecté !";
               typeAlertEnCours = "Capteur de température du fût déconnecté !";
               sendNotification(typeAlertEnCours);
@@ -348,7 +349,7 @@ const initServer = async () => {
           });
           if (data < -10) {
             isAlert = true;
-            if (typeAlertEnCours != "Wattmètre déconnecté !") {
+            if (typeAlertEnCours === null) {
               diagnostiqueEnCours = "Wattmètre déconnecté !";
               typeAlertEnCours = "Wattmètre déconnecté !";
               sendNotification(typeAlertEnCours);
@@ -365,7 +366,7 @@ const initServer = async () => {
           });
           if (data < 10) {
             isAlert = true;
-            if (typeAlertEnCours != "Le fût est bientôt vide, pensez à le recharger !") {
+            if (typeAlertEnCours === null) {
               typeAlertEnCours = "Le fût est bientôt vide, pensez à le recharger !";
               sendNotification(typeAlertEnCours);
             }
@@ -378,7 +379,7 @@ const initServer = async () => {
           });
           if (data === "MQTT 2 déconnecté !") {
             isAlert = true;
-            if (typeAlertEnCours != "MQTT 2 déconnecté !") {
+            if (typeAlertEnCours === null) {
               typeAlertEnCours = "MQTT 2 déconnecté !";
               sendNotification(typeAlertEnCours);
             }
@@ -404,7 +405,7 @@ const initServer = async () => {
           //alors on crée une alerte
           if(diffSecondes>20) {//1800
             isAlert = true;
-            if(typeAlertEnCours!="Problème de fonctionnement du module peltier") {
+            if(typeAlertEnCours===null) {
               diagnostiqueEnCours = "Problème de fonctionnement du module peltier";
               typeAlertEnCours = "Problème de fonctionnement du module peltier";
               sendNotification(typeAlertEnCours);
@@ -418,9 +419,7 @@ const initServer = async () => {
       if (isAlert = false) {
         typeAlertEnCours = null;
       }
-      if(diagnostiqueEnCours!=null) {
-        io.emit("Panne", diagnostiqueEnCours);
-      }
+      io.emit("Panne", diagnostiqueEnCours);
 
     }).catch((error) => {
       console.error('Unable to create the tables : ', error);
@@ -484,3 +483,5 @@ function sendNotification(typeAlertEnCours) {
     .then(response => console.log(response))
     .catch(e => { });
 }
+
+io.emit("Puissance", "testtttttt");
