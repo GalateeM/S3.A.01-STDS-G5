@@ -13,6 +13,7 @@ socket.on("STDS/2/Puissance", (arg) => {
 socket.on("STDS/2/CO2", (arg) => {
     document.querySelector("#co2").textContent = arg
     document.querySelector("#co22").textContent = arg
+    
     //document.querySelector("#cardCo2").style.display = "none"
     //Pour cacher une card
 });
@@ -24,6 +25,14 @@ socket.on("STDS/2/Température/T2", (arg) => {
     document.querySelector("#tint2").textContent = arg
     if(arg < -120) {
         diagno("capteur température 2 déconnecté")
+    }
+
+    if(arg<20){
+        document.querySelector("#pastilleTemp").style.color = "#00CC00";
+    }else if(arg<30){
+        document.querySelector('#pastilleTemp').style.color = "#de7d16";
+    }else{
+        document.querySelector("#pastilleTemp").style.color = "#FF0000";
     }
 });
 
