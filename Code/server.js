@@ -9,6 +9,7 @@ const server = http.createServer(app);
 app.use(express.static('public'));
 
 const io = require("socket.io")(server);
+const clonedeep = require('lodash.clonedeep')
 
 var typeAlertEnCours = null;
 var isTemp1Inf = false;
@@ -127,23 +128,25 @@ const initServer = async () => {
         }
       ).then((res) => {
         let datas = [];
-        var j = 0;
-        var moyenne = 0;
-        for (let i = 0; i < res.length - 1; i++) {
-          var dateMin = res[res.length - 1].dateInsertion;
+        if (res.length !== 0) {
+          var j = 0;
+          var moyenne = 0;
+          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
           dateMin.setHours(dateMin.getHours() - 6);
-          if (res[i].dateInsertion >= dateMin) {
-            if (j < 50) {
-              moyenne += res[i].data;
-              j++;
-            }
-            else {
-              j = 0;
-              var date = res[i].dateInsertion;
-              date.setHours(date.getHours() + 1);
-              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-              datas.push(dict);
-              moyenne = res[i].data;
+          for (let i = 0; i < res.length - 1; i++) {
+            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+              if (j < 50) {
+                moyenne += res[i].data;
+                j++;
+              }
+              else {
+                j = 0;
+                var date = res[i].dateInsertion;
+                date.setHours(date.getHours() + 1);
+                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+                datas.push(dict);
+                moyenne = res[i].data;
+              }
             }
           }
         }
@@ -160,23 +163,25 @@ const initServer = async () => {
         }
       ).then((res) => {
         let datas = [];
-        var j = 0;
-        var moyenne = 0;
-        for (let i = 0; i < res.length - 1; i++) {
-          var dateMin = res[res.length - 1].dateInsertion;
+        if (res.length !== 0) {
+          var j = 0;
+          var moyenne = 0;
+          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
           dateMin.setHours(dateMin.getHours() - 6);
-          if (res[i].dateInsertion >= dateMin) {
-            if (j < 50) {
-              moyenne += res[i].data;
-              j++;
-            }
-            else {
-              j = 0;
-              var date = res[i].dateInsertion;
-              date.setHours(date.getHours() + 1);
-              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-              datas.push(dict);
-              moyenne = res[i].data;
+          for (let i = 0; i < res.length - 1; i++) {
+            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+              if (j < 50) {
+                moyenne += res[i].data;
+                j++;
+              }
+              else {
+                j = 0;
+                var date = res[i].dateInsertion;
+                date.setHours(date.getHours() + 1);
+                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+                datas.push(dict);
+                moyenne = res[i].data;
+              }
             }
           }
         }
@@ -193,23 +198,25 @@ const initServer = async () => {
         }
       ).then((res) => {
         let datas = [];
-        var j = 0;
-        var moyenne = 0;
-        for (let i = 0; i < res.length - 1; i++) {
-          var dateMin = res[res.length - 1].dateInsertion;
+        if (res.length !== 0) {
+          var j = 0;
+          var moyenne = 0;
+          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
           dateMin.setHours(dateMin.getHours() - 6);
-          if (res[i].dateInsertion >= dateMin) {
-            if (j < 50) {
-              moyenne += res[i].data;
-              j++;
-            }
-            else {
-              j = 0;
-              var date = res[i].dateInsertion;
-              date.setHours(date.getHours() + 1);
-              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-              datas.push(dict);
-              moyenne = res[i].data;
+          for (let i = 0; i < res.length - 1; i++) {
+            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+              if (j < 50) {
+                moyenne += res[i].data;
+                j++;
+              }
+              else {
+                j = 0;
+                var date = res[i].dateInsertion;
+                date.setHours(date.getHours() + 1);
+                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+                datas.push(dict);
+                moyenne = res[i].data;
+              }
             }
           }
         }
@@ -225,39 +232,40 @@ const initServer = async () => {
           order: [["dateInsertion", "ASC"]]
         }
       ).then((res) => {
-        var datas1 = [];
-        var j = 0;
-        var moyenne = 0;
-        for (let i = 0; i < res.length - 1; i++) {
-          var dateMin = res[res.length - 1].dateInsertion;
+        if (res.length !== 0) {
+          var datas1 = [];
+          var j = 0;
+          var moyenne = 0;
+          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
           dateMin.setHours(dateMin.getHours() - 6);
-          if (res[i].dateInsertion >= dateMin) {
-            if (j < 50) {
-              moyenne += res[i].data;
-              j++;
-            }
-            else {
-              j = 0;
-              var date = res[i].dateInsertion;
-              date.setHours(date.getHours() + 1);
-              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-              datas1.push(dict);
-              moyenne = res[i].data;
+          for (let i = 0; i < res.length - 1; i++) {
+            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+              if (j < 50) {
+                moyenne += res[i].data;
+                j++;
+              }
+              else {
+                j = 0;
+                var date = res[i].dateInsertion;
+                date.setHours(date.getHours() + 1);
+                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+                datas1.push(dict);
+                moyenne = res[i].data;
+              }
             }
           }
-        }
-        const temperaturesT2 = TemperatureT2.findAll(
-          {
-            order: [["dateInsertion", "ASC"]]
-          }
+          const temperaturesT2 = TemperatureT2.findAll(
+            {
+              order: [["dateInsertion", "ASC"]]
+            }
           ).then((res) => {
             var datas2 = [];
             var j = 0;
             var moyenne = 0;
+            var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+            dateMin.setHours(dateMin.getHours() - 6);
             for (let i = 0; i < res.length - 1; i++) {
-              var dateMin = res[res.length - 1].dateInsertion;
-              dateMin.setHours(dateMin.getHours() - 6);
-              if (res[i].dateInsertion >= dateMin) {
+              if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
                 if (j < 50) {
                   moyenne += res[i].data;
                   j++;
@@ -273,8 +281,9 @@ const initServer = async () => {
               }
             }
             // Emission
-            io.emit("TemperetureHistorique", {"T1" : datas1, "T2" : datas2});
+            io.emit("TemperetureHistorique", { "T1": datas1, "T2": datas2 });
           })
+        }
       })
     })
 
@@ -305,7 +314,7 @@ const initServer = async () => {
           }
           if(data<-120) {
             isAlert = true;
-            if(typeAlertEnCours!="Capteur de température ambiant déconnecté !") {
+            if (typeAlertEnCours != "Capteur de température ambiant déconnecté !") {
               typeAlertEnCours = "Capteur de température ambiant déconnecté !";
               sendNotification(typeAlertEnCours);
               io.emit("Panne", typeAlertEnCours);
@@ -324,7 +333,7 @@ const initServer = async () => {
           }
           if(data<-120) {
             isAlert = true;
-            if(typeAlertEnCours!="Capteur de température du fût déconnecté !") {
+            if (typeAlertEnCours != "Capteur de température du fût déconnecté !") {
               typeAlertEnCours = "Capteur de température du fût déconnecté !";
               sendNotification(typeAlertEnCours);
               io.emit("Panne", typeAlertEnCours);
@@ -336,9 +345,9 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
-          if(data<-10) {
+          if (data < -10) {
             isAlert = true;
-            if(typeAlertEnCours!="Wattmètre déconnecté !") {
+            if (typeAlertEnCours != "Wattmètre déconnecté !") {
               typeAlertEnCours = "Wattmètre déconnecté !";
               sendNotification(typeAlertEnCours);
               io.emit("Panne", typeAlertEnCours);
@@ -350,9 +359,9 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
-          if(data<10) {
+          if (data < 10) {
             isAlert = true;
-            if(typeAlertEnCours!="Le fût est bientôt vide, pensez à le recharger !") {
+            if (typeAlertEnCours != "Le fût est bientôt vide, pensez à le recharger !") {
               typeAlertEnCours = "Le fût est bientôt vide, pensez à le recharger !";
               sendNotification(typeAlertEnCours);
             }
@@ -363,9 +372,9 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
-          if(data==="MQTT 2 déconnecté !") {
+          if (data === "MQTT 2 déconnecté !") {
             isAlert = true;
-            if(typeAlertEnCours!="MQTT 2 déconnecté !") {
+            if (typeAlertEnCours != "MQTT 2 déconnecté !") {
               typeAlertEnCours = "MQTT 2 déconnecté !";
               sendNotification(typeAlertEnCours);
             }
@@ -402,7 +411,7 @@ const initServer = async () => {
         tempsProblemeDoubleTemps = null;
       }
 
-      if(isAlert = false) {
+      if (isAlert = false) {
         typeAlertEnCours = null;
       }
 

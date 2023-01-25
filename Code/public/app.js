@@ -22,6 +22,7 @@ socket.on("STDS/2/Puissance", (arg) => {
 socket.on("STDS/2/CO2", (arg) => {
     document.querySelector("#co2").textContent = arg
     document.querySelector("#co22").textContent = arg
+    
     //document.querySelector("#cardCo2").style.display = "none"
     //Pour cacher une card
 });
@@ -31,6 +32,13 @@ socket.on("STDS/2/Température/T2", (arg) => {
     gaugeInt.set(document.querySelector('#tint').textContent); // set current value
     document.querySelector('#jaugeInt')
     document.querySelector("#tint2").textContent = arg
+    if(arg<=7){
+        document.querySelector("#pastilleTemp").style.color = "#00CC00";
+    }else if(arg<=10){
+        document.querySelector('#pastilleTemp').style.color = "#f9dc20";
+    }else{
+        document.querySelector("#pastilleTemp").style.color = "#FF0000";
+    }
 });
 
 socket.on("STDS/2/Température/T1", (arg) => {

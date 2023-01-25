@@ -42,6 +42,13 @@
                     0% 100%,
                     0% 50%);
         }
+
+        #pastilleTemp{
+            position: absolute;
+            top:5px;
+            right:5px;
+            color:#FF0000;
+        }
     </style>
 
 </head>
@@ -152,14 +159,14 @@
                         </div>
                     </div>
                 </td>
-                <td class="col-4 p-4" colspan="3">
+                <td class="col-2 p-4" colspan="2">
 
                     <h1 class="text-center" id="titre"></h1>
                     <div class="card">
-                        <div class="card-body bg-dark pb-5" style="max-height:75%" id="container">
-                            <canvas id="PuissanceHistorique"></canvas>
-                            <canvas id="NiveauHistorique"></canvas>
-                            <canvas id="CO2Historique"></canvas>
+                        <div class="card-body bg-dark pb-5"  id="container">
+                            <canvas id="PuissanceHistorique" style="max-height:20rem;"></canvas>
+                            <canvas id="NiveauHistorique" style="max-height:20rem;"></canvas>
+                            <canvas id="CO2Historique" style="max-height:20rem;"></canvas>
                         </div>
                     </div>
                 </td>
@@ -190,6 +197,7 @@
                                     Extérieur : <span id="text2">~</span>°C
                                 </td>
                             </table>
+                            <i class="fas fa-circle btn-outline-danger" id="pastilleTemp"></i>
                         </div>
                     </div>
 
@@ -234,7 +242,7 @@
                     </div>
                 </td>
 
-                <td class="col-6">
+                <td class="col-4">
                     <div class="card mt-2 mb-3">
                         <div class="card-header">
                             <h3>Pannes en cours</h3>
@@ -278,8 +286,12 @@
         colorStop: '#8FC0DA',    // just experiment with them
         strokeColor: '#E0E0E0',  // to see which ones work best for you
         generateGradient: true,
-        highDpiSupport: true,     // High resolution support
-
+        highDpiSupport: true,     // High resolution support,
+        staticZones: [
+        {strokeStyle: "#30B32D", min: -10, max: 7},
+            {strokeStyle: "#FFDD00", min: 7, max: 10},
+            {strokeStyle: "#F03E3E", min: 10, max: 100},
+        ],
     };
     var targetInt = document.getElementById('jaugeInt'); // your canvas element
     var gaugeInt = new Gauge(targetInt).setOptions(opts); // create sexy gauge!
@@ -306,6 +318,11 @@
         strokeColor: '#E0E0E0',  // to see which ones work best for you
         generateGradient: true,
         highDpiSupport: true,     // High resolution support
+        staticZones: [
+            {strokeStyle: "#30B32D", min: -10, max: 7},
+            {strokeStyle: "#FFDD00", min: 7, max: 10},
+            {strokeStyle: "#F03E3E", min: 10, max: 100},
+        ],
 
     };
     var targetExt = document.getElementById('jaugeExt'); // your canvas element
@@ -329,7 +346,7 @@
 
         switch (nom) {
             case "cardCo2":
-                titre = "CO2"
+                titre = "Co2"
                 this.document.getElementById("CO2Historique").style.display = "block";
                 break;
             case "cardPuissance":
@@ -337,7 +354,7 @@
                 this.document.getElementById("PuissanceHistorique").style.display = "block";
                 break;
             case "cardQuantite":
-                titre = "Quantité restante"
+                titre = "Niveau"
                 this.document.getElementById("NiveauHistorique").style.display = "block";
                 break;
             case "cardJauge":
@@ -361,10 +378,10 @@
                     labels: arg.map(row => row.dateInsertion),
                     datasets: [
                         {
-                            label: 'Historique du Co2',
+                            label: 'Historique du Co2 émis',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
-                            borderRadius: 0.5,
+                            borderRadius: 0.2,
                             backgroundColor: '#FFC107',
                             borderColor: '#FFC107'
                         }
@@ -378,7 +395,7 @@
                                 text: 'Co2 émis (en grammes)'
                             },
                             min: 0,
-                            max: 100
+                            max: 50
                         },
                         x: {
                             title: {
@@ -403,10 +420,10 @@
                     labels: arg.map(row => row.dateInsertion),
                     datasets: [
                         {
-                            label: 'Historique de la puissance',
+                            label: 'Historique de la puissance consommée',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
-                            borderRadius: 0.5,
+                            borderRadius: 0.2,
                             backgroundColor: '#FFC107',
                             borderColor: '#FFC107'
                         }
@@ -417,10 +434,10 @@
                         y: {
                             title: {
                                 display: true,
-                                text: 'Puissance (en watts)'
+                                text: 'Puissance consommée (en watts)'
                             },
                             min: 0,
-                            max: 100
+                            max: 60
                         },
                         x: {
                             title: {
@@ -448,7 +465,7 @@
                             label: 'Historique du niveau',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
-                            borderRadius: 0.5,
+                            borderRadius: 0.2,
                             backgroundColor: '#FFC107',
                             borderColor: '#FFC107'
                         }

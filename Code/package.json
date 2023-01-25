@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "lodash.clonedeep": "^4.5.0",
     "mqtt": "^4.3.7",
     "onesignal-node": "^3.4.0",
     "pg": "^8.8.0",
