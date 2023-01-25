@@ -9,6 +9,7 @@ const server = http.createServer(app);
 app.use(express.static('public'));
 
 const io = require("socket.io")(server);
+const clonedeep = require('lodash.clonedeep')
 
 var typeAlertEnCours = null;
 
@@ -126,10 +127,10 @@ const initServer = async () => {
         let datas = [];
         var j = 0;
         var moyenne = 0;
+        var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+        dateMin.setHours(dateMin.getHours() - 6);
         for (let i = 0; i < res.length - 1; i++) {
-          var dateMin = res[res.length - 1].dateInsertion;
-          dateMin.setHours(dateMin.getHours() - 6);
-          if (res[i].dateInsertion >= dateMin) {
+          if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
             if (j < 50) {
               moyenne += res[i].data;
               j++;
@@ -159,10 +160,10 @@ const initServer = async () => {
         let datas = [];
         var j = 0;
         var moyenne = 0;
+        var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+        dateMin.setHours(dateMin.getHours() - 6);
         for (let i = 0; i < res.length - 1; i++) {
-          var dateMin = res[res.length - 1].dateInsertion;
-          dateMin.setHours(dateMin.getHours() - 6);
-          if (res[i].dateInsertion >= dateMin) {
+          if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
             if (j < 50) {
               moyenne += res[i].data;
               j++;
@@ -192,10 +193,10 @@ const initServer = async () => {
         let datas = [];
         var j = 0;
         var moyenne = 0;
+        var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+        dateMin.setHours(dateMin.getHours() - 6);
         for (let i = 0; i < res.length - 1; i++) {
-          var dateMin = res[res.length - 1].dateInsertion;
-          dateMin.setHours(dateMin.getHours() - 6);
-          if (res[i].dateInsertion >= dateMin) {
+          if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
             if (j < 50) {
               moyenne += res[i].data;
               j++;
@@ -225,10 +226,10 @@ const initServer = async () => {
         var datas1 = [];
         var j = 0;
         var moyenne = 0;
+        var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+        dateMin.setHours(dateMin.getHours() - 6);
         for (let i = 0; i < res.length - 1; i++) {
-          var dateMin = res[res.length - 1].dateInsertion;
-          dateMin.setHours(dateMin.getHours() - 6);
-          if (res[i].dateInsertion >= dateMin) {
+          if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
             if (j < 50) {
               moyenne += res[i].data;
               j++;
@@ -251,10 +252,10 @@ const initServer = async () => {
             var datas2 = [];
             var j = 0;
             var moyenne = 0;
+            var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+            dateMin.setHours(dateMin.getHours() - 6);
             for (let i = 0; i < res.length - 1; i++) {
-              var dateMin = res[res.length - 1].dateInsertion;
-              dateMin.setHours(dateMin.getHours() - 6);
-              if (res[i].dateInsertion >= dateMin) {
+              if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
                 if (j < 50) {
                   moyenne += res[i].data;
                   j++;

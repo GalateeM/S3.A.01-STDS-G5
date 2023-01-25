@@ -329,7 +329,7 @@
 
         switch (nom) {
             case "cardCo2":
-                titre = "CO2"
+                titre = "Co2"
                 this.document.getElementById("CO2Historique").style.display = "block";
                 break;
             case "cardPuissance":
@@ -337,7 +337,7 @@
                 this.document.getElementById("PuissanceHistorique").style.display = "block";
                 break;
             case "cardQuantite":
-                titre = "Quantité restante"
+                titre = "Niveau"
                 this.document.getElementById("NiveauHistorique").style.display = "block";
                 break;
             case "cardJauge":
@@ -361,7 +361,7 @@
                     labels: arg.map(row => row.dateInsertion),
                     datasets: [
                         {
-                            label: 'Historique du Co2',
+                            label: 'Historique du Co2 émis',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
                             borderRadius: 0.5,
@@ -403,7 +403,7 @@
                     labels: arg.map(row => row.dateInsertion),
                     datasets: [
                         {
-                            label: 'Historique de la puissance',
+                            label: 'Historique de la puissance consommée',
                             data: arg.map(row => row.data),
                             borderWidth: 1,
                             borderRadius: 0.5,
@@ -417,7 +417,7 @@
                         y: {
                             title: {
                                 display: true,
-                                text: 'Puissance (en watts)'
+                                text: 'Puissance consommée (en watts)'
                             },
                             min: 0,
                             max: 100
