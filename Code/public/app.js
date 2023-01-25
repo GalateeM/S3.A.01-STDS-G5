@@ -6,8 +6,8 @@ function diagno(erreur) {
         case "Problème de fonctionnement du module peltier":
             console.log("#############ICI#############################################");
             lienDocumentation = "Pour corriger cette panne, consultez les documentations suivantes : <br>";
-            lienDocumentation += "<ul><li><a href = '/maintenance.html'>Maintenance Curative - Gamme 1</a></li>";
-            lienDocumentation += "<li><a href='/maintenance.html'>Maintenance Curative - Gamme 2</a></li></ul>";
+            lienDocumentation += "<table class=\"table table-info \"><tr><td><a href = '/maintenance.html'>Maintenance Curative - Gamme 1</a></td></tr>";
+            lienDocumentation += "<tr><td><a href='/maintenance.html'>Maintenance Curative - Gamme 2</a></td></tr></table>";
             break;
     }
     document.querySelector("#histo").innerHTML = '<div class="card mb-2"><div class=card-header>'+erreur + "<br>" + lienDocumentation+'</div></div>';
@@ -22,7 +22,7 @@ socket.on("STDS/2/Puissance", (arg) => {
 socket.on("STDS/2/CO2", (arg) => {
     document.querySelector("#co2").textContent = arg
     document.querySelector("#co22").textContent = arg
-    
+    diagno("Problème de fonctionnement du module peltier");
     //document.querySelector("#cardCo2").style.display = "none"
     //Pour cacher une card
 });
