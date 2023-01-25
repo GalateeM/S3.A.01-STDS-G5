@@ -11,7 +11,11 @@ app.use(express.static('public'));
 const io = require("socket.io")(server);
 const clonedeep = require('lodash.clonedeep')
 
+var diagnostiqueEnCours = null;
 var typeAlertEnCours = null;
+var isTemp1Inf = false;
+var isTemp2Sup = false;
+var tempsProblemeDoubleTemps = null;
 
 /**
  * Connexion to TimeScale DB
@@ -322,10 +326,15 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
-          var tempActuelle1 = data;
-          if (data < -120) {
+          if(data<30) {
+            isTemp1Inf = true;
+          } else {
+            isTemp1Inf = false;
+          }
+          if(data<-120) {
             isAlert = true;
             if (typeAlertEnCours != "Capteur de température ambiant déconnecté !") {
+              diagnostiqueEnCours = "Capteur de température ambiant déconnecté !";
               typeAlertEnCours = "Capteur de température ambiant déconnecté !";
               sendNotification(typeAlertEnCours);
             }
@@ -336,10 +345,15 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
-          var tempActuelle2 = data;
-          if (data < -120) {
+          if(data>10) {
+            isTemp2Sup = true;
+          } else {
+            isTemp2Sup = false;
+          }
+          if(data<-120) {
             isAlert = true;
             if (typeAlertEnCours != "Capteur de température du fût déconnecté !") {
+              diagnostiqueEnCours = "Capteur de température du fût déconnecté !";
               typeAlertEnCours = "Capteur de température du fût déconnecté !";
               sendNotification(typeAlertEnCours);
             }
@@ -353,9 +367,13 @@ const initServer = async () => {
           if (data < -10) {
             isAlert = true;
             if (typeAlertEnCours != "Wattmètre déconnecté !") {
+              diagnostiqueEnCours = "Wattmètre déconnecté !";
               typeAlertEnCours = "Wattmètre déconnecté !";
               sendNotification(typeAlertEnCours);
             }
+          }
+          if (data>75) {
+            diagnostiqueEnCours = "Puissance consommée trop importante !";
           }
           break;
         case 'Niveau':
@@ -393,17 +411,33 @@ const initServer = async () => {
         default:
           console.log('Nom de donnée non reconnu' + dataName);
       }
-      if (tempActuelle1 < 30 && tempActuelle2 > 10) {
-        //rajouter l'histoire des 30min de fonctionnement
-        isAlert = true;
-        if (typeAlertEnCours != " Problème de fonctionnement du module peltier") {
-          typeAlertEnCours = " Problème de fonctionnement du module peltier";
-          sendNotification(typeAlertEnCours);
+      if(isTemp1Inf && isTemp2Sup) {
+        if(tempsProblemeDoubleTemps===null) {
+          var now = new Date();
+          tempsProblemeDoubleTemps = now.getTime();
+        } else {
+          var now = new Date();
+          var diffSecondes= (now.getTime() - tempsProblemeDoubleTemps) / 1000;
+          //si cela fait plus de 30min que les températures ne sont pas idéales et si l'alerte n'est pas déjà présente
+          //alors on crée une alerte
+          if(diffSecondes>20) {//1800
+            isAlert = true;
+            if(typeAlertEnCours!="Problème de fonctionnement du module peltier") {
+              diagnostiqueEnCours = "Problème de fonctionnement du module peltier";
+              typeAlertEnCours = "Problème de fonctionnement du module peltier";
+              sendNotification(typeAlertEnCours);
+            }
+          }
         }
+      } else {
+        tempsProblemeDoubleTemps = null;
       }
-
+      
       if (isAlert = false) {
         typeAlertEnCours = null;
+      }
+      if(diagnostiqueEnCours!=null) {
+        io.emit("Panne", diagnostiqueEnCours);
       }
 
     }).catch((error) => {

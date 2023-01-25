@@ -45,9 +45,14 @@
 
         #pastilleTemp {
             position: absolute;
+
             top: 0;
             right: 0;
             color: #FF0000;
+
+            top:5px;
+            right:5px;
+            color:#FF0000;
         }
     </style>
 
@@ -159,10 +164,11 @@
                         </div>
                     </div>
                 </td>
-                <td class="col-4 p-4" colspan="3">
+                <td class="col-2 p-4" colspan="2">
 
                     <h1 class="text-center" id="titre"></h1>
                     <div class="card">
+
                         <div class="card-body bg-dark pb-5" style="max-height:75%" id="container">
                             <canvas id="PuissanceHistorique"></canvas>
                             <canvas id="NiveauHistorique"></canvas>
@@ -243,7 +249,7 @@
                     </div>
                 </td>
 
-                <td class="col-6">
+                <td class="col-4">
                     <div class="card mt-2 mb-3">
                         <div class="card-header">
                             <h3>Pannes en cours</h3>
@@ -287,8 +293,12 @@
         colorStop: '#8FC0DA',    // just experiment with them
         strokeColor: '#E0E0E0',  // to see which ones work best for you
         generateGradient: true,
-        highDpiSupport: true,     // High resolution support
-
+        highDpiSupport: true,     // High resolution support,
+        staticZones: [
+        {strokeStyle: "#30B32D", min: -10, max: 7},
+            {strokeStyle: "#FFDD00", min: 7, max: 10},
+            {strokeStyle: "#F03E3E", min: 10, max: 100},
+        ],
     };
     var targetInt = document.getElementById('jaugeInt'); // your canvas element
     var gaugeInt = new Gauge(targetInt).setOptions(opts); // create sexy gauge!
@@ -315,6 +325,11 @@
         strokeColor: '#E0E0E0',  // to see which ones work best for you
         generateGradient: true,
         highDpiSupport: true,     // High resolution support
+        staticZones: [
+            {strokeStyle: "#30B32D", min: -10, max: 7},
+            {strokeStyle: "#FFDD00", min: 7, max: 10},
+            {strokeStyle: "#F03E3E", min: 10, max: 100},
+        ],
 
     };
     var targetExt = document.getElementById('jaugeExt'); // your canvas element
@@ -389,7 +404,7 @@
                                 text: 'Co2 émis (en grammes)'
                             },
                             min: 0,
-                            max: 100
+                            max: 50
                         },
                         x: {
                             title: {
@@ -431,7 +446,7 @@
                                 text: 'Puissance consommée (en watts)'
                             },
                             min: 0,
-                            max: 100
+                            max: 60
                         },
                         x: {
                             title: {
