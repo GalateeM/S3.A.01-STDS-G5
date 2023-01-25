@@ -27,7 +27,7 @@ function diagno(erreur) {
 socket.on("STDS/2/Puissance", (arg) => {
     document.querySelector("#puissance").textContent = arg
     document.querySelector("#puissance2").textContent = arg
-    document.getElementById("image").style.clipPath = "polygon(100% "+(100-(arg*100/60))+"%,100% 100%,0% 100%,0% "+(100-(arg*100/60))+"%)"
+    document.getElementById("image").style.clipPath = "polygon(100% "+(100-(arg*100/80))+"%,100% 100%,0% 100%,0% "+(100-(arg*100/80))+"%)"
 });
 
 socket.on("STDS/2/CO2", (arg) => {
@@ -41,7 +41,6 @@ socket.on("STDS/2/CO2", (arg) => {
 socket.on("STDS/2/Température/T2", (arg) => {
     document.querySelector("#tint").textContent = arg
     gaugeInt.set(document.querySelector('#tint').textContent); // set current value
-    document.querySelector('#jaugeInt')
     document.querySelector("#tint2").textContent = arg
     if(arg<=7){
         document.querySelector("#pastilleTemp").style.color = "#00CC00";
@@ -50,6 +49,15 @@ socket.on("STDS/2/Température/T2", (arg) => {
     }else{
         document.querySelector("#pastilleTemp").style.color = "#FF0000";
     }
+
+
+    if(arg<=-120){
+        document.querySelector('#jaugeInt').style.display = "none";
+        document.querySelector("#tint2").textContent = 'Déconnecté';
+        document.querySelector("#pastilleTemp").style.color = "#AAAAAA";
+    }else{
+        document.querySelector('#jaugeInt').style.display = "block";
+    }
 });
 
 socket.on("STDS/2/Température/T1", (arg) => {
@@ -57,6 +65,12 @@ socket.on("STDS/2/Température/T1", (arg) => {
     gaugeExt.set(document.querySelector('#text').textContent); // set current value
     document.querySelector('#jaugeExt')
     document.querySelector("#text2").textContent = arg
+    if(arg<=-120){
+        document.querySelector('#jaugeExt').style.display = "none";
+        document.querySelector("#text2").textContent = 'Déconnecté';
+    }else{
+        document.querySelector('#jaugeExt').style.display = "block";
+    }
 });
 
 socket.on("STDS/2/Niveau", (arg) => {
