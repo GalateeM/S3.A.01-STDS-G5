@@ -21,7 +21,8 @@ var tempsProblemeDoubleTemps = null;
  * Connexion to TimeScale DB
  */
 
-const { Sequelize, DataTypes } = require('sequelize')
+const { Sequelize, DataTypes } = require('sequelize');
+const { cp } = require('fs');
 const sequelize = new Sequelize('postgres://timescale:password@timescaledb:5432/postgres',
   {
     dialect: 'postgres',
@@ -101,7 +102,6 @@ const Puissance = sequelize.define('Puissance', {
   data: DataTypes.FLOAT
 });
 
-
 const initServer = async () => {
   /**
    * MQTT
@@ -120,174 +120,192 @@ const initServer = async () => {
     })
   })
 
+  var datas1 = [];
+  var datas2 = [];
+  
+  // Historique puissance
+  sequelize.authenticate().then(() => {
+    const puissances = Puissance.findAll(
+      {
+        order: [["dateInsertion", "ASC"]]
+      }
+    ).then((res) => {
+      let datas = [];
+      if (res.length !== 0) {
+        var j = 0;
+        var moyenne = 0;
+        var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+        dateMin.setHours(dateMin.getHours() - 6);
+        for (let i = 0; i < res.length - 1; i++) {
+          if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+            if (j < 50) {
+              moyenne += res[i].data;
+              j++;
+            }
+            else {
+              j = 0;
+              var date = res[i].dateInsertion;
+              date.setHours(date.getHours() + 1);
+              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+              datas.push(dict);
+              moyenne = res[i].data;
+            }
+          }
+        }
+      }
+      // Emission
+      io.emit("PuissanceHistorique", datas);
+    })
+  })
+
+  // Historique niveau
+  sequelize.authenticate().then(() => {
+    const niveaux = Niveau.findAll(
+      {
+        order: [["dateInsertion", "ASC"]]
+      }
+    ).then((res) => {
+      let datas = [];
+      if (res.length !== 0) {
+        var j = 0;
+        var moyenne = 0;
+        var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+        dateMin.setHours(dateMin.getHours() - 6);
+        for (let i = 0; i < res.length - 1; i++) {
+          if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+            if (j < 50) {
+              moyenne += res[i].data;
+              j++;
+            }
+            else {
+              j = 0;
+              var date = res[i].dateInsertion;
+              date.setHours(date.getHours() + 1);
+              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+              datas.push(dict);
+              moyenne = res[i].data;
+            }
+          }
+        }
+      }
+      // Emission
+      io.emit("NiveauHistorique", datas);
+    })
+  })
+
+  // Historique Co2
+  sequelize.authenticate().then(() => {
+    const co2 = CO2.findAll(
+      {
+        order: [["dateInsertion", "ASC"]]
+      }
+    ).then((res) => {
+      let datas = [];
+      if (res.length !== 0) {
+        var j = 0;
+        var moyenne = 0;
+        var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+        dateMin.setHours(dateMin.getHours() - 6);
+        for (let i = 0; i < res.length - 1; i++) {
+          if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+            if (j < 50) {
+              moyenne += res[i].data;
+              j++;
+            }
+            else {
+              j = 0;
+              var date = res[i].dateInsertion;
+              date.setHours(date.getHours() + 1);
+              var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
+              datas.push(dict);
+              moyenne = res[i].data;
+            }
+          }
+        }
+      }
+      // Emission
+      io.emit("CO2Historique", datas);
+    })
+  })
+
+  // Historique Température
+  sequelize.authenticate().then(() => {
+
+    datas1 = [];
+    datas2 = [];
+
+    const temperaturesT1 = TemperatureT1.findAll(
+      {
+        order: [["dateInsertion", "ASC"]]
+      }
+    ).then((res) => {
+      if (res.length !== 0) {
+        var j = 0;
+        var moyenne = 0;
+        var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+        dateMin.setHours(dateMin.getHours() - 6);
+        for (let i = 0; i < res.length - 1; i++) {
+          if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+            if (j < 50) {
+              moyenne += res[i].data;
+              j++;
+            }
+            else {
+              j = 0;
+              var date = res[i].dateInsertion;
+              date.setHours(date.getHours() + 1);
+              var dict = { "dateInsertion1": date.toLocaleTimeString("fr-FR"), "data1": moyenne / 50 };
+              datas1.push(dict);
+              moyenne = res[i].data;
+            }
+          }
+        }
+        const temperaturesT2 = TemperatureT2.findAll(
+          {
+            order: [["dateInsertion", "ASC"]]
+          }
+        ).then((res) => {
+          var j = 0;
+          var moyenne = 0;
+          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+          dateMin.setHours(dateMin.getHours() - 6);
+          for (let i = 0; i < res.length - 1; i++) {
+            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+              if (j < 50) {
+                moyenne += res[i].data;
+                j++;
+              }
+              else {
+                j = 0;
+                var date = res[i].dateInsertion;
+                date.setHours(date.getHours() + 1);
+                var dict = { "dateInsertion2": date.toLocaleTimeString("fr-FR"), "data2": moyenne / 50 };
+                datas2.push(dict);
+                moyenne = res[i].data;
+              }
+            }
+          }
+
+          var datas = []
+
+          var taille = datas1.length;
+
+          if (datas1.length > datas2.length) {
+            taille = datas2.length;
+          }
+
+          for (var i = 0; i < taille; i++) {
+            datas.push({ "dateInsertion1": datas1[i].dateInsertion1, "dateInsertion2": datas2[i].dateInsertion2, "T1": datas1[i].data1, "T2": datas2[i].data2 });
+          }
+
+          // Emission
+          io.emit("TemperatureHistorique", datas);
+        })
+      }
+    })
+  })
+
   client.on("message", (topic, payload) => {
-
-    // Historique puissance
-    sequelize.authenticate().then(() => {
-      const puissances = Puissance.findAll(
-        {
-          order: [["dateInsertion", "ASC"]]
-        }
-      ).then((res) => {
-        let datas = [];
-        if (res.length !== 0) {
-          var j = 0;
-          var moyenne = 0;
-          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
-          dateMin.setHours(dateMin.getHours() - 6);
-          for (let i = 0; i < res.length - 1; i++) {
-            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
-              if (j < 50) {
-                moyenne += res[i].data;
-                j++;
-              }
-              else {
-                j = 0;
-                var date = res[i].dateInsertion;
-                date.setHours(date.getHours() + 1);
-                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-                datas.push(dict);
-                moyenne = res[i].data;
-              }
-            }
-          }
-        }
-        // Emission
-        io.emit("PuissanceHistorique", datas);
-      })
-    })
-
-    // Historique niveau
-    sequelize.authenticate().then(() => {
-      const niveaux = Niveau.findAll(
-        {
-          order: [["dateInsertion", "ASC"]]
-        }
-      ).then((res) => {
-        let datas = [];
-        if (res.length !== 0) {
-          var j = 0;
-          var moyenne = 0;
-          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
-          dateMin.setHours(dateMin.getHours() - 6);
-          for (let i = 0; i < res.length - 1; i++) {
-            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
-              if (j < 50) {
-                moyenne += res[i].data;
-                j++;
-              }
-              else {
-                j = 0;
-                var date = res[i].dateInsertion;
-                date.setHours(date.getHours() + 1);
-                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-                datas.push(dict);
-                moyenne = res[i].data;
-              }
-            }
-          }
-        }
-        // Emission
-        io.emit("NiveauHistorique", datas);
-      })
-    })
-
-    // Historique Co2
-    sequelize.authenticate().then(() => {
-      const co2 = CO2.findAll(
-        {
-          order: [["dateInsertion", "ASC"]]
-        }
-      ).then((res) => {
-        let datas = [];
-        if (res.length !== 0) {
-          var j = 0;
-          var moyenne = 0;
-          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
-          dateMin.setHours(dateMin.getHours() - 6);
-          for (let i = 0; i < res.length - 1; i++) {
-            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
-              if (j < 50) {
-                moyenne += res[i].data;
-                j++;
-              }
-              else {
-                j = 0;
-                var date = res[i].dateInsertion;
-                date.setHours(date.getHours() + 1);
-                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-                datas.push(dict);
-                moyenne = res[i].data;
-              }
-            }
-          }
-        }
-        // Emission
-        io.emit("CO2Historique", datas);
-      })
-    })
-
-    // Historique Température
-    sequelize.authenticate().then(() => {
-      const temperaturesT1 = TemperatureT1.findAll(
-        {
-          order: [["dateInsertion", "ASC"]]
-        }
-      ).then((res) => {
-        if (res.length !== 0) {
-          var datas1 = [];
-          var j = 0;
-          var moyenne = 0;
-          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
-          dateMin.setHours(dateMin.getHours() - 6);
-          for (let i = 0; i < res.length - 1; i++) {
-            if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
-              if (j < 50) {
-                moyenne += res[i].data;
-                j++;
-              }
-              else {
-                j = 0;
-                var date = res[i].dateInsertion;
-                date.setHours(date.getHours() + 1);
-                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-                datas1.push(dict);
-                moyenne = res[i].data;
-              }
-            }
-          }
-          const temperaturesT2 = TemperatureT2.findAll(
-            {
-              order: [["dateInsertion", "ASC"]]
-            }
-          ).then((res) => {
-            var datas2 = [];
-            var j = 0;
-            var moyenne = 0;
-            var dateMin = clonedeep(res[res.length - 1].dateInsertion);
-            dateMin.setHours(dateMin.getHours() - 6);
-            for (let i = 0; i < res.length - 1; i++) {
-              if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
-                if (j < 50) {
-                  moyenne += res[i].data;
-                  j++;
-                }
-                else {
-                  j = 0;
-                  var date = res[i].dateInsertion;
-                  date.setHours(date.getHours() + 1);
-                  var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
-                  datas2.push(dict);
-                  moyenne = res[i].data;
-                }
-              }
-            }
-            // Emission
-            io.emit("TemperetureHistorique", { "T1": datas1, "T2": datas2 });
-          })
-        }
-      })
-    })
 
     let data = payload.toString()
 
