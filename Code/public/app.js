@@ -27,10 +27,10 @@ socket.on("STDS/2/Température/T2", (arg) => {
         diagno("capteur température 2 déconnecté")
     }
 
-    if(arg<20){
+    if(arg<=7){
         document.querySelector("#pastilleTemp").style.color = "#00CC00";
-    }else if(arg<30){
-        document.querySelector('#pastilleTemp').style.color = "#de7d16";
+    }else if(arg<=10){
+        document.querySelector('#pastilleTemp').style.color = "#f9dc20";
     }else{
         document.querySelector("#pastilleTemp").style.color = "#FF0000";
     }
