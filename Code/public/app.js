@@ -2,12 +2,9 @@ const socket = io("http://localhost:3000");
 
 function diagno(erreur) {
     let lienDocumentation = null;
-    if(erreur.length==0) {
+    if(erreur ===null) {
         document.querySelector("#histo").innerHTML = '<div>Aucune panne en cours !</div>';
     } else {
-        var message = "";
-        nbErreur = erreur.length;
-        
         switch(erreur) {
             case "Problème de fonctionnement du module peltier":
                 console.log("#############ICI#############################################");
