@@ -318,6 +318,8 @@ const initServer = async () => {
     //Insertion of data into timescale tables for history
     //create also notifications
     sequelize.sync().then(() => {
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      console.log(typeAlertEnCours);
       var isAlert = false;
       let topicSplit = topic.split('/');
       let dataName = topicSplit[topicSplit.length - 1];
@@ -332,7 +334,7 @@ const initServer = async () => {
           } else {
             isTemp1Inf = false;
           }
-          if(data<-120) {
+          if(data<-120 && typeAlertEnCours===null) {
             isAlert = true;
             if (typeAlertEnCours != "Capteur de température ambiant déconnecté !") {
               diagnostiqueEnCours.push("Capteur de température ambiant déconnecté !");
@@ -351,9 +353,10 @@ const initServer = async () => {
           } else {
             isTemp2Sup = false;
           }
-          if(data<-120) {
+          if(data<-120 && typeAlertEnCours===null) {
             isAlert = true;
             if (typeAlertEnCours != "Capteur de température du fût déconnecté !") {
+              console.log("PAS NORMAL DU TOUUUUUUUUUUUUUUUUUUUUUUUUT");
               diagnostiqueEnCours.push("Capteur de température du fût déconnecté !");
               typeAlertEnCours = "Capteur de température du fût déconnecté !";
               sendNotification(typeAlertEnCours);
@@ -365,7 +368,7 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
-          if (data < -10) {
+          if (data==-10 &&typeAlertEnCours===null) {
             isAlert = true;
             if (typeAlertEnCours != "Wattmètre déconnecté !") {
               diagnostiqueEnCours.push("Wattmètre déconnecté !");
@@ -374,7 +377,11 @@ const initServer = async () => {
             }
           }
           if (data>75) {
-            diagnostiqueEnCours.push("Puissance consommée trop importante !");
+            if (typeAlertEnCours != "Puissance consommée trop importante !") {
+              diagnostiqueEnCours.push("Puissance consommée trop importante !");
+              typeAlertEnCours = "Puissance consommée trop importante !";
+              sendNotification(typeAlertEnCours);
+            }
           }
           break;
         case 'Niveau':
@@ -382,7 +389,7 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
-          if (data < 10) {
+          if (data < 10 && typeAlertEnCours===null) {
             isAlert = true;
             if (typeAlertEnCours != "Le fût est bientôt vide, pensez à le recharger !") {
               typeAlertEnCours = "Le fût est bientôt vide, pensez à le recharger !";
@@ -395,7 +402,7 @@ const initServer = async () => {
             dateInsertion: Date.now(),
             data: data,
           });
-          if (data === "MQTT 2 déconnecté !") {
+          if (data === "MQTT 2 déconnecté !" && !isAlert) {
             isAlert = true;
             if (typeAlertEnCours != "MQTT 2 déconnecté !") {
               typeAlertEnCours = "MQTT 2 déconnecté !";
@@ -421,7 +428,7 @@ const initServer = async () => {
           var diffSecondes= (now.getTime() - tempsProblemeDoubleTemps) / 1000;
           //si cela fait plus de 30min que les températures ne sont pas idéales et si l'alerte n'est pas déjà présente
           //alors on crée une alerte
-          if(diffSecondes>20) {//1800
+          if(diffSecondes>20 && typeAlertEnCours===null) {//1800
             isAlert = true;
             if(typeAlertEnCours!="Problème de fonctionnement du module peltier") {
               diagnostiqueEnCours.push("Problème de fonctionnement du module peltier");
