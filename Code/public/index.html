@@ -376,9 +376,18 @@
 </script>
 
 <script>
+
+    var chartCO2 = null;
+    var chartPuissance = null;
+    var chartNiveau = null;
+    var chartTemperature = null;
+
     // Diagramme pour l'historique du Co2
     socket.on("CO2Historique", (arg) => {
-        new Chart(
+        if (chartCO2 !== null) {
+            chartCO2.destroy();
+        }
+        chartCO2 = new Chart(
             document.getElementById('CO2Historique'),
             {
                 type: 'line',
@@ -415,12 +424,15 @@
                 }
             }
         );
-        this.document.getElementById("CO2Historique").style.display = "none";
+        document.getElementById("CO2Historique").style.display = "none";
     });
 
     // Diagramme pour l'historique de la puissance
     socket.on("PuissanceHistorique", (arg) => {
-        new Chart(
+        if (chartPuissance !== null) {
+            chartPuissance.destroy();
+        }
+        chartPuissance = new Chart(
             document.getElementById('PuissanceHistorique'),
             {
                 type: 'line',
@@ -462,7 +474,10 @@
 
     // Diagramme pour l'historique du niveau
     socket.on("NiveauHistorique", (arg) => {
-        new Chart(
+        if (chartNiveau !== null) {
+            chartNiveau.destroy();
+        }
+        chartNiveau = new Chart(
             document.getElementById('NiveauHistorique'),
             {
                 type: 'line',
@@ -503,12 +518,15 @@
                 }
             }
         );
-        this.document.getElementById("NiveauHistorique").style.display = "none";
+        document.getElementById("NiveauHistorique").style.display = "none";
     });
 
     // Diagramme pour l'historique de la température
     socket.on("TemperatureHistorique", (arg) => {
-        new Chart(
+        if (chartTemperature !== null) {
+            chartTemperature.destroy();
+        }
+        chartTemperature = new Chart(
             document.getElementById('TemperatureHistorique'),
             {
                 type: 'line',
@@ -557,8 +575,8 @@
                 }
             }
         );
+        this.document.getElementById("TemperatureHistorique").style.display = "block";
     });
-    this.document.getElementById("TemperatureHistorique").style.display = "block";
 </script>
 
 </html>
