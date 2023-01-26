@@ -1,23 +1,29 @@
 const socket = io("http://localhost:3000");
 
 function diagno(erreur) {
-    let lienDocumentation = null;
-    if(erreur ===null) {
+    if(erreur.length == 0) {
         document.querySelector("#histo").innerHTML = '<div>Aucune panne en cours !</div>';
     } else {
-        switch(erreur) {
-            case "Problème de fonctionnement du module peltier":
-                console.log("#############ICI#############################################");
-                lienDocumentation = "Pour corriger cette panne, consultez les documentations suivantes : <br>";
-                lienDocumentation += "- <a id='test' href = '/maintenance.html'>Maintenance Curative - Gamme 1</a><br>";
-                lienDocumentation += "- <a id='test' href='/maintenance.html'>Maintenance Curative - Gamme 2</a>";
-                break;
-            case "Puissance consommée trop importante !":
-                lienDocumentation = "Pour corriger cette panne, consultez la documentation suivante : <br>";
-                lienDocumentation += "<a href = '/maintenance.html'>Maintenance Curative - Gamme 6</a>";
-                break;
+        var nbErreur = erreur.length;
+        var message = "<div>";
+        let lienDocumentation = null;
+        for(let i=0; i<nbErreur; i++) {
+            switch(erreur[i]) {
+                case "Problème de fonctionnement du module peltier":
+                    lienDocumentation = "Pour corriger cette panne, consultez les documentations suivantes : <br>";
+                    lienDocumentation += "- <a id='test' href = '/maintenance.html'>Maintenance Curative - Gamme 1</a><br>";
+                    lienDocumentation += "- <a id='test' href='/maintenance.html'>Maintenance Curative - Gamme 2</a>";
+                    message += erreur[i] + "<br>" + lienDocumentation + "<br> <br>";
+                    break;
+                case "Puissance consommée trop importante !":
+                    lienDocumentation = "Pour corriger cette panne, consultez la documentation suivante : <br>";
+                    lienDocumentation += "<a href = '/maintenance.html'>Maintenance Curative - Gamme 6</a>";
+                    message += erreur[i] + "<br>" + lienDocumentation + "<br> <br>";
+                    break;
+            }
         }
-        document.querySelector("#histo").innerHTML = '<div>'+erreur + "<br>" + lienDocumentation+'</div>';
+        message += "</div>";
+        document.querySelector("#histo").innerHTML = message;
     }
 }
 
@@ -80,5 +86,5 @@ socket.on("STDS/2/Diag", (arg) => {
 });
 
 socket.on("Panne", (arg) => {
-    diagno(arg[0]);
+    diagno(arg);
 });

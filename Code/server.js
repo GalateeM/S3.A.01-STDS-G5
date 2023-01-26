@@ -123,13 +123,15 @@ const initServer = async () => {
   /**
    * Destroy too old datas, first time
    */
+  var dateMinDestroy = new Date();
+  dateMinDestroy.setHours(dateMinDestroy.getHours() - 7);
   var timeOnDestroy = new Date();
   const { Op } = require("sequelize");
   sequelize.authenticate().then(() => {
     Puissance.destroy({
       where: {
         dateInsertion: {
-          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          [Op.lt]: dateMinDestroy
         }
       },
       force : true
@@ -137,7 +139,7 @@ const initServer = async () => {
     TemperatureT1.destroy({
       where: {
         dateInsertion: {
-          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          [Op.lt]: dateMinDestroy
         }
       },
       force : true
@@ -145,7 +147,7 @@ const initServer = async () => {
     TemperatureT2.destroy({
       where: {
         dateInsertion: {
-          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          [Op.lt]: dateMinDestroy
         }
       },
       force : true
@@ -153,7 +155,7 @@ const initServer = async () => {
     Niveau.destroy({
       where: {
         dateInsertion: {
-          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          [Op.lt]: dateMinDestroy
         }
       },
       force : true
@@ -161,7 +163,7 @@ const initServer = async () => {
     CO2.destroy({
       where: {
         dateInsertion: {
-          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          [Op.lt]: dateMinDestroy
         }
       },
       force : true
@@ -169,7 +171,7 @@ const initServer = async () => {
     Diag.destroy({
       where: {
         dateInsertion: {
-          [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+          [Op.lt]: dateMinDestroy
         }
       },
       force : true
@@ -193,7 +195,7 @@ const initServer = async () => {
         if (res.length !== 0) {
           var j = 0;
           var moyenne = 0;
-          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+          var dateMin = new Date();
           dateMin.setHours(dateMin.getHours() - 6);
           for (let i = 0; i < res.length - 1; i++) {
             if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
@@ -228,7 +230,7 @@ const initServer = async () => {
         if (res.length !== 0) {
           var j = 0;
           var moyenne = 0;
-          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+          var dateMin = new Date();
           dateMin.setHours(dateMin.getHours() - 6);
           for (let i = 0; i < res.length - 1; i++) {
             if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
@@ -263,7 +265,7 @@ const initServer = async () => {
         if (res.length !== 0) {
           var j = 0;
           var moyenne = 0;
-          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+          var dateMin = new Date();
           dateMin.setHours(dateMin.getHours() - 6);
           for (let i = 0; i < res.length - 1; i++) {
             if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
@@ -301,7 +303,7 @@ const initServer = async () => {
         if (res.length !== 0) {
           var j = 0;
           var moyenne = 0;
-          var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+          var dateMin = new Date();
           dateMin.setHours(dateMin.getHours() - 6);
           for (let i = 0; i < res.length - 1; i++) {
             if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
@@ -326,7 +328,7 @@ const initServer = async () => {
           ).then((res) => {
             var j = 0;
             var moyenne = 0;
-            var dateMin = clonedeep(res[res.length - 1].dateInsertion);
+            var dateMin = new Date();
             dateMin.setHours(dateMin.getHours() - 6);
             for (let i = 0; i < res.length - 1; i++) {
               if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
@@ -475,11 +477,11 @@ const initServer = async () => {
       }
       if (isTemp1Inf && isTemp2Sup) {
         if (tempsProblemeDoubleTemps === null) {
-          var now = new Date();
-          tempsProblemeDoubleTemps = now.getTime();
+          var tpsDate = new Date();
+          tempsProblemeDoubleTemps = tpsDate.getTime();
         } else {
-          var now = new Date();
-          var diffSecondes = (now.getTime() - tempsProblemeDoubleTemps) / 1000;
+          var tpsDate = new Date();
+          var diffSecondes = (tpsDate.getTime() - tempsProblemeDoubleTemps) / 1000;
           //si cela fait plus de 30min que les températures ne sont pas idéales et si l'alerte n'est pas déjà présente
           //alors on crée une alerte
           if (diffSecondes > 20 && typeAlertEnCours === null) {//1800
@@ -505,12 +507,16 @@ const initServer = async () => {
     });
 
     //delete the too old values every 1 hours
-    var now = new Date;
-    if(now.getHours()-timeOnDestroy.getHours()>=1) {
+    var dateNow = new Date();
+    var dateMinDestroy = new Date();
+    dateMinDestroy.setHours(dateMinDestroy.getHours() - 7);
+    console.log("####################################");
+    console.log(dateMinDestroy);
+    if(dateNow.getHours()-timeOnDestroy.getHours()>=1) {
       Puissance.destroy({
         where: {
           dateInsertion: {
-            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+            [Op.lt]: dateMinDestroy
           }
         },
         force : true
@@ -518,7 +524,7 @@ const initServer = async () => {
       TemperatureT1.destroy({
         where: {
           dateInsertion: {
-            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+            [Op.lt]: dateMinDestroy
           }
         },
         force : true
@@ -526,7 +532,7 @@ const initServer = async () => {
       TemperatureT2.destroy({
         where: {
           dateInsertion: {
-            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+            [Op.lt]: dateMinDestroy
           }
         },
         force : true
@@ -534,7 +540,7 @@ const initServer = async () => {
       Niveau.destroy({
         where: {
           dateInsertion: {
-            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+            [Op.lt]: dateMinDestroy
           }
         },
         force : true
@@ -542,7 +548,7 @@ const initServer = async () => {
       CO2.destroy({
         where: {
           dateInsertion: {
-            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+            [Op.lt]: dateMinDestroy
           }
         },
         force : true
@@ -550,12 +556,13 @@ const initServer = async () => {
       Diag.destroy({
         where: {
           dateInsertion: {
-            [Op.lt]: Sequelize.literal("NOW() - INTERVAL '7h'")
+            [Op.lt]: dateMinDestroy
           }
         },
         force : true
       });
     }
+    timeOnDestroy = new Date();
 
   })
 
