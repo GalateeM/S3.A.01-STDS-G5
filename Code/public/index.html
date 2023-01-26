@@ -168,7 +168,7 @@
 
                     <h1 class="text-center" id="titre"></h1>
                     <div class="card">
-                        <div class="card-body bg-dark pb-5" style="max-height:75%" id="container">
+                        <div class="card-body bg-dark pb-5" style="height: 500px;" id="container">
                             <canvas id="PuissanceHistorique"></canvas>
                             <canvas id="NiveauHistorique"></canvas>
                             <canvas id="CO2Historique"></canvas>
@@ -384,198 +384,210 @@
 
     // Diagramme pour l'historique du Co2
     socket.on("CO2Historique", (arg) => {
-        if (chartCO2 !== null) {
-            chartCO2.destroy();
-        }
-        chartCO2 = new Chart(
-            document.getElementById('CO2Historique'),
-            {
-                type: 'line',
-                data: {
-                    labels: arg.map(row => row.dateInsertion),
-                    datasets: [
-                        {
-                            label: 'Historique du Co2 émis',
-                            data: arg.map(row => row.data),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Co2 émis (en grammes)'
-                            },
-                            min: 0,
-                            max: 50
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
+        if (chartCO2 === null) {
+            chartCO2 = new Chart(
+                document.getElementById('CO2Historique'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: arg.map(row => row.dateInsertion),
+                        datasets: [
+                            {
+                                label: 'Historique du Co2 émis',
+                                data: arg.map(row => row.data),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#FFC107',
+                                borderColor: '#FFC107'
                             }
-                        }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Co2 émis (en grammes)'
+                                },
+                                min: 0,
+                                max: 50,
+                                ticks: {
+                                    // forces step size to be 10 units
+                                    stepSize: 10
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            }
+                        },
+                        maintainAspectRatio: false,
+                        reponsive : true
                     }
                 }
-            }
-        );
-        document.getElementById("CO2Historique").style.display = "none";
+            );
+            document.getElementById("CO2Historique").style.display = "none";
+        }
     });
 
     // Diagramme pour l'historique de la puissance
     socket.on("PuissanceHistorique", (arg) => {
-        if (chartPuissance !== null) {
-            chartPuissance.destroy();
-        }
-        chartPuissance = new Chart(
-            document.getElementById('PuissanceHistorique'),
-            {
-                type: 'line',
-                data: {
-                    labels: arg.map(row => row.dateInsertion),
-                    datasets: [
-                        {
-                            label: 'Historique de la puissance consommée',
-                            data: arg.map(row => row.data),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Puissance consommée (en watts)'
-                            },
-                            min: 0,
-                            max: 80
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
+        if (chartPuissance === null) {
+            chartPuissance = new Chart(
+                document.getElementById('PuissanceHistorique'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: arg.map(row => row.dateInsertion),
+                        datasets: [
+                            {
+                                label: 'Historique de la puissance consommée',
+                                data: arg.map(row => row.data),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#FFC107',
+                                borderColor: '#FFC107'
                             }
-                        }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Puissance consommée (en watts)'
+                                },
+                                min: 0,
+                                max: 80,
+                                ticks: {
+                                    // forces step size to be 10 units
+                                    stepSize: 10
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            }
+                        },
+                        maintainAspectRatio: false,
+                        reponsive : true
                     }
                 }
-            }
-        );
-        document.getElementById('PuissanceHistorique').style.display = "none";
+            );
+            document.getElementById('PuissanceHistorique').style.display = "none";
+        }
     });
 
     // Diagramme pour l'historique du niveau
     socket.on("NiveauHistorique", (arg) => {
-        if (chartNiveau !== null) {
-            chartNiveau.destroy();
-        }
-        chartNiveau = new Chart(
-            document.getElementById('NiveauHistorique'),
-            {
-                type: 'line',
-                data: {
-                    labels: arg.map(row => row.dateInsertion),
-                    datasets: [
-                        {
-                            label: 'Historique du niveau',
-                            data: arg.map(row => row.data),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Quantité restante (en %)'
+        if (chartNiveau === null) {
+            chartNiveau = new Chart(
+                document.getElementById('NiveauHistorique'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: arg.map(row => row.dateInsertion),
+                        datasets: [
+                            {
+                                label: 'Historique du niveau',
+                                data: arg.map(row => row.data),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#FFC107',
+                                borderColor: '#FFC107'
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Quantité restante (en %)'
+                                },
+                                min: 0,
+                                max: 100,
+                                ticks: {
+                                    // forces step size to be 10 units
+                                    stepSize: 10,
+                                }
                             },
-                            min: 0,
-                            max: 100,
-                            ticks: {
-                                // forces step size to be 10 units
-                                stepSize: 10
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
                             }
                         },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        }
+                        maintainAspectRatio : false,
+                        reponsive : true
                     }
                 }
-            }
-        );
-        document.getElementById("NiveauHistorique").style.display = "none";
+            );
+            document.getElementById("NiveauHistorique").style.display = "none";
+        }
     });
 
     // Diagramme pour l'historique de la température
     socket.on("TemperatureHistorique", (arg) => {
-        if (chartTemperature !== null) {
-            chartTemperature.destroy();
-        }
-        chartTemperature = new Chart(
-            document.getElementById('TemperatureHistorique'),
-            {
-                type: 'line',
-                data: {
-                    labels: arg.map(row => row.dateInsertion1),
-                    datasets: [
-                        {
-                            label: 'Historique de la température T1',
-                            data: arg.map(row => row.T1),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        },
-                        {
-                            label: 'Historique de la température T2',
-                            data: arg.map(row => row.T2),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Température (en °c)'
+        if (chartTemperature === null) {
+            chartTemperature = new Chart(
+                document.getElementById('TemperatureHistorique'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: arg.map(row => row.dateInsertion1),
+                        datasets: [
+                            {
+                                label: 'Historique de la température ambiante',
+                                data: arg.map(row => row.T1),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#FFC107',
+                                borderColor: '#FFC107'
                             },
-                            min: 0,
-                            max: 100,
-                            ticks: {
-                                // forces step size to be 10 units
-                                stepSize: 10
+                            {
+                                label: 'Historique de la température du fût',
+                                data: arg.map(row => row.T2),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#F03E3E',
+                                borderColor: '#F03E3E'
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Température (en °c)'
+                                },
+                                min: 0,
+                                max: 100,
+                                ticks: {
+                                    // forces step size to be 10 units
+                                    stepSize: 10
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
                             }
                         },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        }
+                        maintainAspectRatio: false,
+                        reponsive : true
                     }
                 }
-            }
-        );
-        this.document.getElementById("TemperatureHistorique").style.display = "block";
+            );
+            this.document.getElementById("TemperatureHistorique").style.display = "block";
+        }
     });
 </script>
 
