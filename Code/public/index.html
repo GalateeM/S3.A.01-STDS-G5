@@ -298,7 +298,7 @@
             { strokeStyle: "#30B32D", min: -10, max: 7 },
             { strokeStyle: "#FFDD00", min: 7, max: 10 },
             { strokeStyle: "#F03E3E", min: 10, max: 100 },
-        ],
+        ]
     };
     var targetInt = document.getElementById('jaugeInt'); // your canvas element
     var gaugeInt = new Gauge(targetInt).setOptions(opts); // create sexy gauge!
@@ -314,6 +314,11 @@
     var chartPuissance = null;
     var chartNiveau = null;
     var chartTemperature = null;
+
+    var isCO2 = false;
+    var isPuissance = false;
+    var isNiveau = false;
+    var isTemperature = true;
 
     var opts = {
         angle: 0.15, // The span of the gauge arc
@@ -335,8 +340,7 @@
             { strokeStyle: "#30B32D", min: -10, max: 7 },
             { strokeStyle: "#FFDD00", min: 7, max: 10 },
             { strokeStyle: "#F03E3E", min: 10, max: 100 },
-        ],
-
+        ]
     };
     var targetExt = document.getElementById('jaugeExt'); // your canvas element
     var gaugeExt = new Gauge(targetExt).setOptions(opts); // create sexy gauge!
@@ -356,31 +360,38 @@
         this.document.getElementById("NiveauHistorique").style.display = "none";
         this.document.getElementById("TemperatureHistorique").style.display = "none";
 
+        isCO2 = false;
+        isNiveau = false;
+        isPuissance = false;
+        isTemperature = false;
+
         titre = "";
 
-        if (chartCO2 !== null && chartNiveau !== null && chartPuissance !== null && chartTemperature != null) {
-            switch (nom) {
-                case "cardCo2":
-                    titre = "Co2"
-                    this.document.getElementById("CO2Historique").style.display = "block";
-                    break;
-                case "cardPuissance":
-                    titre = "Consommation"
-                    this.document.getElementById("PuissanceHistorique").style.display = "block";
-                    break;
-                case "cardQuantite":
-                    titre = "Niveau"
-                    this.document.getElementById("NiveauHistorique").style.display = "block";
-                    break;
-                case "cardJauge":
-                    titre = "Température"
-                    this.document.getElementById("TemperatureHistorique").style.display = "block";
-                    break
-            }
-            document.getElementById("titre").textContent = titre;
-
-            this.document.getElementById(nom).style.display = "block";
+        switch (nom) {
+            case "cardCo2":
+                titre = "Co2"
+                this.document.getElementById("CO2Historique").style.display = "block";
+                isCO2 = true;
+                break;
+            case "cardPuissance":
+                titre = "Consommation"
+                this.document.getElementById("PuissanceHistorique").style.display = "block";
+                isPuissance = true;
+                break;
+            case "cardQuantite":
+                titre = "Niveau"
+                this.document.getElementById("NiveauHistorique").style.display = "block";
+                isNiveau = true;
+                break;
+            case "cardJauge":
+                titre = "Température"
+                this.document.getElementById("TemperatureHistorique").style.display = "block";
+                isTemperature = true;
+                break
         }
+        document.getElementById("titre").textContent = titre;
+
+        this.document.getElementById(nom).style.display = "block";
     }
 
     // Diagramme pour l'historique du Co2
@@ -429,7 +440,12 @@
                     }
                 }
             );
-            document.getElementById("CO2Historique").style.display = "none";
+        }
+        if (isCO2) {
+            document.getElementById('CO2Historique').style.display = "block";
+        }
+        else {
+            document.getElementById('CO2Historique').style.display = "none";
         }
     });
 
@@ -479,6 +495,11 @@
                     }
                 }
             );
+        }
+        if (isPuissance) {
+            document.getElementById('PuissanceHistorique').style.display = "block";
+        }
+        else {
             document.getElementById('PuissanceHistorique').style.display = "none";
         }
     });
@@ -529,7 +550,12 @@
                     }
                 }
             );
-            document.getElementById("NiveauHistorique").style.display = "none";
+        }
+        if (isNiveau) {
+            document.getElementById('NiveauHistorique').style.display = "block";
+        }
+        else {
+            document.getElementById('NiveauHistorique').style.display = "none";
         }
     });
 
@@ -587,7 +613,12 @@
                     }
                 }
             );
-            this.document.getElementById("TemperatureHistorique").style.display = "block";
+        }
+        if (isTemperature) {
+            document.getElementById('TemperatureHistorique').style.display = "block";
+        }
+        else {
+            document.getElementById('TemperatureHistorique').style.display = "none";
         }
     });
 </script>
