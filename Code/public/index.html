@@ -123,6 +123,8 @@
             <li><a href="/index.html">Accueil</a></li>
             <li><a href="/maintenance.html">Maintenance</a></li>
         </ul>
+        <button class="open-button" onclick="openForm()"><img src="./img/enveloppe.png" height="30vw" alt="Inscription aux notifications par mail">
+       </button>
     </nav>
 
     <table class="table table-bordered">
@@ -174,6 +176,23 @@
                             <canvas id="CO2Historique"></canvas>
                             <canvas id="TemperatureHistorique"></canvas>
                         </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-popup" id="myForm" method="post">
+                        <form class="form-container" id="formEmail">
+                            <h2>Inscrivez-vous aux notifications</h2><br>
+                
+                            <label for="email"><b>Par mail</b></label><br>
+                            <input type="email" name="email" autocomplete  placeholder="Entrez votre email" id="email"/><br><br>
+                
+                            <label for="push"><b>Par notification push</b></label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" id="push" name="push" checked>
+                            <br><br>
+                
+                            <button type="submit" class="btn">Je m'inscris</button>
+                            <button type="button" class="btn cancel" onclick="closeForm()">Annuler</button>
+                        </form>
                     </div>
                 </td>
             </tr>
@@ -376,6 +395,44 @@
 </script>
 
 <script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+
+    const form  = document.getElementById('formEmail');
+    var listeMail = "";
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        var message = "";
+        var mail = document.getElementById("email").value;
+        listeMail = listeMail + mail + " ,";
+        let isPush = document.getElementById("push").checked;
+        if(mail!=="") {
+            OneSignal.push(function() {
+                console.log(mail);
+            OneSignal.setEmail(mail);
+            });
+            message += "Vous recevrez désormais des notifications par mail. \n";
+        }
+        if(isPush===true) {
+            OneSignal.setSubscription(true);
+            message += "Vous recevrez désormais des notifications push."
+        }
+        if(isPush || mail!="") {
+            alert(message);
+            closeForm();
+        } else {
+            closeForm();
+        }
+
+    });
+    
+
     // Diagramme pour l'historique du Co2
     socket.on("CO2Historique", (arg) => {
         new Chart(

@@ -462,6 +462,8 @@ const initServer = async () => {
             isAlert = true;
             if (typeAlertEnCours != "MQTT 2 déconnecté !") {
               typeAlertEnCours = "MQTT 2 déconnecté !";
+              diagnostiqueEnCours.push("MQTT 2 déconnecté !");
+              //sendEmail("MQTT 2 déconnecté !");
               sendNotification(typeAlertEnCours);
             }
           }
@@ -500,6 +502,7 @@ const initServer = async () => {
       if (isAlert = false) {
         typeAlertEnCours = null;
       }
+      //tests : diagnostiqueEnCours = ["Problème de fonctionnement du module peltier", "Puissance consommée trop importante !", "MQTT 2 déconnecté !"];
       io.emit("Panne", diagnostiqueEnCours);
 
     }).catch((error) => {
@@ -510,8 +513,6 @@ const initServer = async () => {
     var dateNow = new Date();
     var dateMinDestroy = new Date();
     dateMinDestroy.setHours(dateMinDestroy.getHours() - 7);
-    console.log("####################################");
-    console.log(dateMinDestroy);
     if(dateNow.getHours()-timeOnDestroy.getHours()>=1) {
       Puissance.destroy({
         where: {
@@ -602,15 +603,10 @@ app.get("/liste-pannes", (req, res) => {
 /**
  * Notifications
  */
+const OneSignal = require('onesignal-node');
+const client = new OneSignal.Client('b86bb1c7-a686-4471-a3a7-07bf311b13db', 'YjFhZjAwZDMtMTYyOC00Y2UwLTg3MzktYTJmYzRlZjllMDIx');
+
 function sendNotification(typeAlertEnCours) {
-  console.log("#####################ICI##########################################");
-  console.log("===============================================================");
-  const OneSignal = require('onesignal-node');
-  const client = new OneSignal.Client('b86bb1c7-a686-4471-a3a7-07bf311b13db', 'YjFhZjAwZDMtMTYyOC00Y2UwLTg3MzktYTJmYzRlZjllMDIx');
-
-  console.log(client);
-  console.log("==========================================================");
-
   const notification = {
     contents: {
       'en': typeAlertEnCours,
@@ -622,5 +618,3 @@ function sendNotification(typeAlertEnCours) {
     .then(response => console.log(response))
     .catch(e => { });
 }
-
-io.emit("Puissance", "testtttttt");

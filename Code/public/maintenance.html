@@ -83,7 +83,11 @@
         addDoc("Maintenance Curative - Gamme 5", "Gamme de maintenance CC-LLBH-15.pdf");
         addDoc("Maintenance Curative - Gamme 6", "Gamme de maintenance CC-LLBH-16.pdf");
         
-        showDoc(0)
+        showDoc(0);
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const docParam = urlParams.get('doc');
+        showDoc(docParam);
     </script>
 </body>
 
