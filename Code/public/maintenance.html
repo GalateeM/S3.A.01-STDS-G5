@@ -19,17 +19,20 @@
 </head>
 
 <body>
-    <nav class="navbar bg-warning">
-        <ul class="bg-transparent text-center">
-            <li><a href="https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5" target="_blank"><i
-                        class="fab fa-github"></i></a></li>
-            <li class="fw-bold">PintVision</li>
-            <li><a href="/index.html">Accueil</a></li>
-            <li><a href="/maintenance.html">Maintenance</a></li>
-        </ul>
-    </nav>
+    <div style="position: fixed; width: 100%; top: 0; z-index: 1;">
+        <nav class="navbar bg-warning" style="height: 60px;">
+            <ul class="bg-transparent text-center" style="position: absolute; top: 0;">
+                <li><a href="https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5" target="_blank"><i
+                            class="fab fa-github"></i></a></li>
+                <li class="fw-bold">PintVision</li>
+                <li><a href="/index.html">Accueil</a></li>
+                <li><a href="/maintenance.html">Maintenance</a></li>
+            </ul>
+        </nav>
+    </div>
 
 
+    <div style="margin-top: 60px; z-index: 0;">
     <table class="table table-bordered">
         <tbody>
             <tr>
@@ -89,6 +92,7 @@
         const docParam = urlParams.get('doc');
         showDoc(docParam);
     </script>
+    </div>
 </body>
 
 </html>

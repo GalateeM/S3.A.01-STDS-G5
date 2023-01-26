@@ -102,6 +102,16 @@ const Puissance = sequelize.define('Puissance', {
   data: DataTypes.FLOAT
 });
 
+const Panne = sequelize.define('Panne', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true // Automatically gets converted to SERIAL for postgres
+  },
+  dateInsertion: DataTypes.DATE,
+  data: DataTypes.TEXT
+});
+
 const initServer = async () => {
   /**
    * MQTT
@@ -176,8 +186,15 @@ const initServer = async () => {
       },
       force : true
     });
-  })
-  
+    Panne.destroy({
+      where: {
+        dateInsertion: {
+          [Op.lt]: dateMinDestroy
+        }
+      },
+      force : true
+    });
+  })  
 
   var datas1 = [];
   var datas2 = [];
@@ -348,7 +365,6 @@ const initServer = async () => {
             }
 
             var datas = []
-
             var taille = datas1.length;
 
             if (datas1.length > datas2.length) {

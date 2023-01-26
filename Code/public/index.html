@@ -115,6 +115,7 @@
 </script>
 
 <body>
+    <div style="position: fixed; width: 100%; top: 0; z-index: 1;">
     <nav class="navbar bg-warning">
         <ul class="bg-transparent text-center">
             <li><a href="https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5" target="_blank"><i
@@ -124,49 +125,51 @@
             <li><a href="/maintenance.html">Maintenance</a></li>
         </ul>
         <button class="open-button" onclick="openForm()"><img src="./img/enveloppe.png" height="30vw" alt="Inscription aux notifications par mail">
-       </button>
+        </button>
     </nav>
+    </div>
 
-    <table class="table table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-3" rowspan="2">
-                    <btn class="card mb-4" onclick="cacherTout('cardJauge')" style="cursor:pointer;">
-                        <div class="card-header bg-transparent">
-                            Température
+    <div style="margin-top: 60px; z-index: 0;">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-3" rowspan="2">
+                        <btn class="card mb-4" onclick="cacherTout('cardJauge')" style="cursor:pointer;">
+                            <div class="card-header bg-transparent">
+                                Température
+                            </div>
+                            <div class="card-body bg-dark bg-opacity-10 text-center">
+                                Intérieur : <span id="tint">~</span>°C
+                                <br>
+                                Extérieur : <span id="text">~</span>°C
+                            </div>
+                        </btn>
+                        <div class="card mb-4" onclick="cacherTout('cardQuantite')" style="cursor:pointer;">
+                            <div class="card-header bg-transparent">
+                                Quantité fût
+                            </div>
+                            <div class="card-body bg-dark bg-opacity-10 text-center">
+                                <span id="quantite">~</span> %
+                            </div>
                         </div>
-                        <div class="card-body bg-dark bg-opacity-10 text-center">
-                            Intérieur : <span id="tint">~</span>°C
-                            <br>
-                            Extérieur : <span id="text">~</span>°C
+                        <div class="card mb-4" onclick="cacherTout('cardPuissance')" style="cursor:pointer;">
+                            <div class="card-header bg-transparent">
+                                Puissance
+                            </div>
+                            <div class="card-body bg-dark bg-opacity-10 text-center">
+                                <span id="puissance">~</span> W
+                            </div>
                         </div>
-                    </btn>
-                    <div class="card mb-4" onclick="cacherTout('cardQuantite')" style="cursor:pointer;">
-                        <div class="card-header bg-transparent">
-                            Quantité fût
+                        <div class="card mb-4" onclick="cacherTout('cardCo2')" style="cursor:pointer;">
+                            <div class="card-header bg-transparent">
+                                CO2
+                            </div>
+                            <div class="card-body bg-dark bg-opacity-10 text-center">
+                                <span id="co2">~</span> g
+                            </div>
                         </div>
-                        <div class="card-body bg-dark bg-opacity-10 text-center">
-                            <span id="quantite">~</span> %
-                        </div>
-                    </div>
-                    <div class="card mb-4" onclick="cacherTout('cardPuissance')" style="cursor:pointer;">
-                        <div class="card-header bg-transparent">
-                            Puissance
-                        </div>
-                        <div class="card-body bg-dark bg-opacity-10 text-center">
-                            <span id="puissance">~</span> W
-                        </div>
-                    </div>
-                    <div class="card mb-4" onclick="cacherTout('cardCo2')" style="cursor:pointer;">
-                        <div class="card-header bg-transparent">
-                            CO2
-                        </div>
-                        <div class="card-body bg-dark bg-opacity-10 text-center">
-                            <span id="co2">~</span> g
-                        </div>
-                    </div>
-                </td>
-                <td class="col-2 p-4" colspan="2">
+                    </td>
+                    <td class="col-2 p-4" colspan="2">
 
                     <h1 class="text-center" id="titre"></h1>
                     <div class="card">
@@ -197,95 +200,93 @@
                 </td>
             </tr>
 
-            <tr>
-                <td class="col-5">
-                    <table class="table table-border">
-                        <td>
-                            <h3>ÉTAT</h3>
-                        </td>
-                        <td>
-                            <span id="diag">Pas d'annonce en cours</span>
-                        </td>
-                    </table>
+                <tr>
+                    <td class="col-5">
+                        <table class="table table-border">
+                            <td>
+                                <h3>ÉTAT</h3>
+                            </td>
+                            <td>
+                                <span id="diag">Pas d'annonce en cours</span>
+                            </td>
+                        </table>
 
-                    <h3 class="text-center">Informations supplémentaires</h3>
+                        <h3 class="text-center">Informations supplémentaires</h3>
 
-                    <div class="card" id="cardJauge">
-                        <div class="card-body bg-dark bg-opacity-10">
-                            <table class="table">
-                                <td>
-                                    <canvas id="jaugeInt"></canvas>
-                                    Intérieur : <span id="tint2">~</span>°C
-                                </td>
-                                <td>
-                                    <canvas id="jaugeExt"></canvas>
-                                    Extérieur : <span id="text2">~</span>°C
-                                </td>
-                            </table>
-                            <i class="fas fa-circle btn-outline-danger" id="pastilleTemp"></i>
-                        </div>
-                    </div>
-
-                    <div class="card" id="cardQuantite">
-                        <div class="card-body bg-dark bg-opacity-10">
-                            <table class="table table-borderless text-center">
-                                <tr>
-                                    <td class="col-6">
-                                        Quantité en pourcentage
+                        <div class="card" id="cardJauge">
+                            <div class="card-body bg-dark bg-opacity-10">
+                                <table class="table">
+                                    <td>
+                                        <canvas id="jaugeInt"></canvas>
+                                        Intérieur : <span id="tint2">~</span>°C
                                     </td>
                                     <td>
-                                        Quantité en bières
+                                        <canvas id="jaugeExt"></canvas>
+                                        Extérieur : <span id="text2">~</span>°C
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="img/beer.svg" width="30%"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="quantite2">~</span>%</td>
-                                    <td></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="card" id="cardPuissance">
-                        <div class="card-body bg-dark bg-opacity-10">
-                            <div class="parent">
-                                <img class="image" src="img/lightning.png" width="20%">
-                                <img class="image2" id="image" src="img/lightning-y.png" width="20%">
+                                </table>
+                                <i class="fas fa-circle btn-outline-danger" id="pastilleTemp"></i>
                             </div>
-                            <div class="text-center"><span id="puissance2" class="text-center">~</span>W</div>
                         </div>
-                    </div>
 
-                    <div class="card" id="cardCo2">
-                        <div class="card-body bg-dark bg-opacity-10 h1 text-center">
-                            <img src="img/earth.png" width="30%">
-                            <span id="co22">~</span>g
+                        <div class="card" id="cardQuantite">
+                            <div class="card-body bg-dark bg-opacity-10">
+                                <table class="table table-borderless text-center">
+                                    <tr>
+                                        <td class="col-6">
+                                            Quantité en pourcentage
+                                        </td>
+                                        <td>
+                                            Quantité en bières
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="img/beer.svg" width="30%"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span id="quantite2">~</span>%</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </td>
 
-                <td class="col-4">
-                    <div class="card mt-2 mb-3">
-                        <div class="card-header">
-                            <h3>Pannes en cours</h3>
+                        <div class="card" id="cardPuissance">
+                            <div class="card-body bg-dark bg-opacity-10">
+                                <div class="parent">
+                                    <img class="image" src="img/lightning.png" width="20%">
+                                    <img class="image2" id="image" src="img/lightning-y.png" width="20%">
+                                </div>
+                                <div class="text-center"><span id="puissance2" class="text-center">~</span>W</div>
+                            </div>
                         </div>
-                        <div class="card-body" id="histo">
 
+                        <div class="card" id="cardCo2">
+                            <div class="card-body bg-dark bg-opacity-10 h1 text-center">
+                                <img src="img/earth.png" width="30%">
+                                <span id="co22">~</span>g
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
+                    </td>
+
+                    <td class="col-4">
+                        <div class="card mt-2 mb-3">
+                            <div class="card-header">
+                                <h3>Pannes en cours</h3>
+                            </div>
+                            <div class="card-body" id="histo">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </td>
         </tbody>
-    </table>
-
-
-
-    </td>
-    </tbody>
-    </table>
+        </table>
+    </div>
 </body>
 
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
@@ -316,7 +317,7 @@
             { strokeStyle: "#30B32D", min: -10, max: 7 },
             { strokeStyle: "#FFDD00", min: 7, max: 10 },
             { strokeStyle: "#F03E3E", min: 10, max: 100 },
-        ],
+        ]
     };
     var targetInt = document.getElementById('jaugeInt'); // your canvas element
     var gaugeInt = new Gauge(targetInt).setOptions(opts); // create sexy gauge!
@@ -327,6 +328,17 @@
 
 </script>
 <script>
+
+    var chartCO2 = null;
+    var chartPuissance = null;
+    var chartNiveau = null;
+    var chartTemperature = null;
+
+    var isCO2 = false;
+    var isPuissance = false;
+    var isNiveau = false;
+    var isTemperature = true;
+
     var opts = {
         angle: 0.15, // The span of the gauge arc
         lineWidth: 0.44, // The line thickness
@@ -347,8 +359,7 @@
             { strokeStyle: "#30B32D", min: -10, max: 7 },
             { strokeStyle: "#FFDD00", min: 7, max: 10 },
             { strokeStyle: "#F03E3E", min: 10, max: 100 },
-        ],
-
+        ]
     };
     var targetExt = document.getElementById('jaugeExt'); // your canvas element
     var gaugeExt = new Gauge(targetExt).setOptions(opts); // create sexy gauge!
@@ -368,24 +379,33 @@
         this.document.getElementById("NiveauHistorique").style.display = "none";
         this.document.getElementById("TemperatureHistorique").style.display = "none";
 
+        isCO2 = false;
+        isNiveau = false;
+        isPuissance = false;
+        isTemperature = false;
+
         titre = "";
 
         switch (nom) {
             case "cardCo2":
                 titre = "Co2"
                 this.document.getElementById("CO2Historique").style.display = "block";
+                isCO2 = true;
                 break;
             case "cardPuissance":
                 titre = "Consommation"
                 this.document.getElementById("PuissanceHistorique").style.display = "block";
+                isPuissance = true;
                 break;
             case "cardQuantite":
                 titre = "Niveau"
                 this.document.getElementById("NiveauHistorique").style.display = "block";
+                isNiveau = true;
                 break;
             case "cardJauge":
                 titre = "Température"
                 this.document.getElementById("TemperatureHistorique").style.display = "block";
+                isTemperature = true;
                 break
         }
         document.getElementById("titre").textContent = titre;
@@ -393,7 +413,6 @@
         this.document.getElementById(nom).style.display = "block";
     }
 </script>
-
 <script>
     function openForm() {
         document.getElementById("myForm").style.display = "block";
@@ -435,187 +454,231 @@
 
     // Diagramme pour l'historique du Co2
     socket.on("CO2Historique", (arg) => {
-        new Chart(
-            document.getElementById('CO2Historique'),
-            {
-                type: 'line',
-                data: {
-                    labels: arg.map(row => row.dateInsertion),
-                    datasets: [
-                        {
-                            label: 'Historique du Co2 émis',
-                            data: arg.map(row => row.data),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Co2 émis (en grammes)'
-                            },
-                            min: 0,
-                            max: 50
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
+        if (chartCO2 === null) {
+            chartCO2 = new Chart(
+                document.getElementById('CO2Historique'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: arg.map(row => row.dateInsertion),
+                        datasets: [
+                            {
+                                label: 'Historique du Co2 émis',
+                                data: arg.map(row => row.data),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#FFC107',
+                                borderColor: '#FFC107'
                             }
-                        }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Co2 émis (en grammes)'
+                                },
+                                min: 0,
+                                max: 50,
+                                ticks: {
+                                    // forces step size to be 10 units
+                                    stepSize: 10
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            }
+                        },
+                        maintainAspectRatio: false,
+                        reponsive: true
                     }
                 }
-            }
-        );
-        this.document.getElementById("CO2Historique").style.display = "none";
+            );
+        }
+        if (isCO2) {
+            document.getElementById('CO2Historique').style.display = "block";
+        }
+        else {
+            document.getElementById('CO2Historique').style.display = "none";
+        }
     });
 
     // Diagramme pour l'historique de la puissance
     socket.on("PuissanceHistorique", (arg) => {
-        new Chart(
-            document.getElementById('PuissanceHistorique'),
-            {
-                type: 'line',
-                data: {
-                    labels: arg.map(row => row.dateInsertion),
-                    datasets: [
-                        {
-                            label: 'Historique de la puissance consommée',
-                            data: arg.map(row => row.data),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Puissance consommée (en watts)'
-                            },
-                            min: 0,
-                            max: 80
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
+        if (chartPuissance === null) {
+            chartPuissance = new Chart(
+                document.getElementById('PuissanceHistorique'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: arg.map(row => row.dateInsertion),
+                        datasets: [
+                            {
+                                label: 'Historique de la puissance consommée',
+                                data: arg.map(row => row.data),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#FFC107',
+                                borderColor: '#FFC107'
                             }
-                        }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Puissance consommée (en watts)'
+                                },
+                                min: 0,
+                                max: 80,
+                                ticks: {
+                                    // forces step size to be 10 units
+                                    stepSize: 10
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            }
+                        },
+                        maintainAspectRatio: false,
+                        reponsive: true
                     }
                 }
-            }
-        );
-        document.getElementById('PuissanceHistorique').style.display = "none";
+            );
+        }
+        if (isPuissance) {
+            document.getElementById('PuissanceHistorique').style.display = "block";
+        }
+        else {
+            document.getElementById('PuissanceHistorique').style.display = "none";
+        }
     });
 
     // Diagramme pour l'historique du niveau
     socket.on("NiveauHistorique", (arg) => {
-        new Chart(
-            document.getElementById('NiveauHistorique'),
-            {
-                type: 'line',
-                data: {
-                    labels: arg.map(row => row.dateInsertion),
-                    datasets: [
-                        {
-                            label: 'Historique du niveau',
-                            data: arg.map(row => row.data),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Quantité restante (en %)'
+        if (chartNiveau === null) {
+            chartNiveau = new Chart(
+                document.getElementById('NiveauHistorique'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: arg.map(row => row.dateInsertion),
+                        datasets: [
+                            {
+                                label: 'Historique du niveau',
+                                data: arg.map(row => row.data),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#FFC107',
+                                borderColor: '#FFC107'
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Quantité restante (en %)'
+                                },
+                                min: 0,
+                                max: 100,
+                                ticks: {
+                                    // forces step size to be 10 units
+                                    stepSize: 10,
+                                }
                             },
-                            min: 0,
-                            max: 100,
-                            ticks: {
-                                // forces step size to be 10 units
-                                stepSize: 10
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
                             }
                         },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        }
+                        maintainAspectRatio: false,
+                        reponsive: true
                     }
                 }
-            }
-        );
-        this.document.getElementById("NiveauHistorique").style.display = "none";
+            );
+        }
+        if (isNiveau) {
+            document.getElementById('NiveauHistorique').style.display = "block";
+        }
+        else {
+            document.getElementById('NiveauHistorique').style.display = "none";
+        }
     });
 
     // Diagramme pour l'historique de la température
     socket.on("TemperatureHistorique", (arg) => {
-        new Chart(
-            document.getElementById('TemperatureHistorique'),
-            {
-                type: 'line',
-                data: {
-                    labels: arg.map(row => row.dateInsertion1),
-                    datasets: [
-                        {
-                            label: 'Historique de la température T1',
-                            data: arg.map(row => row.T1),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        },
-                        {
-                            label: 'Historique de la température T2',
-                            data: arg.map(row => row.T2),
-                            borderWidth: 1,
-                            borderRadius: 0.2,
-                            backgroundColor: '#FFC107',
-                            borderColor: '#FFC107'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Température (en °c)'
+        if (chartTemperature === null) {
+            chartTemperature = new Chart(
+                document.getElementById('TemperatureHistorique'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: arg.map(row => row.dateInsertion1),
+                        datasets: [
+                            {
+                                label: 'Historique de la température ambiante',
+                                data: arg.map(row => row.T1),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#FFC107',
+                                borderColor: '#FFC107'
                             },
-                            min: 0,
-                            max: 100,
-                            ticks: {
-                                // forces step size to be 10 units
-                                stepSize: 10
+                            {
+                                label: 'Historique de la température du fût',
+                                data: arg.map(row => row.T2),
+                                borderWidth: 1,
+                                borderRadius: 0.2,
+                                backgroundColor: '#F03E3E',
+                                borderColor: '#F03E3E'
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Température (en °c)'
+                                },
+                                min: 0,
+                                max: 100,
+                                ticks: {
+                                    // forces step size to be 10 units
+                                    stepSize: 10
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
                             }
                         },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        }
+                        maintainAspectRatio: false,
+                        reponsive: true
                     }
                 }
-            }
-        );
+            );
+        }
+        if (isTemperature) {
+            document.getElementById('TemperatureHistorique').style.display = "block";
+        }
+        else {
+            document.getElementById('TemperatureHistorique').style.display = "none";
+        }
     });
-    this.document.getElementById("TemperatureHistorique").style.display = "block";
 </script>
 
 </html>
