@@ -83,8 +83,9 @@ nav ul li:hover ul li {
     width : 60px;
     border: none;
     cursor: pointer;
+    position: fixed;
     opacity: 0.8;
-    top:1%;
+    top: 0%;
     right: 28px;
   }
 
