@@ -87,9 +87,9 @@ La page principale permet d'obtenir les différentes données. Nous considérons
 
 Serveur
 
-image:Images/mqtt_connection.png[width=75%,height=75%]
+image:Images/mqtt_connection.png[width=50%,height=50%]
 
-image:Images/websocket_redirect.png[width=50%,height=50%]
+image:Images/websocket_redirect.png[width=25%,height=25%]
 
 Client
 
