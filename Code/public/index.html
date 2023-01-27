@@ -123,67 +123,67 @@
                 <li class="fw-bold">PintVision</li>
                 <li><a href="/index.html">Accueil</a></li>
                 <li><a href="/maintenance.html">Maintenance</a></li>
+                <li><a href="/pannes.html">Pannes</a></li>
             </ul>
             <button class="open-button" onclick="openForm()"><img src="./img/enveloppe.png" height="30vw"
                     alt="Inscription aux notifications par mail">
             </button>
         </nav>
     </div>
-
-    <div style="margin-top: 60px; z-index: 0;">
+    <div style="position: fixed; height: 100%; left: 0; z-index: 1; margin-left: 0; padding-left: 0;">
+        <ul style="margin-left: 0; padding-left: 0;">
+            <li style="font-size : 15px !important;">
+                <btn class="card mb-4" onclick="cacherTout('cardJauge')" style="cursor:pointer; margin-left: 0;">
+                    <div class="card-header bg-transparent">
+                        Température
+                    </div>
+                    <div class="card-body bg-dark bg-opacity-10 text-center">
+                        Intérieur : <span id="tint">~</span>°C
+                        <br>
+                        Extérieur : <span id="text">~</span>°C
+                    </div>
+                </btn>
+            </li>
+            <li style="font-size : 15px !important;">
+                <div class="card mb-4" onclick="cacherTout('cardQuantite')" style="cursor:pointer; margin-left: 0;">
+                    <div class="card-header bg-transparent">
+                        Quantité fût
+                    </div>
+                    <div class="card-body bg-dark bg-opacity-10 text-center">
+                        <span id="quantite">~</span> %
+                    </div>
+                </div>
+            </li>
+            <li style="font-size : 15px !important;">
+                <div class="card mb-4" onclick="cacherTout('cardPuissance')" style="cursor:pointer; margin-left: 0;">
+                    <div class="card-header bg-transparent">
+                        Puissance
+                    </div>
+                    <div class="card-body bg-dark bg-opacity-10 text-center">
+                        <span id="puissance">~</span> W
+                    </div>
+                </div>
+            </li>
+            <li style="font-size : 15px !important;">
+                <div class="card mb-4" onclick="cacherTout('cardCo2')" style="cursor:pointer; margin-left: 0;">
+                    <div class="card-header bg-transparent">
+                        CO2
+                    </div>
+                    <div class="card-body bg-dark bg-opacity-10 text-center">
+                        <span id="co2">~</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div style="margin-top: 60px; z-index: 0; margin-left: 190px;">
         <table class="table table-bordered">
             <tbody>
                 <tr>
-                    <td class="col-3" rowspan="2">
-                        <ul style="position: fixed; margin-left: 0; padding-left: 0; left: 0; z-index: 4;">
-                            <li>
-                                <btn class="card mb-4" onclick="cacherTout('cardJauge')" style="cursor:pointer">
-                                    <div class="card-header bg-transparent">
-                                        Température
-                                    </div>
-                                    <div class="card-body bg-dark bg-opacity-10 text-center">
-                                        Intérieur : <span id="tint">~</span>°C
-                                        <br>
-                                        Extérieur : <span id="text">~</span>°C
-                                    </div>
-                                </btn>
-                            </li>
-                            <li>
-                                <div class="card mb-4" onclick="cacherTout('cardQuantite')" style="cursor:pointer">
-                                    <div class="card-header bg-transparent">
-                                        Quantité fût
-                                    </div>
-                                    <div class="card-body bg-dark bg-opacity-10 text-center">
-                                        <span id="quantite">~</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="card mb-4" onclick="cacherTout('cardPuissance')" style="cursor:pointer;">
-                                    <div class="card-header bg-transparent">
-                                        Puissance
-                                    </div>
-                                    <div class="card-body bg-dark bg-opacity-10 text-center">
-                                        <span id="puissance">~</span> W
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="card mb-4" onclick="cacherTout('cardCo2')" style="cursor:pointer;">
-                                    <div class="card-header bg-transparent">
-                                        CO2
-                                    </div>
-                                    <div class="card-body bg-dark bg-opacity-10 text-center">
-                                        <span id="co2">~</span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </td>
                     <td class="col-2 p-4" colspan="2">
 
                         <h1 class="text-center" id="titre"></h1>
-                        <div class="card" style="height: 700px;">
+                        <div class="card" style="height: 600px;">
                             <div class="card-body bg-dark pb-5" id="container">
                                 <canvas id="PuissanceHistorique"></canvas>
                                 <canvas id="NiveauHistorique"></canvas>
@@ -215,7 +215,7 @@
 
                         <h3 class="text-center">Informations supplémentaires</h3>
 
-                        <div class="card" id="cardJauge">
+                        <div class="card" id="cardJauge" style="margin-left: 20px;">
                             <div class="card-body bg-dark bg-opacity-10">
                                 <table class="table">
                                     <td>
@@ -231,7 +231,7 @@
                             </div>
                         </div>
 
-                        <div class="card" id="cardQuantite">
+                        <div class="card" id="cardQuantite" style="margin-left: 20px;">
                             <div class="card-body bg-dark bg-opacity-10">
                                 <table class="table table-borderless text-center">
                                     <tr>
@@ -254,7 +254,7 @@
                             </div>
                         </div>
 
-                        <div class="card" id="cardPuissance">
+                        <div class="card" id="cardPuissance" style="margin-left: 20px;">
                             <div class="card-body bg-dark bg-opacity-10">
                                 <div class="parent">
                                     <img class="image" src="img/lightning.png" width="20%">
@@ -264,7 +264,7 @@
                             </div>
                         </div>
 
-                        <div class="card bg-dark bg-opacity-10" id="cardCo2">
+                        <div class="card bg-dark bg-opacity-10" id="cardCo2" style="margin-left: 20px;">
                             <div class="card-body h1 text-center">
                                 <img src="img/earth.png" width="30%">
                                 <span id="co22">~</span>g
@@ -445,11 +445,9 @@
             socket.emit("NewMail", mail);
         }
         if (isPush === true) {
-        if (isPush === true) {
             OneSignal.setSubscription(true);
             message += "Vous recevrez désormais des notifications push."
         }
-        if (isPush || mail != "") {
         if (isPush || mail != "") {
             alert(message);
             closeForm();
@@ -458,7 +456,7 @@
         }
 
     });
-    
+
 
     // Diagramme pour l'historique du Co2
     socket.on("CO2Historique", (arg) => {
@@ -661,7 +659,7 @@
                                     text: 'Température (en °c)'
                                 },
                                 min: 0,
-                                max: 100,
+                                max: 60,
                                 ticks: {
                                     // forces step size to be 10 units
                                     stepSize: 10
