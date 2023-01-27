@@ -2,8 +2,6 @@ const socket = io("http://localhost:3000");
 
 function diagno(erreur) {
     var nbErreur = erreur.length;
-    console.log("###################");
-    console.log(nbErreur);
     if(nbErreur == 0) {
         document.querySelector("#histo").innerHTML = '<div>Aucune panne en cours !</div>';
     } else {
@@ -49,9 +47,9 @@ socket.on("STDS/2/CO2", (arg) => {
 });
 
 socket.on("STDS/2/Température/T2", (arg) => {
-    document.querySelector("#tint").textContent = arg
+    document.querySelector("#tint").textContent = arg;
     gaugeInt.set(document.querySelector('#tint').textContent); // set current value
-    document.querySelector("#tint2").textContent = arg
+    document.querySelector("#tint2").textContent = arg + "°C";
     if(arg<=7){
         document.querySelector("#pastilleTemp").style.color = "#00CC00";
     }else if(arg<=10){
@@ -71,10 +69,10 @@ socket.on("STDS/2/Température/T2", (arg) => {
 });
 
 socket.on("STDS/2/Température/T1", (arg) => {
-    document.querySelector("#text").textContent = arg
+    document.querySelector("#text").textContent = arg;
     gaugeExt.set(document.querySelector('#text').textContent); // set current value
     document.querySelector('#jaugeExt')
-    document.querySelector("#text2").textContent = arg
+    document.querySelector("#text2").textContent = arg + "°C";
     if(arg<=-120){
         document.querySelector('#jaugeExt').style.display = "none";
         document.querySelector("#text2").textContent = 'Déconnecté';
@@ -84,12 +82,17 @@ socket.on("STDS/2/Température/T1", (arg) => {
 });
 
 socket.on("STDS/2/Niveau", (arg) => {
-    document.querySelector("#quantite").textContent = arg
-    document.querySelector("#quantite2").textContent = arg
+    var quantiteLitre = 6 * arg / 100;
+    var texteQuantite = arg + "% / "+quantiteLitre + "L";
+    document.querySelector("#quantite").textContent = texteQuantite;
+    document.querySelector("#quantite2").textContent = texteQuantite;
+    var nombreBieres = quantiteLitre * 2;
+    document.querySelector("#quantite3").textContent = nombreBieres + " bières";
+
 });
 
 socket.on("Etat", (arg) => {
-    document.querySelector("#diag").textContent = arg
+    document.querySelector("#diag").textContent = arg;
 });
 
 socket.on("Panne", (arg) => {
