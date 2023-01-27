@@ -470,6 +470,10 @@ const initServer = async () => {
           if (data < -120) {
             if (!diagnostiqueEnCours.includes("Capteur de température du fût déconnecté !")) {
               diagnostiqueEnCours.push("Capteur de température du fût déconnecté !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Capteur de température du fût déconnecté",
+              });
             }
             if (typeAlertEnCours === null) {
               isAlert = true;
@@ -500,6 +504,10 @@ const initServer = async () => {
           if (data == -10) {
             if (!diagnostiqueEnCours.includes("Wattmètre déconnecté !")) {
               diagnostiqueEnCours.push("Wattmètre déconnecté !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Wattmètre déconnecté",
+              });
             }
             if (typeAlertEnCours === null) {
               isAlert = true;
@@ -520,6 +528,10 @@ const initServer = async () => {
           if (data > 75) {
             if (!diagnostiqueEnCours.includes("Puissance consommée trop importante !")) {
               diagnostiqueEnCours.push("Puissance consommée trop importante !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Puissance consommée trop importante",
+              });
             }
             if (typeAlertEnCours != "Puissance consommée trop importante !") {
               typeAlertEnCours = "Puissance consommée trop importante !";
