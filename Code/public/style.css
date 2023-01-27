@@ -107,6 +107,8 @@ nav ul li:hover ul li {
     z-index: 9;
     box-shadow: 1px 5px 10px 0.5px black;
     width: 20em;
+    position: fixed;
+    background-color:white;
   }
   
   /* Add styles to the form container */

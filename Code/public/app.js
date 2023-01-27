@@ -1,34 +1,36 @@
 const socket = io("http://localhost:3000");
 
 function diagno(erreur) {
+    var nbErreur = erreur.length;
     console.log("###################");
     console.log(nbErreur);
-    var nbErreur = erreur.length;
     if(nbErreur == 0) {
         document.querySelector("#histo").innerHTML = '<div>Aucune panne en cours !</div>';
     } else {
-        var message = "<div>";
-        let lienDocumentation = null;
-        for(let i=0; i<nbErreur; i++) {
-            switch(erreur[i]) {
-                case "Problème de fonctionnement du module peltier":
-                    lienDocumentation = "Pour corriger cette panne, consultez les documentations suivantes : <br>";
-                    lienDocumentation += "- <a href = '/maintenance.html?doc=4'>Maintenance Curative - Gamme 1</a><br>";
-                    lienDocumentation += "- <a href='/maintenance.html?doc=5'>Maintenance Curative - Gamme 2</a>";
-                    message += "<span id='erreur'>"+erreur[i]+"</span><br>" + lienDocumentation + "<br> <br>";
-                    break;
-                case "Puissance consommée trop importante !":
-                    lienDocumentation = "Pour corriger cette panne, consultez la documentation suivante : <br>";
-                    lienDocumentation += "<a href = '/maintenance.html?doc=7'>Maintenance Curative - Gamme 9</a>";
-                    message += "<span id='erreur'>"+erreur[i]+"</span><br>" + lienDocumentation + "<br> <br>";
-                    break;
-                default:
-                    message += "<span id='erreur'>"+erreur[i] + "<br> <br>";
-                    break;
+        if(nbErreur<6) {
+            var message = "<div>";
+            let lienDocumentation = null;
+            for(let i=0; i<nbErreur; i++) {
+                switch(erreur[i]) {
+                    case "Problème de fonctionnement du module peltier":
+                        lienDocumentation = "Pour corriger cette panne, consultez les documentations suivantes : <br>";
+                        lienDocumentation += "- <a href = '/maintenance.html?doc=4'>Maintenance Curative - Gamme 1</a><br>";
+                        lienDocumentation += "- <a href='/maintenance.html?doc=5'>Maintenance Curative - Gamme 2</a>";
+                        message += "<span id='erreur'>"+erreur[i]+"</span><br>" + lienDocumentation + "<br> <br>";
+                        break;
+                    case "Puissance consommée trop importante !":
+                        lienDocumentation = "Pour corriger cette panne, consultez la documentation suivante : <br>";
+                        lienDocumentation += "<a href = '/maintenance.html?doc=9'>Maintenance Curative - Gamme 6</a>";
+                        message += "<span id='erreur'>"+erreur[i]+"</span><br>" + lienDocumentation + "<br> <br>";
+                        break;
+                    default:
+                        message += "<span id='erreur'>"+erreur[i] + "<br> <br>";
+                        break;
+                }
             }
+            message += "</div>";
+            document.querySelector("#histo").innerHTML = message;
         }
-        message += "</div>";
-        document.querySelector("#histo").innerHTML = message;
     }
 }
 
@@ -86,7 +88,7 @@ socket.on("STDS/2/Niveau", (arg) => {
     document.querySelector("#quantite2").textContent = arg
 });
 
-socket.on("STDS/2/Diag", (arg) => {
+socket.on("Etat", (arg) => {
     document.querySelector("#diag").textContent = arg
 });
 
