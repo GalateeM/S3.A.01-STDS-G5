@@ -145,7 +145,7 @@ const initServer = async () => {
           [Op.lt]: dateMinDestroy
         }
       },
-      force : true
+      force: true
     });
     TemperatureT1.destroy({
       where: {
@@ -153,7 +153,7 @@ const initServer = async () => {
           [Op.lt]: dateMinDestroy
         }
       },
-      force : true
+      force: true
     });
     TemperatureT2.destroy({
       where: {
@@ -161,7 +161,7 @@ const initServer = async () => {
           [Op.lt]: dateMinDestroy
         }
       },
-      force : true
+      force: true
     });
     Niveau.destroy({
       where: {
@@ -169,7 +169,7 @@ const initServer = async () => {
           [Op.lt]: dateMinDestroy
         }
       },
-      force : true
+      force: true
     });
     CO2.destroy({
       where: {
@@ -177,7 +177,7 @@ const initServer = async () => {
           [Op.lt]: dateMinDestroy
         }
       },
-      force : true
+      force: true
     });
     Diag.destroy({
       where: {
@@ -185,7 +185,7 @@ const initServer = async () => {
           [Op.lt]: dateMinDestroy
         }
       },
-      force : true
+      force: true
     });
     Panne.destroy({
       where: {
@@ -193,9 +193,9 @@ const initServer = async () => {
           [Op.lt]: dateMinDestroy
         }
       },
-      force : true
+      force: true
     });
-  })  
+  })
 
   var datas1 = [];
   var datas2 = [];
@@ -381,6 +381,31 @@ const initServer = async () => {
           })
         }
       })
+
+      // Historique Pannes
+      sequelize.authenticate().then(() => {
+        const pannes = Panne.findAll(
+          {
+            order: [["dateInsertion", "ASC"]]
+          }
+        ).then((res) => {
+          let datas = [];
+          if (res.length !== 0) {
+            var dateMin = new Date();
+            dateMin.setHours(dateMin.getHours() - 6);
+            for (let i = 0; i < res.length - 1; i++) {
+              if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+                var date = res[i].dateInsertion;
+                date.setHours(date.getHours() + 1);
+                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": res[i].data};
+                datas.push(dict);
+              }
+            }
+          }
+          // Emission
+          io.emit("PanneHistorique", datas);
+        })
+      })
     })
 
     let data = payload.toString()
@@ -409,13 +434,17 @@ const initServer = async () => {
             isTemp1Inf = false;
           }
           if (data < -120) {
-            if(!diagnostiqueEnCours.includes("Capteur de température ambiant déconnecté !")) {
-              diagnostiqueEnCours.push("Capteur de température ambiant déconnecté !");
+            if (!diagnostiqueEnCours.includes("Capteur de température ambiante déconnecté !")) {
+              diagnostiqueEnCours.push("Capteur de température ambiante déconnecté !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Capteur de température ambiante déconnecté",
+              });
             }
-            if(typeAlertEnCours === null) {
+            if (typeAlertEnCours === null) {
               isAlert = true;
-              if (typeAlertEnCours != "Capteur de température ambiant déconnecté !") {
-                typeAlertEnCours = "Capteur de température ambiant déconnecté !";
+              if (typeAlertEnCours != "Capteur de température ambiante déconnecté !") {
+                typeAlertEnCours = "Capteur de température ambiante déconnecté !";
                 sendNotification(typeAlertEnCours);
               }
             }
@@ -433,10 +462,10 @@ const initServer = async () => {
             isTemp2Sup = false;
           }
           if (data < -120) {
-            if(!diagnostiqueEnCours.includes("Capteur de température du fût déconnecté !")) {
+            if (!diagnostiqueEnCours.includes("Capteur de température du fût déconnecté !")) {
               diagnostiqueEnCours.push("Capteur de température du fût déconnecté !");
             }
-            if(typeAlertEnCours === null) {
+            if (typeAlertEnCours === null) {
               isAlert = true;
               if (typeAlertEnCours != "Capteur de température du fût déconnecté !") {
                 typeAlertEnCours = "Capteur de température du fût déconnecté !";
@@ -444,7 +473,7 @@ const initServer = async () => {
               }
             }
           }
-          if(etatEnCours!="MQTT 2 déconnecté !" && data>7) {
+          if (etatEnCours != "MQTT 2 déconnecté !" && data > 7) {
             etatEnCours = "Température élevée de la bière !";
           }
           break;
@@ -454,13 +483,13 @@ const initServer = async () => {
             data: data,
           });
           if (data == -10) {
-            if(!diagnostiqueEnCours.includes("Wattmètre déconnecté !")) {
+            if (!diagnostiqueEnCours.includes("Wattmètre déconnecté !")) {
               diagnostiqueEnCours.push("Wattmètre déconnecté !");
             }
-            if(typeAlertEnCours === null) {
+            if (typeAlertEnCours === null) {
               isAlert = true;
               if (typeAlertEnCours != "Wattmètre déconnecté !") {
-  
+
                 io.emit("Etat", "Wattmètre déconnecté !");
                 typeAlertEnCours = "Wattmètre déconnecté !";
                 sendNotification(typeAlertEnCours);
@@ -469,7 +498,7 @@ const initServer = async () => {
           }
           if (data > 75) {
             console.log("################################")
-            if(!diagnostiqueEnCours.includes("Puissance consommée trop importante !")) {
+            if (!diagnostiqueEnCours.includes("Puissance consommée trop importante !")) {
               diagnostiqueEnCours.push("Puissance consommée trop importante !");
             }
             if (typeAlertEnCours != "Puissance consommée trop importante !") {
@@ -489,7 +518,7 @@ const initServer = async () => {
               typeAlertEnCours = "Le fût est bientôt vide, pensez à le recharger !";
               sendNotification(typeAlertEnCours);
             }
-            if(etatEnCours != "MQTT 2 déconnecté !" && etatEnCours != "Température élevée de la bière !") {
+            if (etatEnCours != "MQTT 2 déconnecté !" && etatEnCours != "Température élevée de la bière !") {
               etatEnCours = "Le fût est bientôt vide, pensez à le recharger !";
             }
           }
@@ -501,8 +530,12 @@ const initServer = async () => {
             data: data,
           });
           if (data === "MQTT 2 déconnecté !") {
-            if(!diagnostiqueEnCours.includes("MQTT 2 déconnecté !")) {
+            if (!diagnostiqueEnCours.includes("MQTT 2 déconnecté !")) {
               diagnostiqueEnCours.push("MQTT 2 déconnecté !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "MQTT 2 déconnecté",
+              });
             }
             isAlert = true;
             if (typeAlertEnCours != "MQTT 2 déconnecté !") {
@@ -532,10 +565,14 @@ const initServer = async () => {
           //si cela fait plus de 30min que les températures ne sont pas idéales et si l'alerte n'est pas déjà présente
           //alors on crée une alerte
           if (diffSecondes > 20) {//1800
-            if(!diagnostiqueEnCours.includes("Problème de fonctionnement du module peltier")) {
+            if (!diagnostiqueEnCours.includes("Problème de fonctionnement du module peltier")) {
               diagnostiqueEnCours.push("Problème de fonctionnement du module peltier");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Problème de fonctionnement du module peltier",
+              });
             }
-            if(typeAlertEnCours === null) {
+            if (typeAlertEnCours === null) {
               isAlert = true;
               if (typeAlertEnCours != "Problème de fonctionnement du module peltier") {
                 typeAlertEnCours = "Problème de fonctionnement du module peltier";
@@ -554,7 +591,7 @@ const initServer = async () => {
       //tests : diagnostiqueEnCours = ["Problème de fonctionnement du module peltier", "Puissance consommée trop importante !", "MQTT 2 déconnecté !"];
       io.emit("Panne", diagnostiqueEnCours);
       console.log(diagnostiqueEnCours);
-      io.emit("Etat",etatEnCours);
+      io.emit("Etat", etatEnCours);
 
     }).catch((error) => {
       console.error('Unable to create the tables : ', error);
@@ -564,14 +601,14 @@ const initServer = async () => {
     var dateNow = new Date();
     var dateMinDestroy = new Date();
     dateMinDestroy.setHours(dateMinDestroy.getHours() - 7);
-    if(dateNow.getHours()-timeOnDestroy.getHours()>=1) {
+    if (dateNow.getHours() - timeOnDestroy.getHours() >= 1) {
       Puissance.destroy({
         where: {
           dateInsertion: {
             [Op.lt]: dateMinDestroy
           }
         },
-        force : true
+        force: true
       });
       TemperatureT1.destroy({
         where: {
@@ -579,7 +616,7 @@ const initServer = async () => {
             [Op.lt]: dateMinDestroy
           }
         },
-        force : true
+        force: true
       });
       TemperatureT2.destroy({
         where: {
@@ -587,7 +624,7 @@ const initServer = async () => {
             [Op.lt]: dateMinDestroy
           }
         },
-        force : true
+        force: true
       });
       Niveau.destroy({
         where: {
@@ -595,7 +632,7 @@ const initServer = async () => {
             [Op.lt]: dateMinDestroy
           }
         },
-        force : true
+        force: true
       });
       CO2.destroy({
         where: {
@@ -603,7 +640,7 @@ const initServer = async () => {
             [Op.lt]: dateMinDestroy
           }
         },
-        force : true
+        force: true
       });
       Diag.destroy({
         where: {
@@ -611,7 +648,7 @@ const initServer = async () => {
             [Op.lt]: dateMinDestroy
           }
         },
-        force : true
+        force: true
       });
     }
     timeOnDestroy = new Date();
