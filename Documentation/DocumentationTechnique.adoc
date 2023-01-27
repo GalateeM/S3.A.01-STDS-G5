@@ -85,13 +85,13 @@ image:Images/insertion_données.png[width=50%,height=50%]
 
 La page principale permet d'obtenir les différentes données. Nous considérons 2 types, les données en temps réel, et l'historique. Pour ce qui est des données en temps réel, elles sont retransmises par le serveur Node.js avec lequel le client ouvre une connexion WebSocket (via le module `socket.io`). Le serveur Node.js étant connecté en direct avec le flux MQTT, à la réception d'une donnée, elle est automatiquement redirigée à tous les clients connectés en WebSocket (via le module `socket.io` également). En plus de la retransmission en direct, les données sont enregistrées dans la base de donnéées afin d'en construire l'historique par la suite.
 
-image:Images/mqtt_connection.jpg[width=75%,height=75%]
+image:Images/mqtt_connection.png[width=75%,height=75%]
 
-image:Images/websocket_redirect.jpg[width=75%,height=75%]
+image:Images/websocket_redirect.png[width=75%,height=75%]
 
-image:Images/open_ws_from_client.jpg[width=75%,height=75%]
+image:Images/open_ws_from_client.png[width=75%,height=75%]
 
-image:Images/example_websocket.jpg[width=75%,height=75%]
+image:Images/example_websocket.png[width=75%,height=75%]
 
 Lorsqu'on arrive sur le site, on retrouve différentes sections. 
 
