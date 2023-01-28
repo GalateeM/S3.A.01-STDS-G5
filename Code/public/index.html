@@ -43,17 +43,19 @@
                     0% 50%);
         }
 
-        #pastilleTemp {
+        #pastilleTemp, #pastilleQuant, #pastillePuiss, #pastilleCO2 {
             position: absolute;
-
-            top: 0;
-            right: 0;
-            color: #FF0000;
-
             top: 5px;
             right: 5px;
             color: #FF0000;
         }
+        #pastilleTempCard, #pastilleQuantCard, #pastillePuissCard, #pastilleCO2Card {
+            position: absolute;
+            top: 13px;
+            right: 10px;
+            color: #FF0000;
+        }
+        
     </style>
 
 </head>
@@ -136,6 +138,7 @@
                 <btn class="card mb-4" onclick="cacherTout('cardJauge')" style="cursor:pointer; margin-left: 0;">
                     <div class="card-header bg-transparent">
                         Température
+                        <i class="fas fa-circle btn-outline-danger" id="pastilleTempCard"></i>
                     </div>
                     <div class="card-body bg-dark bg-opacity-10 text-center">
                         Intérieur : <span id="tint">~</span>°C
@@ -148,9 +151,10 @@
                 <div class="card mb-4" onclick="cacherTout('cardQuantite')" style="cursor:pointer; margin-left: 0;">
                     <div class="card-header bg-transparent">
                         Quantité fût
+                        <i class="fas fa-circle btn-outline-danger" id="pastilleQuantCard"></i>
                     </div>
                     <div class="card-body bg-dark bg-opacity-10 text-center">
-                        <span id="quantite">~</span> %
+                        <span id="quantite">~</span>
                     </div>
                 </div>
             </li>
@@ -158,6 +162,7 @@
                 <div class="card mb-4" onclick="cacherTout('cardPuissance')" style="cursor:pointer; margin-left: 0;">
                     <div class="card-header bg-transparent">
                         Puissance
+                        <i class="fas fa-circle btn-outline-danger" id="pastillePuissCard"></i>
                     </div>
                     <div class="card-body bg-dark bg-opacity-10 text-center">
                         <span id="puissance">~</span> W
@@ -168,9 +173,10 @@
                 <div class="card mb-4" onclick="cacherTout('cardCo2')" style="cursor:pointer; margin-left: 0;">
                     <div class="card-header bg-transparent">
                         CO2
+                        <i class="fas fa-circle btn-outline-danger" id="pastilleCO2Card"></i>
                     </div>
                     <div class="card-body bg-dark bg-opacity-10 text-center">
-                        <span id="co2">~</span>
+                        <span id="co2">~</span>g
                     </div>
                 </div>
             </li>
@@ -251,6 +257,7 @@
                                         <td><span id="quantite3">~</span></td>
                                     </tr>
                                 </table>
+                                <i class="fas fa-circle btn-outline-danger" id="pastilleQuant"></i>
                             </div>
                         </div>
 
@@ -261,13 +268,17 @@
                                     <img class="image2" id="image" src="img/lightning-y.png" width="20%">
                                 </div>
                                 <div class="text-center"><span id="puissance2" class="text-center">~</span>W</div>
+                                <i class="fas fa-circle btn-outline-danger" id="pastillePuiss"></i>
                             </div>
                         </div>
 
                         <div class="card bg-dark bg-opacity-10" id="cardCo2" style="margin-left: 20px;">
-                            <div class="card-body h1 text-center">
-                                <img src="img/earth.png" width="30%">
-                                <span id="co22">~</span>g
+                            <div class="card-body text-center">
+                                <div class="h1">
+                                    <img src="img/earth.png" id="earth" width="30%">
+                                    <span id="co22">~</span>g
+                                </div>
+                                <i class="fas fa-circle btn-outline-danger" id="pastilleCO2"></i>
                             </div>
                         </div>
                     </td>
@@ -668,7 +679,7 @@
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Date'
+                                    text: 'Date' 
                                 }
                             }
                         },

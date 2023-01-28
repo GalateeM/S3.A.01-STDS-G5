@@ -88,14 +88,14 @@ td {
 .open-button {
   background-color: transparent;
   padding: 16px 20px;
-  padding-right: 5%;
+  padding-right: 4%;
   width: 60px;
   border: none;
   cursor: pointer;
   position: fixed;
   opacity: 0.8;
   top: 0%;
-  right: 28px;
+  right: 0px;
 }
 
 .open-button:hover {
@@ -176,4 +176,18 @@ td {
 .form-container .btn:hover,
 .open-button:hover {
   opacity: 1;
+}
+
+/*pastilles */
+.pastille {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #FF0000;
+}
+.pastilleCard {
+  position: absolute;
+  top: 13px;
+  right: 10px;
+  color: #FF0000;
 }
