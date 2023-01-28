@@ -61,7 +61,7 @@ Pour accéder au site en lui-même, il faut vous rendre sur `localhost:3000`, ri
 
 Avant d'entrer en détail dans les fonctionnalités disponibles, voici un schéma de l'ensemble de nos services et leur fonctionnement entre eux.
 
-image:Images/vue_globale.jpg[width=50%,height=50%]
+image:Images/vue_globale.jpg[width=30%,height=30%]
 
 === b) Visualisation des données en temps réel
 
@@ -74,13 +74,13 @@ La page principale permet d'obtenir les différentes données. Nous considérons
 
 Serveur (dans `server.js`)
 
-image:Images/mqtt_connection.png[width=50%,height=50%]
+image:Images/mqtt_connection.png[width=35%,height=35%]
 
-image:Images/websocket_redirect.png[width=25%,height=25%]
+image:Images/websocket_redirect.png[width=35%,height=35%]
 
 Client (dans `app.js`)
 
-image:Images/open_ws_from_client.png[width=25%,height=25%]
+image:Images/open_ws_from_client.png[width=40%,height=40%]
 
 image:Images/example_websocket.png[width=75%,height=75%]
 
@@ -100,11 +100,11 @@ image:UC/usecase_historique.svg[]
 Pour cette fonctionnalité, le code est présent dans la classe `server.js`. +
 Nous avons utilisé le langage NodeJS pour créer la connexion à la base de données TimeScaleDB. Pour cela, nous avons utilisé le module `sequelize` qui permet également la création de tables, l'insertion et la récupération des données. La création des tables se fait avec un `sequelize.define` (si les tables ont déjà été créées, cela ne fait rien et donc l'historique ne sera pas perdu):
 
-image:Images/création_tables.png[width=50%,height=50%]
+image:Images/création_tables.png[width=60%,height=60%]
 
 Pour l'insertion des données en temps réel, l'utilisation de `sequelize.sync().then(()=>{})` permet de synchroniser toutes les tables avant insertion, et ainsi de s'assurer qu'elles ont bien été créées au préalable. Cette fonction est présente dans la fonction `client.on("message", (topic, payload)`, elle est donc appelée à chaque fois qu'un flux MQTT est reçu. Un `switch` est utilisé afin de séparer chaque type de donnée, car chaque type est présent dans une table différente. Ensuite, les données sont insérées avec un `create` :
 
-image:Images/insertion_données.png[width=50%,height=50%]
+image:Images/insertion_données.png[width=30%,height=30%]
 
 - Afficher les données (historique) sous forme graphique
 
@@ -131,7 +131,7 @@ La récupération des données MQTT est expliquée dans la partie b). Du côté 
 - Problème de fonctionnement du module peltier : température T1 < 30 et température T2 > 10, les deux depuis plus de 30 min
 
 Plusieurs pannes peuvent survenir en même temps, le(s) message(s) sont donc stocké(s) dans un tableau (`diagnostiqueEnCours`). Ainsi, lorsqu'une panne est détectée, le message lié à la panne est `push` (ajouté) au tableau, et lorsqu'il n'y a pas de panne on enlève ce message au tableau s'il y était déjà présent avec `splice`. Voici un exemple pour la température T1 : +
-image:Images/exemple_ajout_panne.jpg[]   
+image:Images/exemple_ajout_panne.jpg[width=70%,height=70%]   
 
 Pour le dernier type de panne (Problème de fonctionnement du module peltier), la variable `tempsProblemeDoubleTemps` permet de stocker le moment où le problème est apparu, afin de vérifier si les 30min se sont bien écoulées ou non. Si le problème est réglé on réintialise alors la variable en la valorisant à null. +
 Une fois toutes les données vérifiées et les éventuelles pannes ajoutées au tableau de panne, on transmet le tableau au front grâce à `io.emit("Panne", diagnostiqueEnCours);`. +
@@ -147,7 +147,7 @@ image:UC/usecase_documentation.svg[]
 - Fonctionnalité qui affiche toutes les documentations dans une page "maintenance"
 
 Dans le fichier `maintenance.html`, la fonction `addDoc(name, file)` permet d'ajouter des documents dans la page de maintenance. Pour cela, les "documents" (le titre à afficher, et le nom du fichier ) sont stockés dans la variable `docs` (un tableau) sous forme de dictionnaire. Aussi, dans la colonne où l'on sélectionne le document que l'on souhaite valider, on ajoute au contenu le nom du fichier ainsi que deux boutons "Prévisualiser" et "Ouvrir" avec le code suivant : +
-image:Images/extrait_add_doc.jpg[]  
+image:Images/extrait_add_doc.jpg[width=70%,height=70%]  
 
 Lorque l'on clique sur "Prévisualiser", la fonction `showDoc(idx)` est appelée (avec l'index du document à ouvrir). Grâce au tableau qui stocke le titre à afficher et le nom du fichier, le code javascript va donc remplacer dans le code HTML le titre qui était affiché auparavant (à l'ouverture de la page, celui du premier document) ainsi que le fichier qui était déjà prévisualisé. Cette prévisualisation se fait avec une balise `iframe`. Le bouton "Ouvrir" est un lien (`<a href=...>`) qui ouvre le fichier dans une nouvelle page.
 
