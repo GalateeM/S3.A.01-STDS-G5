@@ -70,7 +70,7 @@ image:UC/usecase_visualisation_donnees.svg[]
 
 - Récupérer les données sous forme de flux MQTT :
 
-La page principale permet d'obtenir les différentes données. Nous considérons 2 types, les données en temps réel, et l'historique. Pour ce qui est des données en temps réel, elles sont retransmises par le serveur Node.js avec lequel le client ouvre une connexion WebSocket (via le module `socket.io`). Le serveur Node.js étant connecté en direct avec le flux MQTT, à la réception d'une donnée, elle est automatiquement redirigée à tous les clients connectés en WebSocket (via le module `socket.io` également). En plus de la retransmission en direct, les données sont enregistrées dans la base de données afin d'en construire l'historique par la suite.
+La page principale (`index.html`) permet d'obtenir les différentes données. Nous considérons 2 types, les données en temps réel, et l'historique. Pour ce qui est des données en temps réel, elles sont retransmises par le serveur Node.js avec lequel le client ouvre une connexion WebSocket (via le module `socket.io`). Le serveur Node.js étant connecté en direct avec le flux MQTT, à la réception d'une donnée, elle est automatiquement redirigée à tous les clients connectés en WebSocket (via le module `socket.io` également). En plus de la retransmission en direct, les données sont enregistrées dans la base de données afin d'en construire l'historique par la suite.
 
 Serveur (dans `server.js`)
 
@@ -86,8 +86,10 @@ image:Images/example_websocket.png[width=75%,height=75%]
 
 -  Traitement des données récupérées sous forme de graphique :
 
-Pour les données de température, nous avons réalisé des jauges. Pour cela, nous avons importé le mode `Gauge` dans une balise <script>, dans la page `index.html`. Ainsi, en créant un objet Gauge (`new Gauge(<id>)`) nous pouvons faire apparaître la jauge directement dans le html où est présente la balise `<canvas id="<id>"></canvas>`.
-
+Pour les données de température, nous avons réalisé des jauges. Pour cela, nous avons importé le module `Gauge` dans une balise <script>, dans la page `index.html`. Ainsi, en créant un objet Gauge (`new Gauge(<id>)`) nous pouvons faire apparaître la jauge directement dans le html où est présente la balise `<canvas id="<id>"></canvas>`. Différentes options sont utilisées pour paramétrer ces jauges, voici les plus importantes : +
+- limitMax : permet de bloquer le maximum de la jauge (ainsi si le maximum est dépassé, l'aiguille ne sortira pas de la jauge) +
+- limitMin : même chose que limitMax, mais pour bloquer le minimum +
+- staticZones : permet de définir plusieurs zones de couleur +
 
 === b) Historique des données
 
@@ -122,7 +124,7 @@ image:UC/usecase_pannes.svg[]
 
 - Création d’une page contenant toutes les notifications de panne qui n’ont pas encore été traitées
 
-La récupération des données MQTT est expliquée dans la partie b). Du côté serveur (fichier `server.js`), on vérifie les données reçues. Si certaines données correspondent à un état de panne, alors on envoit la panne dans le web socket pour communiquer le type de panne au front (`app.js). Les cas de pannes sont les suivants : +
+La récupération des données MQTT est expliquée dans la partie b). Du côté serveur (fichier `server.js`), on vérifie les données reçues. Si certaines données correspondent à un état de panne, alors on envoie la panne dans le web socket pour communiquer le type de panne au front (`app.js). Les cas de pannes sont les suivants : +
 - Capteur de température ambiante déconnecté : température T1 < -120 +
 - Capteur de température du fût déconnecté : température T2 < -120 +
 - Wattmètre déconnecté : puissance = -10 +
@@ -130,7 +132,7 @@ La récupération des données MQTT est expliquée dans la partie b). Du côté 
 - MQTT 2 déconnecté : diagnostique = "MQTT 2 déconnecté !" +
 - Problème de fonctionnement du module peltier : température T1 < 30 et température T2 > 10, les deux depuis plus de 30 min
 
-Plusieurs pannes peuvent survenir en même temps, le(s) message(s) sont donc stocké(s) dans un tableau (`diagnostiqueEnCours`). Ainsi, lorsqu'une panne est détectée, le message lié à la panne est `push` (ajouté) au tableau, et lorsqu'il n'y a pas de panne on enlève ce message au tableau s'il y était déjà présent avec `splice`. Voici un exemple pour la température T1 : +
+Plusieurs pannes peuvent survenir en même temps, le(s) message(s) sont donc stocké(s) dans un tableau (`diagnostiqueEnCours`). Ainsi, lorsqu'une panne est détectée, le message lié à la panne est `push` (ajouté) au tableau, et lorsqu'il n'y a pas de panne on enlève ce message au tableau s'il était déjà présent, avec `splice`. Voici un exemple pour la température T1 : +
 image:Images/exemple_ajout_panne.jpg[width=70%,height=70%]   
 
 Pour le dernier type de panne (Problème de fonctionnement du module peltier), la variable `tempsProblemeDoubleTemps` permet de stocker le moment où le problème est apparu, afin de vérifier si les 30min se sont bien écoulées ou non. Si le problème est réglé on réintialise alors la variable en la valorisant à null. +
@@ -156,7 +158,7 @@ Lorque l'on clique sur "Prévisualiser", la fonction `showDoc(idx)` est appelée
 Pour plus d'informations concernant le traitement des pannes côté serveur, rendez-vous dans la partie c). Une fois les messages de panne reçus côté client (`app.js`), on utilise un "switch" pour traiter les différents cas possibles. Les deux types de pannes liés à des documentations sont : +
 - Problème de fonctionnement du module peltier +
 - Puissance consommée trop importante +
-Les documentations associées à ces deux pannes sont ajoutées sous forme de lien pour que l'utilisateur puisse les consulter directement dans la page "maintenance". L'indice du document à ouvrir lors de l'ouverture du lien est renseigné sous forme de paramètre dans l'URL (après le "?", on associé clé=valeur, ici "doc=<numéro>").
+Les documentations associées à ces deux pannes sont ajoutées sous forme de lien pour que l'utilisateur puisse les consulter directement dans la page "maintenance". L'indice du document à ouvrir lors de l'ouverture du lien est renseigné sous forme de paramètre dans l'URL (après le "?", on associé clé=valeur, ici "doc=<indice>").
 
 Dans la page `maintenance.html`, on récupère les paramètres de l'URL à l'aide de `URLSearchParams(window.location.search)`. Pour récupérer l'indice du document, on utilise ainsi `get('doc')`, puis on affiche le document avec `showDoc(<indice_récupéré>)`.
 
@@ -168,10 +170,10 @@ image:UC/usecase_notif_push.svg[]
 
 - Fonctionnalité permettant d’envoyer une notification push indiquant le type précis de la panne à l’utilisateur en cas de panne
 
-Nous avons utilisé l'outil OneSignal (https://onesignal.com) afin de gérer les notifications push. Cet outil propose d'utiliser du code pour personnaliser les différentes fonctionnalités. Tout d'abord, "l'objet" OneSignal est initialisé avec différentes options (message de bienvenue, bouton en forme de cloche, textes à afficher) avec `OneSignal.init`. Aussi, le bouton en forme de cloche en bas à droite du bouton permet de s'inscrire aux notifications, les paramètres de ce formulaire sont décrits dans le paramètre `notifyButton`.Ainsi, lorsque l'utilisateur se rend pour la première fois sur le site, une invitation à s'inscrire aux notifications apparait, il s'agit de la fonction `showSlidedownPrompt()` qui est appelée dans la page `index.html`. Si l'utilisateur souhaite modifier son choix, il peut cliquer sur le bouton en forme de cloche pour accepter ou refuser les notifications push.
+Nous avons utilisé l'outil OneSignal (https://onesignal.com) afin de gérer les notifications push. Cet outil propose d'utiliser du code pour personnaliser les différentes fonctionnalités. Tout d'abord, "l'objet" OneSignal est initialisé avec différentes options (message de bienvenue, bouton en forme de cloche, textes à afficher) avec `OneSignal.init`. Aussi, le bouton en forme de cloche en bas à droite du bouton permet de s'inscrire aux notifications, les paramètres de ce formulaire sont décrits dans le paramètre `notifyButton`. Ainsi, lorsque l'utilisateur se rend pour la première fois sur le site, une invitation à s'inscrire aux notifications apparait, il s'agit de la fonction `showSlidedownPrompt()` qui est appelée dans la page `index.html`. Si l'utilisateur souhaite modifier son choix, il peut cliquer sur le bouton en forme de cloche pour accepter ou refuser les notifications push.
 
-Côté serveur (`server.js`), l'envoie de notifications par du code est possible grâce à l'API fournie par OneSignal, il faut donc d'abord récupérer un "objet client" de l'API avec l'instruction `new OneSignal.Client()` qui prend comme paramètres la clé d'authentification de l'application et la clé de l'API, les deux étant données par OneSignal. +
-La fonction `sendNotification()` permet d'envoyer une notification push à tous les utilisateurs ayant accepté celles-ci. Les paramètres comprennent le message de notification (ici "typeAlerteEnCours"), et la catégorie d'utilisateur qui recevra les notifications (ici "Subscribed Users", c'est-à-dire tous les utilisateurs ayant accepté les notifications). Cette fonction appelle la fonction de l'API `createNotification()`.
+Côté serveur (`server.js`), l'envoi de notifications par du code est possible grâce à l'API fournie par OneSignal, il faut donc d'abord récupérer un "objet client" de l'API avec l'instruction `new OneSignal.Client()` qui prend comme paramètres la clé d'authentification de l'application et la clé de l'API, les deux étant données par OneSignal. +
+La fonction `sendNotification()` permet d'envoyer une notification push à tous les utilisateurs ayant accepté celle-ci. Les paramètres comprennent le message de notification (ici "typeAlerteEnCours"), et la catégorie d'utilisateur qui recevra les notifications (ici "Subscribed Users", c'est-à-dire tous les utilisateurs ayant accepté les notifications). Cette fonction appelle la fonction de l'API `createNotification()`.
 
 
 === f) Notifications par mail
@@ -185,7 +187,7 @@ Lorsque le "bouton" avec une image d'enveloppe est cliqué par l'utilisateur, la
 image:Images/listener_form.jpg[]  +
 L'instruction `event.preventDefault();` permet d'éviter le rafraîchissement automatique de la page lors de la soumission du formulaire (si aucune "action" n'est renseignée dans le formulaire, alors par défaut la page se réxécute elle-même). Si un mail a été renseigné, alors le mail est envoyé au code côté serveur grâce au socket. Ainsi dans le fichier `server.js`, la fonction `addEmail()` est appelée. Cette fonction utilise l'API de OneSignal afin de créer un nouvel utilisateur qui recevra les notifications par mail. Pour plus d'explications concernant l'API, rendez-vous dans la partie e) concernant les notifications push. 
 
-Le formulaire dans `index.html` permet soit de s'inscrire par mail, soit par notification, ou les deux à la fois. Si aucun mail n'est renseigné et la case des notifications pushs non cochée, alors le formulaire est simplement fermé lors de la soumission. Sinon, une alerte javascript est créée afin de renseigner l'utilisateur qu'il s'est bien inscrit aux notifications.
+Le formulaire dans `index.html` permet soit de s'inscrire par mail, soit par notification, ou les deux à la fois. Si aucun mail n'est renseigné et la case des notifications push non cochée, alors le formulaire est simplement fermé lors de la soumission. Sinon, une alerte javascript est créée afin de prévenir l'utilisateur qu'il s'est bien inscrit aux notifications.
 
 - Fonctionnalité permettant à l’utilisateur de recevoir un mail le prévenant de la panne et son type précis s’il s’est abonné aux notifications de panne
 

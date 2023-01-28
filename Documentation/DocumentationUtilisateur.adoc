@@ -55,3 +55,90 @@ Pour accéder au site en lui-même, il faut vous rendre sur `localhost:3000`, ri
 
 == 3. Utiliser l'application
 
+=== a) Structure générale du site
+
+Lors de votre première visite sur lei site, une alerte vous demandera si vous souhaitez recevoir des notifications. Pour plus d'information, rendez-vous au paragraphe `Notifications push et par mail`. Vous pourrez modifier votre choix à tout moment.
+
+Le site est structuré en trois pages : +
+
+- La page principale (`http://localhost:3000` ou `http://localhost:3000/index.html`). Cette page permet de visualiser les différentes données en temps réel, en cliquant sur les différentes "cartes" disponibles à gauche. La page contient également au centre un graphique représentant l'historique de chaque type de données sur une période de 6 heures. Pour plus d'informations, rendez-vous aux paragraphes `Visualisation des données en temps réel`, `Historique des données`, et `Pannes en cours`. 
+
+- La page Maintenance (`http://localhost:3000/maintenance.html`). Cette page permet de consulter la documentation concernant la tireuse à bière. Pour plus d'informations, rendez-vous au paragraphe `Consulter les données de documentation`. +
+
+- La page Pannes (`http://localhost:3000/pannes.html`). Cette page permet de consulter l'historique des pannes. Pour plus d'informations, rendez-vous au paragraphe `Historique des pannes`.
+
+Sur toutes les pages, le bouton tout à gauche permet d'accéder au repository github, c'est-à-dire l'endroit où est stocké le code source de cette application web. Le bouton tout à droite (forme d'enveloppe) permet d'accéder à un formulaire pour s'inscrire aux notifications, soit push soit par mail. Enfin, le bouton en bas à droite (forme de cloche) permet de s'inscrire ou de se désisncrire aux notifications push. Pour plus d'informations, rendez-vous au paragraphe `Notifications push et par mail`.
+
+=== b) Visualisation des données en temps réel
+
+La page principale du site (`http://localhost:3000` ou `http://localhost:3000/index.html`) est structurée en deux parties. A gauche, vous trouverez différentes cases permettant de retrouver les valeurs concernant la température ambiante et celle du fût, la quantité de remplissage du fût, la puissance et la consommation en CO2. 
+
+Sur le reste de la page, des informations supplémentaires en fonction du type de données qui a été sélectionné sur les cases à gauche (par défaut, sur température). 
+
+On retrouve en haut un historique sous forme de graphique (cf paragraphe suivant).
+
+En dessous, la partie "Informations supplémentaires" comporte un affichage plus spécifique des informations mises à dispositions, avec un système de jauge dynamique ou logo évoluant en fonction de l'état de la donnée. L'état de l'appareil est également présent. Voici les différents états possibles, par ordre de priorité (si plusieurs conditions d'un état sont valides, alors l'état en cours sera le plus prioritaire) : +
+- MQTT 2 déconnecté +
+- Température élevée de la bière : si la température intérieure est supérieure à 7°C +
+- Le fût est bientôt vide : si le taux de remplissage du fût est inférieur à 10% +
+- Le fût est plein : si le taux de remplissage du fût est supérieur à 90% +
+- Température idéale de la bière : si la température intérieur est comprise entre 2 et 7°C
+
+
+On retrouve enfin en bas à droite, un historique des pannes en cours (cf paragraphe e)).
+
+
+=== c) Historique des données
+
+L'historique de chaque donnée (température intérieure, température extérieure, quantité du fût, puissance, consommation en CO2) est représentée sous forme de graphique. Pour changer de graphique, il vous suffit de cliquer sur une autre case présente à gauche. +
+Les données sont récoltées sur une période de 6h. Des moyennes sont réalisées toutes les 50 valeurs, sachant que des données sont reçues toutes les 5 secondes. Vous pouvez passer la souris sur les points présents sur le graphique pour consulter une donnée avec plus de précision.
+
+
+
+=== d) Consulter les fichiers de documentation
+
+La page  Maintenance (`http://localhost:3000/maintenance.html`), permet de consulter les différentes documentations liées à la tireuse. Sur cette page, vous retrouverez sur la partie gauche une barre latérale, avec la liste des documents disponibles en PDF. On y retrouve 2 options, "Prévisualiser" et "Ouvrir". La prévisualisation remplace le document actuel sur la partie principale de la page et le titre juste au-dessus de celle-ci par le nom du document choisi. L'ouverture permet d'afficher dans un nouvel onglet le fichier PDF en lui-même, permettant de le télécharger ou de l'imprimer par exemple.
+
+
+=== e) Pannes en cours
+
+La page principale du site (`http://localhost:3000` ou `http://localhost:3000/index.html`), vous retrouverez les éventuelles pannes en cours en bas à droite. Si aucune panne n'est en cours, le message "Aucune panne en cours !" sera présent. Sinon, voici les différentes conditions qui permettent la détection d'une panne : +
+- Capteur de température ambiante déconnecté : la température extérieure est inférieure à -120 +
+- Capteur de température du fût déconnecté : la température intérieure est inférieure à -120 +
+- Wattmètre déconnecté : la puissance vaut -10 +
+- Puissance consommée trop importante : la puissance est supérieure à 75W
+- MQTT 2 déconnecté : le MQTT 2 est déconnecté
+- Problème de fonctionnement du module peltier :la température extérieure est inférieure à 30 et celle extérieure est supérieure à 10, depuis plus de 30min +
+
+Certaines pannes ont des documentations liées. Vous verrez ainsi apparaître un lien cliquable en bleu, en voici un exemple : +
+image:Images/panne_utilisateur.png[width=70%,height=70%] +
+En cliquant sur un des liens proposés, vous accéderez directement à la documentation dans la page Maintenance. Le bon document sera affiché en prévisualisation au milieu de la page.
+
+
+=== f) Historique des pannes
+
+TO DO
+
+
+
+
+
+=== g) Notifications push et par mail
+
+Lors de votre première visite sur le site, une alerte vous demandera si vous souhaitez recevoir des notifications. Si vous acceptez, vous recevrez des notifications push en fonction de l'état de la tireuse. Si vous souhaitez modifier votre choix, vous pouvez cliquer sur l'icone en forme de cloche en bas à droite afin d'accepter ou de refuser les notifications. +
+En cliquant sur le bouton en haut à droite en forme d'enveloppe, vous pouvez également vous inscrire aux notifications par mail, ou aux notifications push. Vous devez renseigner votre adresse mail si vous souhaitez les notifications par mail, et vous devez cocher la case des notifications push si vous souhaitez celles-ci. Pour fermer le formulaire sans enregistrer vos préférences, cliquez sur `Annuler`. +
+En cliquant sur `Je m'inscris`, vous aurez une alerte vous confirmant pour quelle type de notification vous vous êtes inscrit : +
+- Vous recevrez désormais des notifications push. +
+- Vous recevrez désormais des notifications par mail. +
+- Ou les deux messages si vous avez choisi les deux options. Si vous êtes déjà inscrit aux notifications push et que vous ne cochez pas la case, cela ne vous désinscrira pas. Vous pouvez renseigner autant d'adresses mail que vous souhaitez. Dans chaque mail que vous recevrez, vous aurez la possibilité de vous désinscrire.
+
+Voici l'ensemble des notifications que vous pouvez recevoir : +
+- Capteur de température ambiante déconnecté ! +
+- Capteur de température du fût déconnecté ! +
+- Wattmètre déconnecté ! +
+- Puissance consommée trop importante ! +
+- Le fût est bientôt vide, pensez à le recharger ! +
+- MQTT 2 déconnecté ! +
+- Problème de fonctionnement du module peltier +
+
+Si plusieurs pannes ou état proviennent en même temps, vous ne recevrez qu'une seule notification.
