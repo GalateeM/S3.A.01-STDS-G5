@@ -63,14 +63,39 @@ Avant d'entrer en détail dans les fonctionnalités disponibles, voici un schém
 
 image:Images/vue_globale.jpg[width=50%,height=50%]
 
+=== b) Visualisation des données en temps réel
 
-=== a) Historique des données
+Use case : 	En tant qu’utilisateur je souhaite consulter les données de la tireuse en temps réel. +
+image:UC/usecase_visualisation_donnees.svg[]
+
+- Récupérer les données sous forme de flux MQTT :
+
+La page principale permet d'obtenir les différentes données. Nous considérons 2 types, les données en temps réel, et l'historique. Pour ce qui est des données en temps réel, elles sont retransmises par le serveur Node.js avec lequel le client ouvre une connexion WebSocket (via le module `socket.io`). Le serveur Node.js étant connecté en direct avec le flux MQTT, à la réception d'une donnée, elle est automatiquement redirigée à tous les clients connectés en WebSocket (via le module `socket.io` également). En plus de la retransmission en direct, les données sont enregistrées dans la base de donnéées afin d'en construire l'historique par la suite.
+
+Serveur (dans `server.js`)
+
+image:Images/mqtt_connection.png[width=50%,height=50%]
+
+image:Images/websocket_redirect.png[width=25%,height=25%]
+
+Client (dans `app.js`)
+
+image:Images/open_ws_from_client.png[width=25%,height=25%]
+
+image:Images/example_websocket.png[width=75%,height=75%]
+
+-  Traitement des données récupérées sous forme de graphique :
+
+Pour les données de température, nous avons réalisé des jauges. Pour cela, nous avons importé le mode `Gauge` dans une balise <script>, dans la page `index.html`. Ainsi, en créant un objet Gauge (`new Gauge(<id>)`) nous pouvons faire apparaître la jauge directement dans le html où est présente la balise `<canvas id="<id>"></canvas>`.
+
+
+=== b) Historique des données
 
 Use case : En tant qu'utilisateur je souhaite pouvoir consulter l'historique des données de la tireuse sur une période donnée. +
 image:UC/usecase_historique.svg[]
 
 
-- Connexion et insertion de données dans TimeScaleDB
+- Fonctionnalité permettant d’établir une connexion avec la base de données
 
 Pour cette fonctionnalité, le code est présent dans la classe `server.js`. +
 Nous avons utilisé le langage NodeJS pour créer la connexion à la base de données TimeScaleDB. Pour cela, nous avons utilisé le module `sequelize` qui permet également la création de tables, l'insertion et la récupération des données. La création des tables se fait avec un `sequelize.define` (si les tables ont déjà été créées, cela ne fait rien et donc l'historique ne sera pas perdu):
@@ -81,44 +106,31 @@ Pour l'insertion des données en temps réel, l'utilisation de `sequelize.sync()
 
 image:Images/insertion_données.png[width=50%,height=50%]
 
-=== b) Visualisation des données 
+- Afficher les données (historique) sous forme graphique
 
-La page principale permet d'obtenir les différentes données. Nous considérons 2 types, les données en temps réel, et l'historique. Pour ce qui est des données en temps réel, elles sont retransmises par le serveur Node.js avec lequel le client ouvre une connexion WebSocket (via le module `socket.io`). Le serveur Node.js étant connecté en direct avec le flux MQTT, à la réception d'une donnée, elle est automatiquement redirigée à tous les clients connectés en WebSocket (via le module `socket.io` également). En plus de la retransmission en direct, les données sont enregistrées dans la base de donnéées afin d'en construire l'historique par la suite.
+TODO
 
-Serveur
+- Afficher l’historique des pannes sur une page dédiée
 
-image:Images/mqtt_connection.png[width=50%,height=50%]
+TODO
 
-image:Images/websocket_redirect.png[width=25%,height=25%]
 
-Client
+=== c) Pannes en cours
 
-image:Images/open_ws_from_client.png[width=75%,height=75%]
+Use case : En tant qu’utilisateur, je souhaite pouvoir accéder à une page contenant les pannes actuelles afin de pouvoir les corriger. +
+image:UC/usecase_pannes.svg[]
 
-image:Images/example_websocket.png[width=75%,height=75%]
+=== d) Ajout des fichiers de documentation
 
-Lorsqu'on arrive sur le site, on retrouve différentes sections. 
+Use case : En tant qu’utilisateur je souhaite pouvoir consulter la documentation (gamme) associée à une panne afin de la corriger. +
+image:UC/usecase_documentation.svg[]
 
-A gauche : Différentes cases permettant de retrouver les valeurs concernant la Température, la Quantité du fût, la Puissance et la consommation en CO2. 
+=== e) Notifications push
 
-Sur le reste de la page, des informations supplémentaires en fonction du type de données qu'on a sélectionné sur les cases à gauche (par défaut, sur Température). 
+Use case : En tant qu’utilisateur je souhaite être notifié lorsqu’une panne survient et connaître le type précis de la panne. +
+image:UC/usecase_notif_push.svg[]
 
-On retrouve en haut un historique sous forme de graphique. 
+=== f) Notifications par mail
 
-En dessous, l'état de l'apparareil, il permet d'afficher les problèmes / pannes en cours comme "Température élevée de la bière !". 
-
-Sur le bas de la page, un affichage plus spécifique des informations mises à dispositions, avec un système de jauge dynamique ou logo évoluant en fonction de l'état de la donnée. 
-
-On retrouve enfin sur la droite, un historique des pannes en cours, celles mesurées par le MQTT. 
-
-=== c) Page de maintenance
-
-La page maintenance permet d'accéder à la documentation en cas de besoin.
-
-Sur celle-ci, on retrouve sur la partie gauche une barre latérale, avec la liste des documents disponibles en PDF. On y retrouve 2 options, "Prévisualiser" et "Ouvrir". La prévisualisation remplace le document actuel sur la partie principale de la page et le titre juste au-dessus de celle-ci par le nom du document choisi. L'ouverture permet d'afficher dans un nouvel onglet le fichier PDF en lui-même, par la suite l'utilisateur peut faire le choix de le télécharger ou non par exemple.
-
-image:Images/page_maintenance.jpg[width=75%,height=75%]
-
-Cette partie est aisément modulable, à l'aide de fonctions. En effet, à l'aide d'une simple ligne (comme ci-dessous), on ajoute un élément à la barre latérale qui sera directement prévisualisable et ouvrable.
-
-image:Images/code_maintenance.jpg[width=50%,height=50%]
+Use case : En tant qu’utilisateur je souhaite être notifié lorsqu’une panne survient et connaître le type précis de la panne.
+image:UC/usecase_notif_mail.svg[]
