@@ -319,7 +319,7 @@
     this.document.getElementById("titre").textContent = "Température";
 
     var opts = {
-        angle: 0.15, // The span of the gauge arc
+        angle: 0, // The span of the gauge arc
         lineWidth: 0.44, // The line thickness
         radiusScale: 1, // Relative radius
         pointer: {
@@ -327,22 +327,22 @@
             strokeWidth: 0.035, // The thickness
             color: '#000000' // Fill color
         },
-        limitMax: false,     // If false, max value increases automatically if value > maxValue
-        limitMin: false,     // If true, the min value of the gauge will be fixed
+        limitMax: true,     // If false, max value increases automatically if value > maxValue
+        limitMin: true,     // If true, the min value of the gauge will be fixed
         colorStart: '#6FADCF',   // Colors
         colorStop: '#8FC0DA',    // just experiment with them
         strokeColor: '#E0E0E0',  // to see which ones work best for you
         generateGradient: true,
         highDpiSupport: true,     // High resolution support,
         staticZones: [
-            { strokeStyle: "#30B32D", min: -10, max: 7 },
+            { strokeStyle: "#30B32D", min: 0, max: 7},
             { strokeStyle: "#FFDD00", min: 7, max: 10 },
-            { strokeStyle: "#F03E3E", min: 10, max: 100 },
+            { strokeStyle: "#F03E3E", min: 10, max: 30 },
         ]
     };
     var targetInt = document.getElementById('jaugeInt'); // your canvas element
     var gaugeInt = new Gauge(targetInt).setOptions(opts); // create sexy gauge!
-    gaugeInt.maxValue = 40; // set max gauge value
+    gaugeInt.maxValue = 30; // set max gauge value
     gaugeInt.setMinValue(0);  // Prefer setter over gauge.minValue = 0
     gaugeInt.animationSpeed = 32; // set animation speed (32 is default value)
 
@@ -361,7 +361,7 @@
     var isTemperature = true;
 
     var opts = {
-        angle: 0.15, // The span of the gauge arc
+        angle: 0, // The span of the gauge arc
         lineWidth: 0.44, // The line thickness
         radiusScale: 1, // Relative radius
         pointer: {
@@ -369,17 +369,17 @@
             strokeWidth: 0.035, // The thickness
             color: '#000000' // Fill color
         },
-        limitMax: false,     // If false, max value increases automatically if value > maxValue
-        limitMin: false,     // If true, the min value of the gauge will be fixed
+        limitMax: true,     // If false, max value increases automatically if value > maxValue
+        limitMin: true,     // If true, the min value of the gauge will be fixed
         colorStart: '#6FADCF',   // Colors
         colorStop: '#8FC0DA',    // just experiment with them
         strokeColor: '#E0E0E0',  // to see which ones work best for you
         generateGradient: true,
         highDpiSupport: true,     // High resolution support
         staticZones: [
-            { strokeStyle: "#30B32D", min: -10, max: 7 },
-            { strokeStyle: "#FFDD00", min: 7, max: 10 },
-            { strokeStyle: "#F03E3E", min: 10, max: 100 },
+            { strokeStyle: "#30B32D", min: 0, max: 20 },
+            { strokeStyle: "#FFDD00", min: 20, max: 30 },
+            { strokeStyle: "#F03E3E", min: 30, max: 45 },
         ]
     };
     var targetExt = document.getElementById('jaugeExt'); // your canvas element
