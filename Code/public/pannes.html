@@ -12,6 +12,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+        integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
     <link rel="icon" type="image/x-icon" href="/img/beer.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
@@ -35,14 +39,156 @@
         </nav>
     </div>
 
-    <div style="margin-top: 60px; z-index: 0;">
+
+    <div style="margin-top: 60px; z-index: 0; padding-bottom: 0; margin-bottom: 0;">
+        <table class="table table-bordered" style="padding-bottom: 0; margin-bottom: 0;">
+            <tbody>
+                <tr>
+                    <td>
+                        <section class="timeline">
+                            <ul id="liste">
+                                <script>
+
+                                    const socket = io("http://localhost:3000");
+
+                                    var done = false;
+
+                                    socket.on("PanneHistorique", (arg) => {
+                                        if (!done) {
+                                            done = true;
+                                            for (var i = 0; i < arg.length - 1; i++) {
+                                                var li = document.createElement("li");
+                                                var div = document.createElement("div");
+                                                var time = document.createElement("time");
+
+                                                var dateInsertion = document.createTextNode(arg[i].dateInsertion);
+                                                var data = document.createTextNode(arg[i].data);
+
+                                                time.appendChild(dateInsertion);
+                                                div.appendChild(time);
+                                                div.appendChild(data);
+                                                li.appendChild(div);
+                                                document.getElementById("liste").appendChild(li);
+                                            }
+                                        }
+                                    });
+                                </script>
+                            </ul>
+                        </section>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-9 position-sticky top-0">
+                        <iframe style="width: 100%; height: calc(100vh - 180px);"></iframe>
+                        <div class="form-popup" id="myForm" method="post" style="z-index: 5;">
+                            <form class="form-container" id="formEmail">
+                                <h2>Inscrivez-vous aux notifications</h2><br>
+
+                                <label for="email"><b>Par mail</b></label><br>
+                                <input type="email" name="email" autocomplete placeholder="Entrez votre email"
+                                    id="email" /><br><br>
+
+                                <label for="push"><b>Par notification push</b></label>&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" id="push" name="push" checked>
+                                <br><br>
+
+                                <button type="submit" class="btn">Je m'inscris</button>
+                                <button type="button" class="btn cancel" onclick="closeForm()">Annuler</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
         <script>
-            socket.on("PanneHistorique", (arg) => {
-                for (var i=0; i<70; i++)
-                {
-                    console.log("##############################################")
+            function openForm() {
+                document.getElementById("myForm").style.display = "block";
+            }
+
+            function closeForm() {
+                document.getElementById("myForm").style.display = "none";
+            }
+
+            const form = document.getElementById('formEmail');
+            var listeMail = "";
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                var message = "";
+                var mail = document.getElementById("email").value;
+                let isPush = document.getElementById("push").checked;
+                if (mail !== "") {
+                    message += "Vous recevrez désormais des notifications par mail. \n";
+                    socket.emit("NewMail", mail);
                 }
-            })
+                if (isPush === true) {
+                    OneSignal.setSubscription(true);
+                    message += "Vous recevrez désormais des notifications push."
+                }
+                if (isPush || mail != "") {
+                    alert(message);
+                    closeForm();
+                } else {
+                    closeForm();
+                }
+
+            });
+        </script>
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script>
+            window.OneSignal = window.OneSignal || [];
+            OneSignal.push(function () {
+                OneSignal.init({
+                    appId: "b86bb1c7-a686-4471-a3a7-07bf311b13db",
+                    safari_web_id: "web.onesignal.auto.201c9c11-2835-4563-82b9-55a6f9094e87",
+                    welcomeNotification: {
+                        "title": "PintVision",
+                        "message": "Vous vous êtes bien inscrit aux notifications, merci !"
+                    },
+                    notifyButton: {
+                        enable: true,
+                        text: {
+                            'tip.state.unsubscribed': 'Recevoir des notifications push',
+                            'tip.state.subscribed': "Vous avez accepté de recevoir des notifications",
+                            'tip.state.blocked': "Vous avez bloqué les notifications",
+                            'message.prenotify': 'Cliquez pour recevoir des notifciations push',
+                            'message.action.subscribed': "Merci d'avoir accepté les notifications !",
+                            'message.action.resubscribed': "Vous avez accepté de recevoir des notifications",
+                            'message.action.unsubscribed': "Vous ne recevrez plus de notification",
+                            'dialog.main.title': 'Modifier les paramètres de notification',
+                            'dialog.main.button.subscribe': 'Accepter les notifications',
+                            'dialog.main.button.unsubscribe': 'Refuser les notifications',
+                            'dialog.blocked.title': 'Débloquer les notifications',
+                            'dialog.blocked.message': "Suivez ces instructions pour recevoir les notifications :"
+                        }
+                    },
+                    allowLocalhostAsSecureOrigin: true,
+                    // Your other init options here
+                    promptOptions: {
+                        slidedown: {
+                            prompts: [
+                                {
+                                    type: "push", // current types are "push" & "category"
+                                    autoPrompt: true,
+                                    timeDelay: 5,
+                                    text: {
+                                        /* limited to 90 characters */
+                                        actionMessage: "Voulez-vous recevoir des notifications concernant l'état de la tireuse ?",
+                                        /* acceptButton limited to 15 characters */
+                                        acceptButton: "Accepter",
+                                        /* cancelButton limited to 15 characters */
+                                        cancelButton: "Refuser"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                });
+            });
+            OneSignal.push(function () {
+                OneSignal.showSlidedownPrompt();
+            });
         </script>
     </div>
 </body>
