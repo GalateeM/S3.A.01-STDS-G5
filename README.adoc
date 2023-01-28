@@ -41,7 +41,8 @@ Backlog produit : https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equip
 
 Backlog sprint :
 
-- Sprint 1 : https://www.github.com/users/GalateeM/projects/3[ici]
+- Sprint 1 : https://www.github.com/users/GalateeM/projects/3[ici] +
+- Sprint 2 : https://www.github.com/users/GalateeM/projects/4[ici]
 
 
 = 5. Méthode SCRUM
@@ -63,4 +64,9 @@ Backlog produit :  attention il manque la finalité de vos US (afin de ...). Les
 
 Backlog sprint :  votre lien ne marche pas ... je ne trouve pas votre srintboard 3 et le futur sprintboard 4.
 
-CR ok ... bon courage ... j'espère avoir une release à la fin de la semaine car rien à la fin du sprint 3 ...
+CR ok ... bon courage ... j'espère avoir une release à la fin de la semaine car rien à la fin du sprint 3 ... 
+
+
+- Retour d'expérience sprint 2 : +
+
+TO DO
