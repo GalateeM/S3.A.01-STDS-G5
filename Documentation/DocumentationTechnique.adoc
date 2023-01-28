@@ -70,7 +70,7 @@ image:UC/usecase_visualisation_donnees.svg[]
 
 - Récupérer les données sous forme de flux MQTT :
 
-La page principale permet d'obtenir les différentes données. Nous considérons 2 types, les données en temps réel, et l'historique. Pour ce qui est des données en temps réel, elles sont retransmises par le serveur Node.js avec lequel le client ouvre une connexion WebSocket (via le module `socket.io`). Le serveur Node.js étant connecté en direct avec le flux MQTT, à la réception d'une donnée, elle est automatiquement redirigée à tous les clients connectés en WebSocket (via le module `socket.io` également). En plus de la retransmission en direct, les données sont enregistrées dans la base de donnéées afin d'en construire l'historique par la suite.
+La page principale permet d'obtenir les différentes données. Nous considérons 2 types, les données en temps réel, et l'historique. Pour ce qui est des données en temps réel, elles sont retransmises par le serveur Node.js avec lequel le client ouvre une connexion WebSocket (via le module `socket.io`). Le serveur Node.js étant connecté en direct avec le flux MQTT, à la réception d'une donnée, elle est automatiquement redirigée à tous les clients connectés en WebSocket (via le module `socket.io` également). En plus de la retransmission en direct, les données sont enregistrées dans la base de données afin d'en construire l'historique par la suite.
 
 Serveur (dans `server.js`)
 
@@ -120,17 +120,78 @@ TODO
 Use case : En tant qu’utilisateur, je souhaite pouvoir accéder à une page contenant les pannes actuelles afin de pouvoir les corriger. +
 image:UC/usecase_pannes.svg[]
 
+- Création d’une page contenant toutes les notifications de panne qui n’ont pas encore été traitées
+
+La récupération des données MQTT est expliquée dans la partie b). Du côté serveur (fichier `server.js`), on vérifie les données reçues. Si certaines données correspondent à un état de panne, alors on envoit la panne dans le web socket pour communiquer le type de panne au front (`app.js). Les cas de pannes sont les suivants : +
+- Capteur de température ambiante déconnecté : température T1 < -120 +
+- Capteur de température du fût déconnecté : température T2 < -120 +
+- Wattmètre déconnecté : puissance = -10 +
+- Puissance consommée trop importante : puissance > 75
+- MQTT 2 déconnecté : diagnostique = "MQTT 2 déconnecté !" +
+- Problème de fonctionnement du module peltier : température T1 < 30 et température T2 > 10, les deux depuis plus de 30 min
+
+Plusieurs pannes peuvent survenir en même temps, le(s) message(s) sont donc stocké(s) dans un tableau (`diagnostiqueEnCours`). Ainsi, lorsqu'une panne est détectée, le message lié à la panne est `push` (ajouté) au tableau, et lorsqu'il n'y a pas de panne on enlève ce message au tableau s'il y était déjà présent avec `splice`. Voici un exemple pour la température T1 : +
+image:Images/exemple_ajout_panne.jpg[]   
+
+Pour le dernier type de panne (Problème de fonctionnement du module peltier), la variable `tempsProblemeDoubleTemps` permet de stocker le moment où le problème est apparu, afin de vérifier si les 30min se sont bien écoulées ou non. Si le problème est réglé on réintialise alors la variable en la valorisant à null. +
+Une fois toutes les données vérifiées et les éventuelles pannes ajoutées au tableau de panne, on transmet le tableau au front grâce à `io.emit("Panne", diagnostiqueEnCours);`. +
+
+Dans le fichier `app.js`, lorsqu'un tableau de panne est transmis, on appelle la fonction `diagno()`. Cette fonction vérifie le nombre d'erreur. Si ce nombre est égal à 0, alors il n'y a aucune panne, et on ajoute dans la page `index.html` le message "Aucune panne en cours". Sinon, on affiche le message d'erreur, et selon le type d'erreur on affiche parfois la documentation liée à cette erreur. Cette fonctionnalité sera expliquée dans la partie suivante.
+
+
 === d) Ajout des fichiers de documentation
 
 Use case : En tant qu’utilisateur je souhaite pouvoir consulter la documentation (gamme) associée à une panne afin de la corriger. +
 image:UC/usecase_documentation.svg[]
+
+- Fonctionnalité qui affiche toutes les documentations dans une page "maintenance"
+
+Dans le fichier `maintenance.html`, la fonction `addDoc(name, file)` permet d'ajouter des documents dans la page de maintenance. Pour cela, les "documents" (le titre à afficher, et le nom du fichier ) sont stockés dans la variable `docs` (un tableau) sous forme de dictionnaire. Aussi, dans la colonne où l'on sélectionne le document que l'on souhaite valider, on ajoute au contenu le nom du fichier ainsi que deux boutons "Prévisualiser" et "Ouvrir" avec le code suivant : +
+image:Images/extrait_add_doc.jpg[]  
+
+Lorque l'on clique sur "Prévisualiser", la fonction `showDoc(idx)` est appelée (avec l'index du document à ouvrir). Grâce au tableau qui stocke le titre à afficher et le nom du fichier, le code javascript va donc remplacer dans le code HTML le titre qui était affiché auparavant (à l'ouverture de la page, celui du premier document) ainsi que le fichier qui était déjà prévisualisé. Cette prévisualisation se fait avec une balise `iframe`. Le bouton "Ouvrir" est un lien (`<a href=...>`) qui ouvre le fichier dans une nouvelle page.
+
+- Fonctionnalité permettant d’afficher la documentation correspondant à la panne
+
+Pour plus d'informations concernant le traitement des pannes côté serveur, rendez-vous dans la partie c). Une fois les messages de panne reçus côté client (`app.js`), on utilise un "switch" pour traiter les différents cas possibles. Les deux types de pannes liés à des documentations sont : +
+- Problème de fonctionnement du module peltier +
+- Puissance consommée trop importante +
+Les documentations associées à ces deux pannes sont ajoutées sous forme de lien pour que l'utilisateur puisse les consulter directement dans la page "maintenance". L'indice du document à ouvrir lors de l'ouverture du lien est renseigné sous forme de paramètre dans l'URL (après le "?", on associé clé=valeur, ici "doc=<numéro>").
+
+Dans la page `maintenance.html`, on récupère les paramètres de l'URL à l'aide de `URLSearchParams(window.location.search)`. Pour récupérer l'indice du document, on utilise ainsi `get('doc')`, puis on affiche le document avec `showDoc(<indice_récupéré>)`.
+
 
 === e) Notifications push
 
 Use case : En tant qu’utilisateur je souhaite être notifié lorsqu’une panne survient et connaître le type précis de la panne. +
 image:UC/usecase_notif_push.svg[]
 
+- Fonctionnalité permettant d’envoyer une notification push indiquant le type précis de la panne à l’utilisateur en cas de panne
+
+Nous avons utilisé l'outil OneSignal (https://onesignal.com) afin de gérer les notifications push. Cet outil propose d'utiliser du code pour personnaliser les différentes fonctionnalités. Tout d'abord, "l'objet" OneSignal est initialisé avec différentes options (message de bienvenue, bouton en forme de cloche, textes à afficher) avec `OneSignal.init`. Aussi, le bouton en forme de cloche en bas à droite du bouton permet de s'inscrire aux notifications, les paramètres de ce formulaire sont décrits dans le paramètre `notifyButton`.Ainsi, lorsque l'utilisateur se rend pour la première fois sur le site, une invitation à s'inscrire aux notifications apparait, il s'agit de la fonction `showSlidedownPrompt()` qui est appelée dans la page `index.html`. Si l'utilisateur souhaite modifier son choix, il peut cliquer sur le bouton en forme de cloche pour accepter ou refuser les notifications push.
+
+Côté serveur (`server.js`), l'envoie de notifications par du code est possible grâce à l'API fournie par OneSignal, il faut donc d'abord récupérer un "objet client" de l'API avec l'instruction `new OneSignal.Client()` qui prend comme paramètres la clé d'authentification de l'application et la clé de l'API, les deux étant données par OneSignal. +
+La fonction `sendNotification()` permet d'envoyer une notification push à tous les utilisateurs ayant accepté celles-ci. Les paramètres comprennent le message de notification (ici "typeAlerteEnCours"), et la catégorie d'utilisateur qui recevra les notifications (ici "Subscribed Users", c'est-à-dire tous les utilisateurs ayant accepté les notifications). Cette fonction appelle la fonction de l'API `createNotification()`.
+
+
 === f) Notifications par mail
 
-Use case : En tant qu’utilisateur je souhaite être notifié lorsqu’une panne survient et connaître le type précis de la panne.
+Use case : En tant qu’utilisateur je souhaite être notifié lorsqu’une panne survient et connaître le type précis de la panne. +
 image:UC/usecase_notif_mail.svg[]
+
+- Ajout d’un formulaire pour qu’un utilisateur puisse s’inscrire aux notifications par mail
+
+Lorsque le "bouton" avec une image d'enveloppe est cliqué par l'utilisateur, la fonction `openForm()` dans `index.html` est appelée. Cette fonction permet de changer le style de la div "myForm" afin de la faire apparaître. Lorsque le formulaire est validé, le code javascript s'exécute car il possède un listener sur le bouton submit, grâce au code suivant : +
+image:Images/listener_form.jpg[]  +
+L'instruction `event.preventDefault();` permet d'éviter le rafraîchissement automatique de la page lors de la soumission du formulaire (si aucune "action" n'est renseignée dans le formulaire, alors par défaut la page se réxécute elle-même). Si un mail a été renseigné, alors le mail est envoyé au code côté serveur grâce au socket. Ainsi dans le fichier `server.js`, la fonction `addEmail()` est appelée. Cette fonction utilise l'API de OneSignal afin de créer un nouvel utilisateur qui recevra les notifications par mail. Pour plus d'explications concernant l'API, rendez-vous dans la partie e) concernant les notifications push. 
+
+Le formulaire dans `index.html` permet soit de s'inscrire par mail, soit par notification, ou les deux à la fois. Si aucun mail n'est renseigné et la case des notifications pushs non cochée, alors le formulaire est simplement fermé lors de la soumission. Sinon, une alerte javascript est créée afin de renseigner l'utilisateur qu'il s'est bien inscrit aux notifications.
+
+- Fonctionnalité permettant à l’utilisateur de recevoir un mail le prévenant de la panne et son type précis s’il s’est abonné aux notifications de panne
+
+Comme expliqué précédement, les adresses mails des utilisateurs souhaitant recevoir des notifications par mail sont stockées dans OneSignal, lors de l'appel de la fonction `addEmail()`. Lorsqu'un mail doit être envoyé, l'utilisation `createNotification` sur l'objet de l'API permet d'envoyer un mail. Pour cela, il faut renseigner : +
+- included_segments : les utilisateurs concernés (ici tous ceux qui sont incrits) +
+- email_subject : l'objet du mail +
+- email_from_address : l'adresse qui "envoit" le mail +
+- email_body : le corps du mail sous forme HTML
+
