@@ -381,6 +381,31 @@ const initServer = async () => {
           })
         }
       })
+
+      // Historique Pannes
+      sequelize.authenticate().then(() => {
+        const pannes = Panne.findAll(
+          {
+            order: [["dateInsertion", "ASC"]]
+          }
+        ).then((res) => {
+          let datas = [];
+          if (res.length !== 0) {
+            var dateMin = new Date();
+            dateMin.setHours(dateMin.getHours() - 6);
+            for (let i = 0; i < res.length - 1; i++) {
+              if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
+                var date = res[i].dateInsertion;
+                date.setHours(date.getHours() + 1);
+                var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": res[i].data};
+                datas.push(dict);
+              }
+            }
+          }
+          // Emission
+          io.emit("PanneHistorique", datas);
+        })
+      })
     })
 
     let data = payload.toString()
@@ -409,13 +434,17 @@ const initServer = async () => {
             isTemp1Inf = false;
           }
           if (data < -120) {
-            if (!diagnostiqueEnCours.includes("Capteur de température ambiant déconnecté !")) {
-              diagnostiqueEnCours.push("Capteur de température ambiant déconnecté !");
+            if (!diagnostiqueEnCours.includes("Capteur de température ambiante déconnecté !")) {
+              diagnostiqueEnCours.push("Capteur de température ambiante déconnecté !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Capteur de température ambiante déconnecté",
+              });
             }
             if (typeAlertEnCours === null) {
               isAlert = true;
-              if (typeAlertEnCours != "Capteur de température ambiant déconnecté !") {
-                typeAlertEnCours = "Capteur de température ambiant déconnecté !";
+              if (typeAlertEnCours != "Capteur de température ambiante déconnecté !") {
+                typeAlertEnCours = "Capteur de température ambiante déconnecté !";
                 sendNotification(typeAlertEnCours);
                 sendEmail(typeAlertEnCours);
               }
@@ -441,6 +470,10 @@ const initServer = async () => {
           if (data < -120) {
             if (!diagnostiqueEnCours.includes("Capteur de température du fût déconnecté !")) {
               diagnostiqueEnCours.push("Capteur de température du fût déconnecté !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Capteur de température du fût déconnecté",
+              });
             }
             if (typeAlertEnCours === null) {
               isAlert = true;
@@ -471,6 +504,10 @@ const initServer = async () => {
           if (data == -10) {
             if (!diagnostiqueEnCours.includes("Wattmètre déconnecté !")) {
               diagnostiqueEnCours.push("Wattmètre déconnecté !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Wattmètre déconnecté",
+              });
             }
             if (typeAlertEnCours === null) {
               isAlert = true;
@@ -491,6 +528,10 @@ const initServer = async () => {
           if (data > 75) {
             if (!diagnostiqueEnCours.includes("Puissance consommée trop importante !")) {
               diagnostiqueEnCours.push("Puissance consommée trop importante !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Puissance consommée trop importante",
+              });
             }
             if (typeAlertEnCours != "Puissance consommée trop importante !") {
               typeAlertEnCours = "Puissance consommée trop importante !";
@@ -533,6 +574,10 @@ const initServer = async () => {
             etatEnCours = "MQTT 2 déconnecté !";
             if (!diagnostiqueEnCours.includes("MQTT 2 déconnecté !")) {
               diagnostiqueEnCours.push("MQTT 2 déconnecté !");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "MQTT 2 déconnecté",
+              });
             }
             isAlert = true;
             if (typeAlertEnCours != "MQTT 2 déconnecté !") {
@@ -568,6 +613,10 @@ const initServer = async () => {
           if (diffSecondes > 20) {//1800
             if (!diagnostiqueEnCours.includes("Problème de fonctionnement du module peltier")) {
               diagnostiqueEnCours.push("Problème de fonctionnement du module peltier");
+              const panne = Panne.create({
+                dateInsertion: Date.now(),
+                data: "Problème de fonctionnement du module peltier",
+              });
             }
             if (typeAlertEnCours === null) {
               isAlert = true;
