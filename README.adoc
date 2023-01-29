@@ -25,11 +25,14 @@ La SAE 3.01 est une SAE inter-départements, réalisée en collaboration entre l
 = 3. Livrables
 
 |=============
-| Date | Nom du livrable | Lien vers le livrable 
-| | Documentation Technique | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/DocumentationTechnique.adoc[Dossier d'analyse et de conception]
-| | Documentation Utilisateur | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/DocumentationUtilisateur.adoc[Documentation utilisateur]
-| | Cahier des tests | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/CahierTests.adoc[Cahier des tests]
+| Nom du livrable | Lien vers le livrable 
+| Documentation Technique | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/DocumentationTechnique.adoc[Dossier d'analyse et de conception]
+| Documentation Utilisateur | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/DocumentationUtilisateur.adoc[Documentation utilisateur]
+| Cahier des tests | https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/blob/main/Documentation/CahierTests.adoc[Cahier des tests]
+| Code source du site| https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5/tree/main/Code[Dossier principal contenant le code] 
 |=============
+
+NB : L'application web n'est pas hébergée car nous n'avons aucun serveur à disposition. Vous trouverez dans la documentation technique le processus de déploiement de l'application en local.
 
 = 4. Gestion du projet 
 
@@ -69,4 +72,6 @@ CR ok ... bon courage ... j'espère avoir une release à la fin de la semaine ca
 
 - Retour d'expérience sprint 2 : +
 
-TO DO
+Durant ce deuxième sprint, nous avons terminé toutes les fonctionnalités. La distribution des tâches a été adaptée au cours du projet, car toutes les tâches ne prennent pas le même temps pour être réalisées. Par exemple, la tâche `Afficher les données (historique) sous forme graphique` était une tâche beaucoup plus longue à réaliser que la tâche `Fonctionnalité permettant d’établir une connexion avec la base de données`. +
+Nous avons également réalisé une séance de tests pour les pannes avec les élèves de la filière GIM mercredi, afin de vérifier que les fonctionnalités liées aux pannes fonctionnaient bien. Ce n'était pas le cas pour toutes, nous avons donc corrigé les différents soucis. Les derniers tests ont bien validé toutes les fonctionnalités que ce soit celles liées aux pannes ou les autres. +
+Nous avons également réalisé une réunion vendredi après-midi avec les élèves de la filière GIM afin de présenter notre application web. Celle-ci n'était, à ce moment-là, pas totalement terminée mais ils ont été satisfaits du résultat. 
