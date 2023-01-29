@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <div style="position: fixed; width: 100%; top: 0; z-index: 1;">
+    <div style="position: fixed; width: 100%; top: 0; z-index: 10;">
         <nav class="navbar bg-warning" style="height: 60px;">
             <ul class="bg-transparent text-center" style="position: absolute; top:0;">
                 <li><a href="https://github.com/GalateeM/SAE-ALT-S3-Dev-22-23-STDS-3B-Equipe-5" target="_blank"><i
@@ -40,11 +40,12 @@
         </nav>
     </div>
 
-    <div style="position: fixed; height: 100%; left: 0; z-index: 1; margin-left: 0; padding-left: 0; top: 0; margin-top: 80px; background-color: white; z-index: 5;">
+    <div
+        style="position: fixed; height: 100%; left: 0; z-index: 5; margin-left: 0; padding-left: 0; top: 0; background-color: white;">
         <ul style="margin-left: 0; padding-left: 0;">
             <li style="font-size : 15px !important;">
                 <div class="card"
-                    style="width: 250px !important; text-align: center; display: inline-block; margin-top: 0 !important; top: 0;">
+                    style="width: 250px !important; text-align: center; display: inline-block; margin-top: 150px !important; top: 0;">
                     <div class="card-header bg-transparent">
                         Nombre total de pannes au cours des 6 dernières heures
                     </div>
@@ -53,19 +54,21 @@
                     </div>
                 </div>
             </li>
-            <li>
+            <li id="chart">
                 <div class="card mt-2 mb-3"
-                    style="width: 330px !important; height: 250px !important; display: inline-block; top: 0; margin-top: 0 !important;">
+                    style="width: 330px !important; height: 350px !important; display: inline-block; top: 0; margin-top: 0 !important;">
                     <div class="card-body pb-5" id="container"
-                        style="width: 330px !important; height: 250px !important;">
-                        <canvas id="PannesHistorique" style="width: 330px !important; height: 250px !important;"></canvas>
+                        style="width: 330px !important; height: 350px !important;">
+                        <canvas id="PannesHistorique"
+                            style="width: 330px !important; height: 350px !important;"></canvas>
                     </div>
                 </div>
             </li>
         </ul>
     </div>
 
-    <div style="margin-top: 100px; z-index: 0; padding-bottom: 0; margin-bottom: 0; top: 0; padding-left: 0; margin-left: 320px; margin-right: 0; padding-right: 0; width: 1000px;">
+    <div
+        style="margin-top: 100px; z-index: 0; padding-bottom: 0; margin-bottom: 0; top: 0; padding-left: 0; margin-left: 320px; margin-right: 0; padding-right: 0; width: 1000px;">
         <div class="timeline">
             <h1 class="text-center">Historique des pannes des 6 dernières heures</h1>
             <ul id="liste">
@@ -78,6 +81,8 @@
                     var nbWattmetre = 0;
                     var nbPuissanceCons = 0;
                     var nbMQTTdeco = 0;
+
+                    document.getElementById("chart").display = "block";
 
                     socket.on("PanneHistorique", (arg) => {
                         if (!done) {
@@ -99,50 +104,80 @@
                                 switch (arg[i].data) {
                                     case "Capteur de température ambiante déconnecté":
                                         nbTempAmbiante++;
+                                        div.style.backgroundColor = "#D7D26C";
                                     case "Capteur de température du fût déconnecté":
                                         nbTempFut++;
+                                        div.style.backgroundColor = "#AAD76C"
                                     case "Wattmètre déconnecté":
                                         nbWattmetre++;
+                                        div.style.backgroundColor = "#FCDE08";
                                     case "Puissance consommée trop importante":
                                         nbPuissanceCons++;
+                                        div.style.backgroundColor = "#7BE3D2"
                                     case "MQTT 2 déconnecté":
                                         nbMQTTdeco++;
+                                        div.style.backgroundColor = "#E98646";
                                     case "Problème de fonctionnement du module peltier":
                                         nbPeltier++;
+                                        div.style.backgroundColor = "#FFB556";
                                 }
                             }
 
                             document.getElementById("nbTotalPannes").textContent = nbTempAmbiante + nbTempFut + nbWattmetre + nbPuissanceCons + nbMQTTdeco + nbPeltier;
 
-                            new Chart(
-                                document.getElementById('PannesHistorique'),
-                                {
-                                    type: 'doughnut',
-                                    data: {
-                                        labels: ["Capteur de température ambiante déconnecté", "Capteur de température du fût déconnecté", "Wattmètre déconnecté", "Puissance consommée trop importante", "MQTT 2 déconnecté", "Problème de fonctionnement du module peltier"],
-                                        datasets: [
-                                            {
-                                                data: [nbTempAmbiante, nbTempFut, nbWattmetre, nbPuissanceCons, nbMQTTdeco, nbPeltier]
+                            if ((nbTempAmbiante + nbTempFut + nbWattmetre + nbPuissanceCons + nbMQTTdeco + nbPeltier) > 0) {
+                                new Chart(
+                                    document.getElementById('PannesHistorique'),
+                                    {
+                                        type: 'pie',
+                                        data: {
+                                            labels: ["Problème de fonctionnement du module peltier", "Capteur de température ambiante déconnecté", "Capteur de température du fût déconnecté", "Puissance consommée trop importante", "Wattmètre déconnecté", "MQTT 2 déconnecté"],
+                                            datasets: [
+                                                {
+                                                    data: [nbPeltier, nbTempAmbiante, nbTempFut, nbPuissanceCons, nbWattmetre, nbMQTTdeco],
+                                                    backgroundColor: [
+                                                        "#FFB556",
+                                                        "#D7D26C",
+                                                        "#AAD76C",
+                                                        "#7BE3D2",
+                                                        "#FCDE08",
+                                                        "#E98646"
+                                                    ],
+                                                    hoverOffset: 4,
+                                                    borderWidth : 0.5
+                                                }
+                                            ]
+                                        },
+                                        options: {
+                                            maintainAspectRatio: false,
+                                            responsive: true,
+                                            plugins: {
+                                                title: {
+                                                    display: true,
+                                                    text: 'Répartition des pannes'
+                                                },
+                                                label : {
+                                                    display : true,
+                                                    align : "left"
+                                                }
                                             }
-                                        ]
-                                    },
-                                    options: {
-                                        maintainAspectRatio: false,
-                                        reponsive: true
+                                        }
                                     }
-                                }
-                            );
+                                );
+                                document.getElementById("chart").display = "block";
+                            }
                         }
                     });
                 </script>
             </ul>
         </div>
-        <table class="table table-bordered" style="padding-bottom: 0; margin-bottom: 0; padding-left: 0; margin-left: 0;">
+        <table class="table table-bordered"
+            style="padding-bottom: 0; margin-bottom: 0; padding-left: 0; margin-left: 0;">
             <tbody>
                 <tr>
                     <h1 class="text-center" id="titre"></h1>
                     <td class="col-2 p-4" colspan="2">
-                        
+
                         <div class="form-popup" id="myForm" method="post" style="z-index: 5;">
                             <form class="form-container" id="formEmail">
                                 <h2>Inscrivez-vous aux notifications</h2><br>

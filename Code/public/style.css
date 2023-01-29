@@ -246,7 +246,7 @@ td {
 
 .timeline ul li:nth-child(odd) div::before {
   left: -15px;
-  z-index: 0;
+  z-index: -2;
   border-width: 8px 16px 8px 0;
   border-color: transparent black transparent transparent;
 }
@@ -257,6 +257,7 @@ td {
 
 .timeline ul li:nth-child(even) div::before {
   right: -15px;
+  z-index: -2;
   border-width: 8px 0 8px 16px;
   border-color: transparent transparent transparent black;
 }
