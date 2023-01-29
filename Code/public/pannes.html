@@ -70,8 +70,10 @@
         style="margin-top: 100px; z-index: 0; padding-bottom: 0; margin-bottom: 0; top: 0; padding-left: 0; margin-left: 320px; margin-right: 0; padding-right: 0; width: 1000px;">
         <div class="timeline">
             <h1 class="text-center">Historique des pannes des 6 dernières heures</h1>
+            <h3 class="text-center" id="textePanne" style="margin-top: 50px; display: none;">Pas de panne à afficher !</h3>
             <ul id="liste">
                 <script>
+                    document.getElementById("chart").style.display = "none";
                     const socket = io("http://localhost:3000");
                     var done = false;
                     var nbPeltier = 0;
@@ -123,6 +125,7 @@
                             document.getElementById("nbTotalPannes").textContent = nbTempAmbiante + nbTempFut + nbWattmetre + nbPuissanceCons + nbMQTTdeco + nbPeltier;
 
                             if ((nbTempAmbiante + nbTempFut + nbWattmetre + nbPuissanceCons + nbMQTTdeco + nbPeltier) > 0) {
+                                document.getElementById("chart").style.display = "block";
                                 new Chart(
                                     document.getElementById('PannesHistorique'),
                                     {
@@ -157,6 +160,10 @@
                                         }
                                     }
                                 );
+                            }
+                            else
+                            {                                
+                                document.getElementById("textePanne").style.display = "block";
                             }
                         }
                     });
