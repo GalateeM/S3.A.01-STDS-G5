@@ -222,7 +222,7 @@ const initServer = async () => {
                 j++;
               }
               else {
-                j = 0;
+                j = 1;
                 var date = res[i].dateInsertion;
                 date.setHours(date.getHours() + 1);
                 var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
@@ -257,7 +257,7 @@ const initServer = async () => {
                 j++;
               }
               else {
-                j = 0;
+                j = 1;
                 var date = res[i].dateInsertion;
                 date.setHours(date.getHours() + 1);
                 var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
@@ -292,7 +292,7 @@ const initServer = async () => {
                 j++;
               }
               else {
-                j = 0;
+                j = 1;
                 var date = res[i].dateInsertion;
                 date.setHours(date.getHours() + 1);
                 var dict = { "dateInsertion": date.toLocaleTimeString("fr-FR"), "data": moyenne / 50 };
@@ -330,7 +330,7 @@ const initServer = async () => {
                 j++;
               }
               else {
-                j = 0;
+                j = 1;
                 var date = res[i].dateInsertion;
                 date.setHours(date.getHours() + 1);
                 var dict = { "dateInsertion1": date.toLocaleTimeString("fr-FR"), "data1": moyenne / 50 };
@@ -355,7 +355,7 @@ const initServer = async () => {
                   j++;
                 }
                 else {
-                  j = 0;
+                  j = 1;
                   var date = res[i].dateInsertion;
                   date.setHours(date.getHours() + 1);
                   var dict = { "dateInsertion2": date.toLocaleTimeString("fr-FR"), "data2": moyenne / 50 };
@@ -610,7 +610,7 @@ const initServer = async () => {
           var diffSecondes = (tpsDate.getTime() - tempsProblemeDoubleTemps) / 1000;
           //si cela fait plus de 30min que les températures ne sont pas idéales et si l'alerte n'est pas déjà présente
           //alors on crée une alerte
-          if (diffSecondes > 20) {//1800
+          if (diffSecondes > 1800) {
             if (!diagnostiqueEnCours.includes("Problème de fonctionnement du module peltier")) {
               diagnostiqueEnCours.push("Problème de fonctionnement du module peltier");
               const panne = Panne.create({
