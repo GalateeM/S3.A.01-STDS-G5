@@ -84,7 +84,7 @@
                     socket.on("PanneHistorique", (arg) => {
                         if (!done) {
                             done = true;
-                            for (var i = 0; i < arg.length - 1; i++) {
+                            for (var i = 0; i < arg.length; i++) {
                                 var li = document.createElement("li");
                                 var div = document.createElement("div");
                                 var time = document.createElement("time");

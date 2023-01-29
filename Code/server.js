@@ -393,7 +393,7 @@ const initServer = async () => {
           if (res.length !== 0) {
             var dateMin = new Date();
             dateMin.setHours(dateMin.getHours() - 6);
-            for (let i = 0; i < res.length - 1; i++) {
+            for (let i = 0; i < res.length; i++) {
               if (res[i].dateInsertion.getTime() >= dateMin.getTime()) {
                 var date = res[i].dateInsertion;
                 date.setHours(date.getHours() + 1);
