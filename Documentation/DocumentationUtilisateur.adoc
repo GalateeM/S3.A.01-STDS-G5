@@ -57,7 +57,7 @@ Pour accéder au site en lui-même, il faut vous rendre sur `localhost:3000`, ri
 
 === a) Structure générale du site
 
-Lors de votre première visite sur lei site, une alerte vous demandera si vous souhaitez recevoir des notifications. Pour plus d'information, rendez-vous au paragraphe `Notifications push et par mail`. Vous pourrez modifier votre choix à tout moment.
+Lors de votre première visite sur le site, une alerte vous demandera si vous souhaitez recevoir des notifications. Pour plus d'information, rendez-vous au paragraphe `Notifications push et par mail`. Vous pourrez modifier votre choix à tout moment.
 
 Le site est structuré en trois pages : +
 
@@ -71,9 +71,9 @@ Sur toutes les pages, le bouton tout à gauche permet d'accéder au repository g
 
 === b) Visualisation des données en temps réel
 
-La page principale du site (`http://localhost:3000` ou `http://localhost:3000/index.html`) est structurée en deux parties. A gauche, vous trouverez différentes cases permettant de retrouver les valeurs concernant la température ambiante et celle du fût, la quantité de remplissage du fût, la puissance et la consommation en CO2. 
+La page principale du site (`http://localhost:3000` ou `http://localhost:3000/index.html`) est structurée en deux parties. A gauche, vous trouverez différentes cases permettant de retrouver les valeurs concernant la température ambiante et celle du fût, la quantité de remplissage du fût, la puissance et la consommation en CO2.  
 
-Sur le reste de la page, des informations supplémentaires en fonction du type de données qui a été sélectionné sur les cases à gauche (par défaut, sur température). 
+Sur le reste de la page, des informations supplémentaires en fonction du type de données qui a été sélectionné sur les cases à gauche (par défaut, sur température). Vous pouvez donc changer le type de données sélectionné en cliquant sur une autre carte de la partie gauche.
 
 On retrouve en haut un historique sous forme de graphique (cf paragraphe suivant).
 
@@ -106,12 +106,12 @@ La page principale du site (`http://localhost:3000` ou `http://localhost:3000/in
 - Capteur de température ambiante déconnecté : la température extérieure est inférieure à -120 +
 - Capteur de température du fût déconnecté : la température intérieure est inférieure à -120 +
 - Wattmètre déconnecté : la puissance vaut -10 +
-- Puissance consommée trop importante : la puissance est supérieure à 75W
-- MQTT 2 déconnecté : le MQTT 2 est déconnecté
+- Puissance consommée trop importante : la puissance est supérieure à 75W +
+- MQTT 2 déconnecté : le MQTT 2 est déconnecté +
 - Problème de fonctionnement du module peltier :la température extérieure est inférieure à 30 et celle extérieure est supérieure à 10, depuis plus de 30min +
 
 Certaines pannes ont des documentations liées. Vous verrez ainsi apparaître un lien cliquable en bleu, en voici un exemple : +
-image:Images/pannes_utilisateur.png[width=70%,height=70%] +
+image:Images/pannes_utilisateur.png[width=50%,height=50%] +
 En cliquant sur un des liens proposés, vous accéderez directement à la documentation dans la page Maintenance. Le bon document sera affiché en prévisualisation au milieu de la page.
 
 

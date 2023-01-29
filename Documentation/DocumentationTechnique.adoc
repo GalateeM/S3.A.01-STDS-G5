@@ -111,7 +111,7 @@ image:Images/insertion_données.png[width=30%,height=30%]
 
 - Afficher les données (historique) sous forme graphique
 
-En utilisant le module `sequelize`, on récupère les données de chaque table dnas `server.js`. En utilisant une boucle for, on ne garde que celles datant d'il y a moins de 6 heures et on fait une moyenne des données toute les 50 données. On crée ainsi un dictionnaire de date et de moyennes, que l'on transmet une fois fini via le module `socket.io`. +
+En utilisant le module `sequelize`, on récupère les données de chaque table dans `server.js`. En utilisant une boucle for, on ne garde que celles datant d'il y a moins de 6 heures et on fait une moyenne des données toutes les 50 données. On crée ainsi un dictionnaire de date et de moyennes, que l'on transmet une fois fini via le module `socket.io`. +
 Les données sont récupérées grâce au module `socket.io` dans du code javascript dans la page `index.html`. Grâce au module `chart.js`, on crée un line chart (`new Chart`) de l'historique des moyennes des données pour les 6 dernières heures. En tant que paramètres, on passe en tant que `labels` les dates du dictionnaire (on y accède avec `arg.map(row => row.dateInsertion)`) et en tant que `data` les mesures (on y accède avec `arg.map(row => row.data)`). Afin d'afficher le line chart dans le canvas prévu à cet effet, on passe également en paramètre `document.getElementById('id')`, "id" correspondant à l'id du canvas.  
 
 === c) Pannes en cours
