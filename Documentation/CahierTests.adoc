@@ -40,32 +40,32 @@ Grâce à l'application, l'utilisateur doit pouvoir consulter les données de la
 | Se connecter (page d'accueil) 
 | En tant qu’utilisateur je souhaite être notifié lorsqu’une panne survient et connaître le type précis de la panne.
 | L'utilisateur s'est inscrit aux notifications (push ou par mail)
-|
+| Oui
 
 | 02
-| En tant qu’utilisateur, je souhaite pouvoir accéder à une page contenant les pannes actuelles afin de pouvoir les corriger.
-| L’utilisateur peut accéder à une page regroupant toutes les notifications de panne qui n’ont pas encore été traitées
+| En tant qu’utilisateur, je souhaite pouvoir accéder à une section contenant les pannes actuelles afin de pouvoir les corriger.
+| L’utilisateur peut accéder à une section regroupant toutes les notifications de panne qui n’ont pas encore été traitées
 |
-|
+| Oui
 
 | 03
 | En tant qu’utilisateur je souhaite pouvoir consulter la documentation (gamme) associée à une panne afin de la corriger
 | La documentation est accessible en fonction de la page en cours
 | Une panne est en cours
-|
+| Oui
 
 
 | 04
 | En tant qu’utilisateur je souhaite consulter les données de la tireuse en temps réel
-| L’utilisateur peut visualiser les données récupérées sous forme de graphique
+| L’utilisateur peut visualiser les données récupérées sous forme de graphiques
 | 
-|
+| Oui
 
 | 05
 | En tant qu’utilisateur je souhaite pouvoir consulter l’historique des données de la tireuse sur une période donnée
 | L’utilisateur peut accéder à l’historique des données
 | 
-|
+| Oui
 
 
 |===
