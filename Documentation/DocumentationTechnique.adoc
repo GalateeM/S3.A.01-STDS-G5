@@ -64,7 +64,7 @@ Avant d'entrer en détail dans les fonctionnalités disponibles, voici un schém
 
 image:Images/vue_globale.jpg[width=30%,height=30%]
 
-=== b) Visualisation des données en temps réel
+=== a) Visualisation des données en temps réel
 
 Use case : 	En tant qu’utilisateur je souhaite consulter les données de la tireuse en temps réel. +
 image:UC/usecase_visualisation_donnees.svg[]
@@ -111,12 +111,8 @@ image:Images/insertion_données.png[width=30%,height=30%]
 
 - Afficher les données (historique) sous forme graphique
 
-TODO
-
-- Afficher l’historique des pannes sur une page dédiée
-
-TODO
-
+En utilisant le module `sequelize`, on récupère les données de chaque table dnas `server.js`. En utilisant une boucle for, on ne garde que celles datant d'il y a moins de 6 heures et on fait une moyenne des données toute les 50 données. On crée ainsi un dictionnaire de date et de moyennes, que l'on transmet une fois fini via le module `socket.io`. +
+Les données sont récupérées grâce au module `socket.io` dans du code javascript dans la page `index.html`. Grâce au module `chart.js`, on crée un line chart (`new Chart`) de l'historique des moyennes des données pour les 6 dernières heures. En tant que paramètres, on passe en tant que `labels` les dates du dictionnaire (on y accède avec `arg.map(row => row.dateInsertion)`) et en tant que `data` les mesures (on y accède avec `arg.map(row => row.data)`). Afin d'afficher le line chart dans le canvas prévu à cet effet, on passe également en paramètre `document.getElementById('id')`, "id" correspondant à l'id du canvas.  
 
 === c) Pannes en cours
 
@@ -198,3 +194,28 @@ Comme expliqué précédement, les adresses mails des utilisateurs souhaitant re
 - email_from_address : l'adresse qui "envoit" le mail +
 - email_body : le corps du mail sous forme HTML
 
+=== g) Historique des pannes
+
+Use case : En tant qu'utilisateur, je souhaite pouvoir accèder à l'historique des pannes afin de pouvoir corriger les problèmes. +
+image:UC/usecase_historique_pannes.svg[]
+
+- Création d'une frise chronologique des pannes
+
+Dans server.js, les données de la table "Panne" de la base de données sont récupérées et émises sous le nom "PanneHistorique" via une connexion WebSocket (module `socket.io`). +
+Les données sont récupérées dans la page `pannes.html`, toujours via une connexion WebSocket (module `socket.io`) dans du code javascript. Grâce à une boucle, on ne récupère que les données datant de moins de 6 heures. On génère une liste en html, dont chaque élément correspond à une panne et sa date et reprend la structure suivante : +
+`<li> +
+<div> +
+<time> date <time> +
+texte de la panne +
+<div> +
+<li>` +
+Dans la boucle, on incrémente à chaque itération le nombre de pannes pour chaque type de pannes. On attribut également, en fonction du type de panne, une couleur d'arrière plan pour la bulle de la frise avec `div.style.backgroundColor = couleur;`. +
+Les styles présents dans `style.css` à partir du commentaire `/* Style historique pannes */` définissent le style de la frise et permettent de la modifier facilement.
+
+- Affichage du nombre total de pannes
+
+Toujours dans le code javascript, une fois sorti de la boucle parcourant les pannes, on additionne tous les nombres de pannes pour chaque type de pannes afin d'obtenir le nombre total de pannes. En utilisant `document.getElementById("nbTotalPannes").textContent = nbPannesTotal`, on affiche le nombre de pannes total dans la carte ayant l'id `nbTotalPannes`.
+
+- Affichage de la répartition des pannes
+
+Dans le même code javascript, on crée un "pie chart" (diagramme circulaire) grâce à la libraire `chart.js`. Dans les paramètres du chart, on passe en tant que `labels` les noms des pannes et en tant que `data` les résultats des totaux pour chaque type de pannes, le tout dans le même ordre. Afin que le chart s'affiche à l'endroit voulu, on passe également en paramètre `document.getElementById('PannesHistorique')`, "PanneHistorique" étant ici l'id du canvas dans lequel doit apparaître le pie chart. On définit également pour chaque label sa couleur, afin que la couleur du type de panne du pie chart corresponde à sa couleur sur la frise, avec l'attribut `backgroundColor`.

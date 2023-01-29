@@ -82,8 +82,6 @@
                     var nbPuissanceCons = 0;
                     var nbMQTTdeco = 0;
 
-                    document.getElementById("chart").display = "block";
-
                     socket.on("PanneHistorique", (arg) => {
                         if (!done) {
                             done = true;
@@ -164,7 +162,6 @@
                                         }
                                     }
                                 );
-                                document.getElementById("chart").display = "block";
                             }
                         }
                     });

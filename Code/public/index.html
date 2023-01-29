@@ -142,7 +142,7 @@
             <li style="font-size : 15px !important;">
                 <btn class="card mb-4" onclick="cacherTout('cardJauge')" style="cursor:pointer; margin-left: 0;">
                     <div class="card-header bg-transparent">
-                        Température
+                        Températures
                         <i class="fas fa-circle btn-outline-danger" id="pastilleTempCard"></i>
                     </div>
                     <div class="card-body bg-dark bg-opacity-10 text-center">
@@ -320,7 +320,7 @@
     this.document.getElementById("cardCo2").style.display = "none";
     this.document.getElementById("cardPuissance").style.display = "none";
     this.document.getElementById("cardQuantite").style.display = "none";
-    this.document.getElementById("titre").textContent = "Température";
+    this.document.getElementById("titre").textContent = "Températures";
 
     var opts = {
         angle: 0, // The span of the gauge arc
@@ -413,12 +413,12 @@
 
         switch (nom) {
             case "cardCo2":
-                titre = "Co2"
+                titre = "CO2"
                 this.document.getElementById("CO2Historique").style.display = "block";
                 isCO2 = true;
                 break;
             case "cardPuissance":
-                titre = "Consommation"
+                titre = "Puissance consommée"
                 this.document.getElementById("PuissanceHistorique").style.display = "block";
                 isPuissance = true;
                 break;
@@ -428,7 +428,7 @@
                 isNiveau = true;
                 break;
             case "cardJauge":
-                titre = "Température"
+                titre = "Températures"
                 this.document.getElementById("TemperatureHistorique").style.display = "block";
                 isTemperature = true;
                 break
@@ -484,7 +484,7 @@
                         labels: arg.map(row => row.dateInsertion),
                         datasets: [
                             {
-                                label: 'Historique du Co2 émis',
+                                label: 'Historique du CO2 émis',
                                 data: arg.map(row => row.data),
                                 borderWidth: 1,
                                 borderRadius: 0.2,
@@ -498,7 +498,7 @@
                             y: {
                                 title: {
                                     display: true,
-                                    text: 'Co2 émis (en grammes)'
+                                    text: 'CO2 émis (en grammes)'
                                 },
                                 min: 0,
                                 max: 50,
@@ -513,6 +513,12 @@
                                     text: 'Date'
                                 }
                             }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Historique des moyennes des émissions de CO2 sur les 6 dernières heures'
+                            },
                         },
                         maintainAspectRatio: false,
                         responsive: true
@@ -569,6 +575,12 @@
                                 }
                             }
                         },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Historique des moyennes de la puissance consommée sur les 6 dernières heures'
+                            },
+                        },
                         maintainAspectRatio: false,
                         responsive: true
                     }
@@ -623,6 +635,12 @@
                                     text: 'Date'
                                 }
                             }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Historique des moyennes du niveau du fût sur les 6 dernières heures'
+                            },
                         },
                         maintainAspectRatio: false,
                         responsive: true
@@ -686,6 +704,12 @@
                                     text: 'Date'
                                 }
                             }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Historique des moyennes des températures ambiante et du fût sur les 6 dernières heures'
+                            },
                         },
                         maintainAspectRatio: false,
                         responsive: true

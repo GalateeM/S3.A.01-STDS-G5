@@ -111,17 +111,17 @@ La page principale du site (`http://localhost:3000` ou `http://localhost:3000/in
 - Problème de fonctionnement du module peltier :la température extérieure est inférieure à 30 et celle extérieure est supérieure à 10, depuis plus de 30min +
 
 Certaines pannes ont des documentations liées. Vous verrez ainsi apparaître un lien cliquable en bleu, en voici un exemple : +
-image:Images/panne_utilisateur.png[width=70%,height=70%] +
+image:Images/pannes_utilisateur.png[width=70%,height=70%] +
 En cliquant sur un des liens proposés, vous accéderez directement à la documentation dans la page Maintenance. Le bon document sera affiché en prévisualisation au milieu de la page.
 
 
 === f) Historique des pannes
 
-TO DO
-
-
-
-
+Afin de pouvoir voir toutes les pannes, mêmes résolues, étant survenues au cours des 6 dernières heures, vous pouvez cliquer sur `Pannes` dans la barre de navigation ou vous rendre directement à `http://localhost:3000/pannes.html`. +
+Vous y trouverez : +
+- En haut à gauche, dans un encadré, le nombre total de pannes +
+- (Si le nombre de pannes est supérieur à 0) En haut à gauche, en dessous du nombre total de pannes, un diagramme circulaire de la répartition du nombre de pannes +
+- (Si le nombre de pannes est supérieur à 0) Au centre, une frise chronologique verticale reprenant toutes les pannes
 
 === g) Notifications push et par mail
 
