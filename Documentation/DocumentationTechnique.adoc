@@ -37,14 +37,15 @@ Grâce à l'application, l'utilisateur doit pouvoir consulter les données de la
 == 2. Déploiement du projet en local
 
 Prérequis : +
-- Installation de Docker sur votre ordinateur
+- Installation de Docker sur votre ordinateur si vous êtes sous Windows +
+- Aucun prérequis pour les appareils LINUX
 
 === a) Utilisation du docker
 
 *Note d'usage :* nous utiliserons `docker compose` dans les exemples ci-dessous, mais dans les anciennes versions de Docker, il s'agit de `docker-compose` (un tiret au lieu de l'espace).
 
 Ouvrir une invite de commande (cmd dans le menu démarrer). Se placer dans le dossier "Code" du projet, en utilisant la commande `cd <chemin>`. +
-Une fois dans le bon répertoire, taper `docker compose up` (`docker compose up -d` si vous voulez détacher votre terminal du lancement), cela lancera les services.
+Une fois dans le bon répertoire, tappez d'abord la commande `docker run -d -p 80:80 docker/getting-started` pour créer les conteneurs du docker. Tapez ensuite `docker compose up` (`docker compose up -d` si vous voulez détacher votre terminal du lancement), cela lancera les services.
 
 La première fois que vous lancerez cette commande, cela prendra plus de temps, car il téléchargera les images. Les fois suivantes, cela sera bien plus rapide !
 
