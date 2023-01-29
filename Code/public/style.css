@@ -194,33 +194,13 @@ td {
 
 /* Style historique pannes */
 
-/* INTRO SECTION
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.intro {
-  background: #f45b69;
-  padding: 100px 0;
-}
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-h1 {
-  font-size: 2.5rem;
-}
-
-
 /* TIMELINE
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .timeline ul li {
   list-style-type: none;
   position: relative;
-  font-size: 14px;
+  font-size: 16px;
   width: 6px;
   margin: 0 auto;
   padding-left: 0;
@@ -266,8 +246,9 @@ h1 {
 
 .timeline ul li:nth-child(odd) div::before {
   left: -15px;
+  z-index: 0;
   border-width: 8px 16px 8px 0;
-  border-color: transparent #FFC107 transparent transparent;
+  border-color: transparent black transparent transparent;
 }
 
 .timeline ul li:nth-child(even) div {
@@ -277,12 +258,12 @@ h1 {
 .timeline ul li:nth-child(even) div::before {
   right: -15px;
   border-width: 8px 0 8px 16px;
-  border-color: transparent transparent transparent #FFC107;
+  border-color: transparent transparent transparent black;
 }
 
 time {
   display: block;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 8px;
 }
